@@ -1,5 +1,5 @@
 # 2018-12-06
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -187,6 +187,8 @@ fif() {
   if [ ! "$#" -gt 1 ]; then echo "Need a string to search for!"; return 1; fi
   rg --files-with-matches --no-messages $1 | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 $1 || rg --ignore-case --pretty --context 10 $1 {}"
 }
+
+
 
 # like normal autojump when used with arguments but displays an fzf prompt when used without
 j() {
