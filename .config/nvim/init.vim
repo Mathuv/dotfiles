@@ -182,8 +182,10 @@ if has("gui_vimr")
   colorscheme gruvbox8
   set background=light   " Setting light mode
 " 20191124
-"else
-  colorscheme gruvbox8
+else
+  " colorscheme gruvbox8
+  set termguicolors
+  syntax on
 endif
 
 
@@ -330,7 +332,7 @@ let g:neomake_error_sign = {
  \ }
 let g:neomake_warning_sign = {
  \   'text': '‼',
- \   'texthl': 'NeomakeErrorSign',
+ \   'texthl': 'NeomakeWarningSign',
  \ }
 let g:neomake_message_sign = {
   \   'text': '➤',
@@ -342,7 +344,7 @@ let g:neomake_info_sign = {
   \ }
 
 ":highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
-"let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
+let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
 
 "20191122 Semshi settingas
 "https://soduu.com/numirias/semshi
@@ -483,6 +485,44 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
+
+" https://github.com/junegunn/fzf/wiki/Examples-(vim)
+" Simple MRU search
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m -x +s',
+\ 'down':    '40%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ 'fugitive:\\|NERD_tree\\|^/tmp/\\|.git/'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+endfunction
+
+" Search lines in all open vim buffers
+function! s:line_handler(l)
+  let keys = split(a:l, ':\t')
+  exec 'buf' keys[0]
+  exec keys[1]
+  normal! ^zz
+endfunction
+
+function! s:buffer_lines()
+  let res = []
+  for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
+  endfor
+  return res
+endfunction
+
+command! FZFLines call fzf#run({
+\   'source':  <sid>buffer_lines(),
+\   'sink':    function('<sid>line_handler'),
+\   'options': '--extended --nth=3..',
+\   'down':    '60%'
+\})
 
 
 " With this maps you can now toggle the terminal
