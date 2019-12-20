@@ -148,6 +148,7 @@ alias jrc='jira create'
 alias jre='jira edit'
 alias jrst='jira subtask'
 
+# https://gist.github.com/XVilka/8346728
 function check-terminal-colours {
 	awk 'BEGIN{
 	    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
@@ -319,6 +320,9 @@ export PATH="/usr/local/opt/curl/bin:$PATH"
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs'
 export FZF_DEFAULT_COMMAND='rg --files'
 # export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+#
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # 20190703 After installing rust
 export PATH="/Users/mediushealth/.cargo/bin:$PATH"
@@ -333,3 +337,9 @@ export NVM_DIR=/Users/mediushealth/.nvm
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 alias jrsp='jira sprint'
 alias tm='tmux'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc'; fi
