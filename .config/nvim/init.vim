@@ -87,7 +87,8 @@ Plug 'tpope/vim-commentary'
 Plug 'sbdchd/neoformat'
 
 " Black code formatter
-Plug 'python/black'
+"Plug 'python/black'
+Plug 'psf/black'
 
 " File managing and exploration plugin
 Plug 'scrooloose/nerdtree'
@@ -161,6 +162,12 @@ Plug 'honza/vim-snippets'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
+Plug 'cespare/vim-toml'
+
+Plug 'editorconfig/editorconfig-vim'
+
+Plug 'lifepillar/pgsql.vim'
+
 
 " Initialize plugin system
 call plug#end()
@@ -196,6 +203,14 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeWinSize = 35
 "let g:NERDTreeChDirMode=2
 
+augroup my_neomake_signs
+        au!
+        autocmd ColorScheme *
+            \ hi NeomakeError ctermfg=red |
+            \ hi NeomakeWarning ctermfg=yellow |
+            \ hi NeomakeInfo ctermfg=white |
+            \ hi NeomakeMessage ctermfg=white
+augroup END
 
 " grep.vim
 " https://pastebin.com/u2TA9hUp
@@ -308,6 +323,8 @@ let g:vim_markdown_toml_frontmatter = 1  " for TOML format
 let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " (END)
 
+"20191216 Add psql syntax highlighting 
+let g:sql_type_default = 'pgsql'
 
 " Allow switching between buffers without saving
 set hidden
@@ -524,6 +541,17 @@ command! FZFLines call fzf#run({
 \   'down':    '60%'
 \})
 
+" 20191219 RipGrep search hidden files
+command! -bang -nargs=* Rgh
+  \ call fzf#vim#grep(
+  \   'rg --hidden --no-ignore-vcs --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+" RipGrep with preview
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " With this maps you can now toggle the terminal
 nnoremap <F7> :call MonkeyTerminalToggle()<cr>
