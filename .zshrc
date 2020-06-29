@@ -117,12 +117,21 @@ alias top="sudo htop" # alias top and fix high sierra bug
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 # add support for ctrl+o to open selected file in VS Code
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+# to enable preview
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+# to enable preview for Ctrl + R
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 alias ping='prettyping --nolegend'
 alias cat='bat'
 alias cl='clear'
 
 # git aliases
 # alias gst='git status'
+alias gdn='git diff --name-only'
+alias gwt='git worktree'
+alias gwta='git worktree add'
+alias gwtr='git worktree remove'
+alias gwtl='git worktree list'
 
 alias prp="pipenv run python"
 
@@ -135,6 +144,7 @@ alias tldr="tldr -t base16"
 alias ytmusic="mpsyt"
 
 alias nvt="nvim -c terminal"
+alias nv="nvim"
 
 # https://github.com/gleitz/howdoi
 alias hd='function hdi(){ printf "<>%.0s" {1..$COLUMNS}; printf "\n\n"; howdoi $* -c -n 5; }; hdi'
@@ -147,6 +157,43 @@ alias jrb='jira browse'
 alias jrc='jira create'
 alias jre='jira edit'
 alias jrst='jira subtask'
+
+#google translation
+alias td='trans de:'
+alias tdp='trans de: -p'
+alias te='trans :de'
+alias tep='trans :de -p'
+alias tdt='trans de:ta'
+alias tet='trans :ta'
+alias tte='trans ta:'
+alias ttd='trans ta:de'
+
+alias gi='grep -i'
+alias al='alias'
+alias algi='alias | grep -i'
+alias pil='pip list'
+alias pilgi='pip list | grep -i'
+alias pif='pip freeze'
+alias pifgi='pip freeze | grep -i'
+
+alias t='tree'
+alias 'git co'='git checkout'
+alias grbod='git rebase -i origin/develop'
+alias grubd='git recent-branches-date'
+alias grub='git recent-branches'
+alias grubdr='git recent-branches-date-remote'
+
+alias pbc='pbcopy'
+alias pbp='pbpaste'
+
+alias act='source .venv/bin/activate'
+alias dact='source deactivate'
+
+alias drun='./manage.py runserver'
+alias getbr="git fetch && git checkout '$1' && git pull"
+
+alias lg='lazygit'
+alias yd='ydiff -s -w0'
 
 # https://gist.github.com/XVilka/8346728
 function check-terminal-colours {
@@ -215,6 +262,13 @@ j() {
         return
     fi
     cd "$(autojump -s | sed '/_____/Q; s/^[0-9,.:]*\s*//' |  fzf --height 40% --reverse --inline-info)" 
+}
+
+# Mathu
+function get-branch() {
+	git fetch
+	git checkout "$1"
+	git pull
 }
 
 # Mathu
@@ -323,6 +377,25 @@ export FZF_DEFAULT_COMMAND='rg --files'
 #
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# FZF autocompletion
+# https://github.com/junegunn/fzf/wiki/Examples-(completion)
+_fzf_complete_git() {
+    ARGS="$@"
+    local branches
+    branches=$(git branch -vv --all)
+    if [[ $ARGS == 'git co'* ]]; then
+        _fzf_complete "--reverse --multi" "$@" < <(
+            echo $branches
+        )
+    else
+        eval "zle ${fzf_default_completion:-expand-or-complete}"
+    fi
+}
+
+_fzf_complete_git_post() {
+    awk '{print $1}'
+}
 
 # 20190703 After installing rust
 export PATH="/Users/mediushealth/.cargo/bin:$PATH"

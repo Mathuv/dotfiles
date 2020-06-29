@@ -45,10 +45,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " 2019-05-30 Disabling all below for jedi vim (use either this or jedi-vim
 " Make sure you use single quotes
+" 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/deoplete.nvim', { 'tag': '5.2','do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/deoplete.nvim', { 'tag': '5.2' }
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
@@ -86,9 +87,9 @@ Plug 'tpope/vim-commentary'
 "code auto-format plugin
 Plug 'sbdchd/neoformat'
 
-" Black code formatter
-"Plug 'python/black'
-Plug 'psf/black'
+"" Black code formatter
+""Plug 'python/black'
+"Plug 'psf/black'
 
 " File managing and exploration plugin
 Plug 'scrooloose/nerdtree'
@@ -108,7 +109,10 @@ Plug 'fisadev/vim-isort'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " fzf + ripgrep setup for fuzzy search
+" Using brew locaion below so that it can be kept updated
 Plug '/usr/local/opt/fzf'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" This is required to make other fzf feature available within vim
 Plug 'junegunn/fzf.vim'
 
 " https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
@@ -120,6 +124,11 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Git wrapper
 Plug 'tpope/vim-fugitive'
+" Fugitive Gbrowse handler
+" Doesn't seem to work
+Plug 'tommcdo/vim-fubitive'
+" A git commit browser in Vim
+Plug 'junegunn/gv.vim'
 
 Plug 'machakann/vim-highlightedyank'
 
@@ -167,6 +176,28 @@ Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 
 Plug 'lifepillar/pgsql.vim'
+
+" To have ipython like feature within vim
+Plug 'jpalardy/vim-slime', { 'for': 'python' }
+Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+
+"integration with dash
+Plug 'rizzatti/dash.vim'
+
+"Jump to any definition and usages
+Plug 'pechorin/any-jump.nvim'
+
+" Rg|fzf find and replace
+Plug 'wincent/ferret'
+
+" Case sensitive find and replace
+Plug 'tpope/vim-abolish'
+
+" Modern database interface for Vim
+Plug 'tpope/vim-dadbod'
+
+" speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
+Plug 'tpope/vim-speeddating'
 
 
 " Initialize plugin system
@@ -323,6 +354,30 @@ let g:vim_markdown_toml_frontmatter = 1  " for TOML format
 let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " (END)
 
+"------------------------------------------------------------------------------
+" slime configuration 
+"------------------------------------------------------------------------------
+" always use tmux
+let g:slime_target = 'tmux'
+
+" fix paste issues in ipython
+let g:slime_python_ipython = 1
+
+" always send text to the top-right pane in the current tmux tab without asking
+let g:slime_default_config = {
+            \ 'socket_name': get(split($TMUX, ','), 0),
+            \ 'target_pane': '{top-right}' }
+let g:slime_dont_ask_default = 1
+
+"------------------------------------------------------------------------------
+" ipython-cell configuration
+"------------------------------------------------------------------------------
+" Use '##' to define cells instead of using marks
+let g:ipython_cell_delimit_cells_by = 'tags'
+
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+
+
 "20191216 Add psql syntax highlighting 
 let g:sql_type_default = 'pgsql'
 
@@ -333,8 +388,10 @@ set hidden
 "autocmd VimEnter * NERDTree | wincmd p
 
 " Black - formatting settings 
+let g:black_virtualenv = '/Users/mediushealth/.pyenv/versions/neovim3'
 let g:black_linelength = 119
-autocmd BufWritePre *.py execute ':Black'
+" TODO
+"autocmd BufWritePre *.py execute ':Black'
 
 "neomake linting
 " Neomake automatic mode
@@ -553,7 +610,21 @@ command! -bang -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
-" With this maps you can now toggle the terminal
+" Add preview to Files command 
+command! -bang -nargs=? -complete=dir FilesP
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=? -complete=dir FilesP2
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+command! -bang -nargs=* PRg
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2]}, <bang>0)
+
+" to close and delete all the other buffers
+command! BufOnly silent! execute '%bd|e#|bd#|normal `"'
+command! B silent! execute 'Buffers'
+
+"With this maps you can now toggle the terminal
 nnoremap <F7> :call MonkeyTerminalToggle()<cr>
 tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
 
@@ -563,3 +634,46 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 "Keymap to paste multiple times
 xnoremap p pgvy
+
+" https://gist.github.com/berinhard/523420/89ce9864ce60b9053b31c8a26a20ae0355892f3b
+" Author: Bernardo Fontes <falecomigo@bernardofontes.net>
+" Website: http://www.bernardofontes.net
+" This code is based on this one: http://www.cmdln.org/wp-content/uploads/2008/10/python_ipdb.vim
+" I worked with refactoring and it simplifies a lot the remove breakpoint feature.
+" To use this feature, you just need to copy and paste the content of this file at your .vimrc file! Enjoy!
+python << EOF
+import vim
+import re
+
+# ipdb_breakpoint = 'import ipdb; ipdb.set_trace()'
+ipdb_breakpoint = 'breakpoint()'
+
+def set_breakpoint():
+    breakpoint_line = int(vim.eval('line(".")')) - 1
+
+    current_line = vim.current.line
+    white_spaces = re.search('^(\s*)', current_line).group(1)
+
+    vim.current.buffer.append(white_spaces + ipdb_breakpoint, breakpoint_line)
+    vim.command(':w')
+
+vim.command('map <f6> :py set_breakpoint()<cr>')
+
+def remove_breakpoints():
+    op = 'g/^.*%s.*/d' % ipdb_breakpoint
+    vim.command(op)
+    vim.command(':w')
+
+vim.command('map <f5> :py remove_breakpoints()<cr>')
+EOF
+
+" Easier  split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+let g:db = "postgresql://medius:TcdSXjzYhD63rM@quro-nonprod.cdlree0m10um.ap-southeast-2.rds.amazonaws.com/mediuschatserver_dev"
+
+com! FormatJSON %!python -m json.tool
+
