@@ -195,6 +195,8 @@ alias getbr="git fetch && git checkout '$1' && git pull"
 alias lg='lazygit'
 alias yd='ydiff -s -w0'
 
+alias cfg='/usr/local/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+
 # https://gist.github.com/XVilka/8346728
 function check-terminal-colours {
 	awk 'BEGIN{
