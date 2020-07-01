@@ -199,6 +199,10 @@ Plug 'tpope/vim-dadbod'
 " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
 Plug 'tpope/vim-speeddating'
 
+" https://github.com/sakhnik/nvim-gdb
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+
+Plug 'freitass/todo.txt-vim'
 
 " Initialize plugin system
 call plug#end()
