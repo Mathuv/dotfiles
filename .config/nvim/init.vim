@@ -1,5 +1,5 @@
-"20180801 (Mathu) My very first vimrc config
 "https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+"20180801 (Mathu) My very first vimrc config
 "20190704: Based on https://stackoverflow.com/questions/2287440/how-to-do-case-insensitive-search-in-vim
 "To ignore case 
 "Case insensitive searching
@@ -203,6 +203,8 @@ Plug 'tpope/vim-speeddating'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 
 Plug 'freitass/todo.txt-vim'
+
+" Plug 'hashrocket/vim-macdown'
 
 " Initialize plugin system
 call plug#end()
@@ -681,3 +683,19 @@ let g:db = "postgresql://medius:TcdSXjzYhD63rM@quro-nonprod.cdlree0m10um.ap-sout
 
 com! FormatJSON %!python -m json.tool
 
+" https://thoughtbot.com/blog/opt-in-project-specific-vim-spell-checking-and-word-completion
+" Spell Check
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+
+" Spell-check Markdown files
+autocmd FileType markdown setlocal spell
+
+" Spell-check Git messages
+autocmd FileType gitcommit setlocal spell
+
+" Ignore current buffer and around
+" let g:deoplete#ignore_sources = {}
+" let g:deoplete#ignore_sources._ = ['buffer', 'around']
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
