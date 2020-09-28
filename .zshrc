@@ -148,6 +148,7 @@ alias nv="nvim"
 
 # https://github.com/gleitz/howdoi
 alias hd='function hdi(){ printf "<>%.0s" {1..$COLUMNS}; printf "\n\n"; howdoi $* -c -n 5; }; hdi'
+alias hda='function hdia(){ printf "<>%.0s" {1..$COLUMNS}; printf "\n\n"; howdoi $* -a -c -n 5; }; hdia'
 
 # print terminal divider
 alias pd="printf '>%.0s' {1..$COLUMNS}" 
@@ -418,3 +419,8 @@ if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/me
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Created by `userpath` on 2020-07-21 01:56:44
+export PATH="$PATH:/Users/mediushealth/.local/bin"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
