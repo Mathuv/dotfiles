@@ -47,9 +47,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Make sure you use single quotes
 " 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
 if has('nvim')
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2','do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2' }
+  " Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
@@ -69,9 +71,13 @@ Plug 'deoplete-plugins/deoplete-jedi'
 " Code jump (go-to) plugin
 Plug 'davidhalter/jedi-vim'
 
+" Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
+" Disable vim-airline when firenvim starts since vim-airline takes two lines.
 "Status bar plugin: vim-airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+if !exists('g:started_by_firenvim')
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+endif
 
 
 "Automatic quote and bracket completion
@@ -90,6 +96,7 @@ Plug 'sbdchd/neoformat'
 "" Black code formatter
 ""Plug 'python/black'
 "Plug 'psf/black'
+Plug 'psf/black', { 'branch': 'stable' }
 
 " File managing and exploration plugin
 Plug 'scrooloose/nerdtree'
@@ -130,7 +137,8 @@ Plug 'tommcdo/vim-fubitive'
 " A git commit browser in Vim
 Plug 'junegunn/gv.vim'
 
-Plug 'machakann/vim-highlightedyank'
+" 20200921 No loner required. Part od nvom https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
+" Plug 'machakann/vim-highlightedyank'
 
 Plug 'tpope/vim-surround'
 
@@ -149,7 +157,7 @@ Plug 'kassio/neoterm'
 
 "Python semantic syntax highlighting (may slow down with deoplete)
 "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 
 "Adds file type icons (This is supposed to the last plugin)
@@ -187,8 +195,9 @@ Plug 'rizzatti/dash.vim'
 "Jump to any definition and usages
 Plug 'pechorin/any-jump.nvim'
 
+" 20200929 Disabled for Black. Fix it.
 " Rg|fzf find and replace
-Plug 'wincent/ferret'
+" Plug 'wincent/ferret'
 
 " Case sensitive find and replace
 Plug 'tpope/vim-abolish'
@@ -203,6 +212,17 @@ Plug 'tpope/vim-speeddating'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 
 Plug 'freitass/todo.txt-vim'
+
+" Linter for grammar check
+" Plug 'dense-analysis/ale'
+
+Plug 'rhysd/vim-grammarous'
+
+Plug 'tpope/vim-unimpaired'
+
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Plug 'hashrocket/vim-macdown'
 
@@ -256,8 +276,9 @@ augroup END
 "let Grep_Skip_Files = '*.log *.db'
 "let Grep_Skip_Dirs = '.git node_modules'
 
+" no longer required. Part of nvim https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
 " Highlighted yank (-1 for persistent)
-let g:highlightedyank_highlight_duration = 1000
+" let g:highlightedyank_highlight_duration = 1000
 "highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 let g:deoplete#enable_at_startup = 1
@@ -269,7 +290,8 @@ let g:deoplete#enable_at_startup = 1
 "let g:python_host_prog = '/usr/bin/python2.7'
 let g:python_host_prog = '/Users/mediushealth/.pyenv/versions/neovim2/bin/python'
 "let g:python3_host_prog = 'python3'
-let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
+" let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim37/bin/python'
 
 " Jedi-Vim settings just got code jumping
 " disable autocompletion, cause we use deoplete for completion
@@ -394,7 +416,7 @@ set hidden
 "autocmd VimEnter * NERDTree | wincmd p
 
 " Black - formatting settings 
-let g:black_virtualenv = '/Users/mediushealth/.pyenv/versions/neovim3'
+let g:black_virtualenv = '/Users/mediushealth/.pyenv/versions/neovim37'
 let g:black_linelength = 119
 " TODO
 "autocmd BufWritePre *.py execute ':Black'
@@ -698,4 +720,54 @@ autocmd FileType gitcommit setlocal spell
 " let g:deoplete#ignore_sources._ = ['buffer', 'around']
 
 " Autocomplete with dictionary words when spell check is on
+" This doesn't seem to work.
 set complete+=kspell
+
+let g:ale_linters = {
+\   'markdown': ['languagetool'],
+\}
+
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+
+
+"I want to use system global LanguageTool command
+let g:grammarous#languagetool_cmd = 'languagetool'
+
+"feret settings
+" Don't bind ferret commands.
+let g:FerretMap = 0
+
+" Don't hide cursor line in quickfix.
+let g:FerretQFOptions = 0
+
+" Bind our own Ferret commands.
+nmap <leader>/ <Plug>(FerretAck)
+nmap <leader>* <Plug>(FerretAckWord)
+
+" LeaderF settings
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+
+" https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
+
+" https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
+call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+
+" Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
+" Disable vim-airline when firenvim starts since vim-airline takes two lines.
+
+if exists('g:started_by_firenvim') && g:started_by_firenvim
+    " general options
+    set laststatus=0 nonumber noruler noshowcmd
+
+    augroup firenvim
+        autocmd!
+        autocmd BufEnter *.txt setlocal filetype=markdown.pandoc
+    augroup END
+endif
+
