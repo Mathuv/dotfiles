@@ -157,7 +157,7 @@ Plug 'kassio/neoterm'
 
 "Python semantic syntax highlighting (may slow down with deoplete)
 "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 
 "Adds file type icons (This is supposed to the last plugin)
@@ -225,6 +225,14 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Plug 'hashrocket/vim-macdown'
+
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+
+Plug 'tpope/vim-obsession'
+
+" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+Plug 'ervandew/supertab'
 
 " Initialize plugin system
 call plug#end()
@@ -325,6 +333,8 @@ vmap <Leader>P "+P
 
 " Type <Space>w to save file (a lot faster than :w<Enter>):
 nnoremap <Leader>w :w<CR>
+
+nnoremap <Leader>e :LeaderfMruCwd<CR>
 
 " open the go-to function in split, not another buffer
 let g:jedi#use_splits_not_buffers = "right"
@@ -718,6 +728,13 @@ autocmd FileType gitcommit setlocal spell
 " Ignore current buffer and around
 " let g:deoplete#ignore_sources = {}
 " let g:deoplete#ignore_sources._ = ['buffer', 'around']
+"https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
+if has("gui_vimr")
+else
+    call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+endif
+" maximum candidate window length
+call deoplete#custom#source('_', 'max_menu_width', 80)
 
 " Autocomplete with dictionary words when spell check is on
 " This doesn't seem to work.
@@ -770,4 +787,7 @@ if exists('g:started_by_firenvim') && g:started_by_firenvim
         autocmd BufEnter *.txt setlocal filetype=markdown.pandoc
     augroup END
 endif
+
+" https://github.com/ms-jpq/chadtree
+nnoremap <leader>v <cmd>CHADopen<cr>
 
