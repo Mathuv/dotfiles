@@ -5,6 +5,13 @@
 #	email = mathu.mounasamy@mediushealth.org
 [core]
 	excludesfile = /Users/mediushealth/.gitignore_global
+	attributesFile = /Users/mediushealth/.gitattributes
+	# git-delta config
+	# pager = delta
+	pager = delta --light
+	# pager = delta --diff-so-fancy --diff-highlight
+	# pager = delta --diff-highlight
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
@@ -19,10 +26,11 @@
 	email = mathu.mounasamy@mediushealth.org
 [commit]
 	template = /Users/mediushealth/.stCommitMsg
+# Disabled for git-delata
 # 2018-08-31 Mathu: to use diff-so-fancy for git diff
-[pager]
-       	diff = diff-so-fancy | less --tabs=1,5 -RFX
-	show = diff-so-fancy | less --tabs=1,5 -RFX
+# [pager]
+#	diff = diff-so-fancy | less --tabs=1,5 -RFX
+# 	show = diff-so-fancy | less --tabs=1,5 -RFX
 [alias]
 # https://stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git/34467298#34467298
 	lg = !"git lg1"
@@ -62,3 +70,15 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+
+# git-delta config
+[delta]
+    plus-color = "#012800"
+    minus-color = "#340001"
+    syntax-theme = Monokai Extended
+    side-by-side = true
+
+
+# git-delta config
+[interactive]
+    diffFilter = delta --color-only
