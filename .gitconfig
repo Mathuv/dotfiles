@@ -7,8 +7,7 @@
 	excludesfile = /Users/mediushealth/.gitignore_global
 	attributesFile = /Users/mediushealth/.gitattributes
 	# git-delta config
-	# pager = delta
-	pager = delta --light
+	pager = delta
 	# pager = delta --diff-so-fancy --diff-highlight
 	# pager = delta --diff-highlight
 
@@ -71,13 +70,24 @@
 	new = green bold
 	whitespace = red reverse
 
-# git-delta config
+# git-delta config (https://github.com/dandavison/delta#using-delta-with-magit)
 [delta]
-    plus-color = "#012800"
-    minus-color = "#340001"
-    syntax-theme = Monokai Extended
-    side-by-side = true
+    features = side-by-side line-numbers decorations
+    syntax-theme = Dracula
+    plus-style = syntax "#003800"
+    minus-style = syntax "#3f0001"
 
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = cyan box ul
+
+[delta "line-numbers"]
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
 
 # git-delta config
 [interactive]
