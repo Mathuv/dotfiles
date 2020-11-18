@@ -1,5 +1,5 @@
-"https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 "20180801 (Mathu) My very first vimrc config
+"https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 "20190704: Based on https://stackoverflow.com/questions/2287440/how-to-do-case-insensitive-search-in-vim
 "To ignore case 
 "Case insensitive searching
@@ -43,50 +43,16 @@ set foldmethod=marker
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-" 2019-05-30 Disabling all below for jedi vim (use either this or jedi-vim
-" Make sure you use single quotes
-" 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
-if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/deoplete.nvim', { 'tag': '5.2','do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim', { 'tag': '5.2' }
-  " Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-Plug 'chriskempson/base16-vim'
-
-" https://github.com/airblade/vim-gitgutter
-Plug 'airblade/vim-gitgutter'
-" Plug 'mhinz/vim-signify'
-
-
-" (-/+)2019-05-30 Disabling deoplete for jedi-vim
-" Git hug address is different now
-" Plug 'zchee/deoplete-jedi'
-Plug 'deoplete-plugins/deoplete-jedi'
-
-" Code jump (go-to) plugin
-Plug 'davidhalter/jedi-vim'
-
-" Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
-" Disable vim-airline when firenvim starts since vim-airline takes two lines.
-"Status bar plugin: vim-airline
-if !exists('g:started_by_firenvim')
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-endif
-
+" fzf + ripgrep setup for fuzzy search
+" Using brew locaion below so that it can be kept updated
+Plug '/usr/local/opt/fzf'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" This is required to make other fzf feature available within vim
+Plug 'junegunn/fzf.vim'
 
 "Automatic quote and bracket completion
 Plug 'jiangmiao/auto-pairs'
 
-"comment plugin
-"Plug 'scrooloose/nerdcommenter'
-"20191125
-Plug 'tpope/vim-commentary'
 
 
 
@@ -98,141 +64,183 @@ Plug 'sbdchd/neoformat'
 "Plug 'psf/black'
 Plug 'psf/black', { 'branch': 'stable' }
 
-" File managing and exploration plugin
-Plug 'scrooloose/nerdtree'
-
-" For linting
-Plug 'neomake/neomake'
-
 " For code folding
 Plug 'tmhedberg/SimpylFold'
 
 " For pyhon isort: use command :Isort
 Plug 'fisadev/vim-isort'
 
-" 20190707 Disabled for later configuration
-" For VSCode like completion and docstring
-" https://github.com/neoclide/coc.nvim/
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'machakann/vim-highlightedyank'
 
-" fzf + ripgrep setup for fuzzy search
-" Using brew locaion below so that it can be kept updated
-Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" This is required to make other fzf feature available within vim
-Plug 'junegunn/fzf.vim'
-
-" https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
-" 2019-11-25 no longer need as the same can be achieve using native vim commands.
-" hmm, seems vim-multiple-cursons does much more than what the aboe medius
-" posts suggest
-" Multiple cursor editing plugin
-Plug 'terryma/vim-multiple-cursors'
-
-" Git wrapper
-Plug 'tpope/vim-fugitive'
-" Fugitive Gbrowse handler
-" Doesn't seem to work
-Plug 'tommcdo/vim-fubitive'
-" A git commit browser in Vim
-Plug 'junegunn/gv.vim'
-
-" 20200921 No loner required. Part od nvom https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-" Plug 'machakann/vim-highlightedyank'
-
-Plug 'tpope/vim-surround'
-
-" colorschema dracula
-Plug 'dracula/vim', { 'as': 'dracula' }
-
-" clolorscheme
-Plug 'morhetz/gruvbox'
-" Seems to be faster/better than gruvbox
-" https://github.com/lifepillar/vim-gruvbox8/blob/master/Readme.md
-Plug 'lifepillar/vim-gruvbox8'
-
-
-" Advanced neovim terminal handling
-Plug 'kassio/neoterm'
-
-"Python semantic syntax highlighting (may slow down with deoplete)
-"https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-
-
-"Adds file type icons (This is supposed to the last plugin)
-Plug 'ryanoasis/vim-devicons'
-
-
-"20191122 Smooth scrolling
-Plug 'psliwka/vim-smoothie'
-
-" 20191125 Markdown perview
-" https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
-" Track the engine.
-Plug 'SirVer/ultisnips'
-" Snippets are separated from the engine. Add this if you want them:
-Plug 'honza/vim-snippets'
-
-
-"20191125
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-
-Plug 'cespare/vim-toml'
-
-Plug 'editorconfig/editorconfig-vim'
-
-Plug 'lifepillar/pgsql.vim'
-
-" To have ipython like feature within vim
-Plug 'jpalardy/vim-slime', { 'for': 'python' }
-Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-
-"integration with dash
-Plug 'rizzatti/dash.vim'
-
-"Jump to any definition and usages
-Plug 'pechorin/any-jump.nvim'
-
-" 20200929 Disabled for Black. Fix it.
-" Rg|fzf find and replace
-" Plug 'wincent/ferret'
-
-" Case sensitive find and replace
-Plug 'tpope/vim-abolish'
-
-" Modern database interface for Vim
-Plug 'tpope/vim-dadbod'
-
-" speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
-Plug 'tpope/vim-speeddating'
-
-" https://github.com/sakhnik/nvim-gdb
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
-
-Plug 'freitass/todo.txt-vim'
-
-" Linter for grammar check
-" Plug 'dense-analysis/ale'
-
-Plug 'rhysd/vim-grammarous'
-
-Plug 'tpope/vim-unimpaired'
-
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-
-" Plug 'hashrocket/vim-macdown'
-
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
-
-Plug 'tpope/vim-obsession'
-
-" Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-
-Plug 'ervandew/supertab'
+if !exists('g:vscode')
+    " " 2019-05-30 Disabling all below for jedi vim (use either this or jedi-vim
+    " " Make sure you use single quotes
+    " " 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
+    " if has('nvim')
+    "   " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2','do': ':UpdateRemotePlugins' }
+    " else
+    "   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2' }
+    "   " Plug 'Shougo/deoplete.nvim'
+    "   Plug 'roxma/nvim-yarp'
+    "   Plug 'roxma/vim-hug-neovim-rpc'
+    " endif
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'lighttiger2505/deoplete-vim-lsp'
+    
+    Plug 'chriskempson/base16-vim'
+    
+    " https://github.com/airblade/vim-gitgutter
+    Plug 'airblade/vim-gitgutter'
+    " Plug 'mhinz/vim-signify'
+    
+    "comment plugin
+    "Plug 'scrooloose/nerdcommenter'
+    "20191125
+    Plug 'tpope/vim-commentary'
+    
+    " " (-/+)2019-05-30 Disabling deoplete for jedi-vim
+    " " Git hug address is different now
+    " " Plug 'zchee/deoplete-jedi'
+    " Plug 'deoplete-plugins/deoplete-jedi'
+    
+    " " Code jump (go-to) plugin
+    " Plug 'davidhalter/jedi-vim'
+    
+    " Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
+    " Disable vim-airline when firenvim starts since vim-airline takes two lines.
+    "Status bar plugin: vim-airline
+    if !exists('g:started_by_firenvim')
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+    endif
+    
+    
+    
+    " File managing and exploration plugin
+    Plug 'scrooloose/nerdtree'
+    
+    " For linting
+    Plug 'neomake/neomake'
+    
+    
+    " 20190707 Disabled for later configuration
+    " For VSCode like completion and docstring
+    " https://github.com/neoclide/coc.nvim/
+    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    
+    
+    " https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
+    " 2019-11-25 no longer need as the same can be achieve using native vim commands.
+    " hmm, seems vim-multiple-cursons does much more than what the aboe medius
+    " posts suggest
+    " Multiple cursor editing plugin
+    Plug 'terryma/vim-multiple-cursors'
+    
+    " Git wrapper
+    Plug 'tpope/vim-fugitive'
+    " Fugitive Gbrowse handler
+    " Doesn't seem to work
+    Plug 'tommcdo/vim-fubitive'
+    " A git commit browser in Vim
+    Plug 'junegunn/gv.vim'
+    
+    
+    Plug 'tpope/vim-surround'
+    
+    " colorschema dracula
+    Plug 'dracula/vim', { 'as': 'dracula' }
+    
+    " clolorscheme
+    Plug 'morhetz/gruvbox'
+    " Seems to be faster/better than gruvbox
+    " https://github.com/lifepillar/vim-gruvbox8/blob/master/Readme.md
+    Plug 'lifepillar/vim-gruvbox8'
+    
+    
+    " Advanced neovim terminal handling
+    Plug 'kassio/neoterm'
+    
+    "Python semantic syntax highlighting (may slow down with deoplete)
+    "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
+    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+    
+    
+    "Adds file type icons (This is supposed to the last plugin)
+    Plug 'ryanoasis/vim-devicons'
+    
+    
+    "20191122 Smooth scrolling
+    Plug 'psliwka/vim-smoothie'
+    
+    " 20191125 Markdown perview
+    " https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
+    " Track the engine.
+    Plug 'SirVer/ultisnips'
+    " Snippets are separated from the engine. Add this if you want them:
+    Plug 'honza/vim-snippets'
+    
+    
+    "20191125
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown'
+    
+    Plug 'cespare/vim-toml'
+    
+    Plug 'editorconfig/editorconfig-vim'
+    
+    Plug 'lifepillar/pgsql.vim'
+    
+    " To have ipython like feature within vim
+    Plug 'jpalardy/vim-slime', { 'for': 'python' }
+    Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+    
+    "integration with dash
+    Plug 'rizzatti/dash.vim'
+    
+    "Jump to any definition and usages
+    Plug 'pechorin/any-jump.nvim'
+    
+    " 20200929 Disabled for Black. Fix it.
+    " Rg|fzf find and replace
+    " Plug 'wincent/ferret'
+    
+    " Case sensitive find and replace
+    Plug 'tpope/vim-abolish'
+    
+    " Modern database interface for Vim
+    Plug 'tpope/vim-dadbod'
+    
+    " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
+    Plug 'tpope/vim-speeddating'
+    
+    " https://github.com/sakhnik/nvim-gdb
+    Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+    
+    Plug 'freitass/todo.txt-vim'
+    
+    " Linter for grammar check
+    " Plug 'dense-analysis/ale'
+    
+    Plug 'rhysd/vim-grammarous'
+    
+    Plug 'tpope/vim-unimpaired'
+    
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+    
+    " Plug 'hashrocket/vim-macdown'
+    
+    Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+    
+    Plug 'tpope/vim-obsession'
+    
+    " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+    
+    Plug 'ervandew/supertab'
+endif
 
 " Initialize plugin system
 call plug#end()
@@ -269,12 +277,12 @@ let g:NERDTreeWinSize = 35
 "let g:NERDTreeChDirMode=2
 
 augroup my_neomake_signs
-        au!
-        autocmd ColorScheme *
-            \ hi NeomakeError ctermfg=red |
-            \ hi NeomakeWarning ctermfg=yellow |
-            \ hi NeomakeInfo ctermfg=white |
-            \ hi NeomakeMessage ctermfg=white
+    au!
+    autocmd ColorScheme *
+        \ hi NeomakeError ctermfg=red |
+        \ hi NeomakeWarning ctermfg=yellow |
+        \ hi NeomakeInfo ctermfg=white |
+        \ hi NeomakeMessage ctermfg=white
 augroup END
 
 " grep.vim
@@ -284,9 +292,8 @@ augroup END
 "let Grep_Skip_Files = '*.log *.db'
 "let Grep_Skip_Dirs = '.git node_modules'
 
-" no longer required. Part of nvim https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
 " Highlighted yank (-1 for persistent)
-" let g:highlightedyank_highlight_duration = 1000
+let g:highlightedyank_highlight_duration = 1000
 "highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 let g:deoplete#enable_at_startup = 1
@@ -403,8 +410,8 @@ let g:slime_python_ipython = 1
 
 " always send text to the top-right pane in the current tmux tab without asking
 let g:slime_default_config = {
-            \ 'socket_name': get(split($TMUX, ','), 0),
-            \ 'target_pane': '{top-right}' }
+	    \ 'socket_name': get(split($TMUX, ','), 0),
+	    \ 'target_pane': '{top-right}' }
 let g:slime_dont_ask_default = 1
 
 "------------------------------------------------------------------------------
@@ -766,11 +773,6 @@ nmap <leader>* <Plug>(FerretAckWord)
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 
-" https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
-augroup END
 
 " https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
 call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
@@ -790,4 +792,62 @@ endif
 
 " https://github.com/ms-jpq/chadtree
 nnoremap <leader>v <cmd>CHADopen<cr>
+if exists('g:vscode')
+    xmap gc  <Plug>VSCodeCommentary
+    nmap gc  <Plug>VSCodeCommentary
+    omap gc  <Plug>VSCodeCommentary
+    nmap gcc <Plug>VSCodeCommentaryLine
+endif
 
+" LSP settings START
+" https://jdhao.github.io/2020/11/04/replace_deoplete_jedi_for_LSP/
+" settings for pyls
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    " use omnifunc if you are fine with it.
+    " setlocal omnifunc=lsp#complete
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    " some mappings to use, tweak as you wish.
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" flake8 specific settings
+" https://jdhao.github.io/2020/11/05/pyls_flake8_setup/
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+          \ 'name': 'pyls',
+          \ 'cmd': {server_info->['pyls']},
+          \ 'allowlist': ['python'],
+          \ 'workspace_config': {
+          \    'pyls':
+          \        {'configurationSources': ['flake8'],
+          \         'plugins': {'flake8': {'enabled': v:true},
+          \                     'pyflakes': {'enabled': v:false},
+          \                     'pycodestyle': {'enabled': v:false},
+          \                    }
+          \         }
+          \ }})
+endif
+" LSP settings END
