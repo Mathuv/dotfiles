@@ -100,6 +100,9 @@ if !exists('g:vscode')
     Plug 'lighttiger2505/deoplete-vim-lsp'
     
     Plug 'chriskempson/base16-vim'
+
+    " Displays function signatures from completions
+    Plug 'Shougo/echodoc.vim'
     
     " https://github.com/airblade/vim-gitgutter
     Plug 'airblade/vim-gitgutter'
@@ -309,6 +312,7 @@ let g:highlightedyank_highlight_duration = 1000
 "highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 let g:deoplete#enable_at_startup = 1
+" Disable deoplete preview window
 set completeopt-=preview
 
 
@@ -887,3 +891,10 @@ endif
 
 
 " LSP settings END
+"
+" Or, you could use neovim's floating text feature.
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
+" To use a custom highlight for the float window,
+" change Pmenu to your highlight group
+highlight link EchoDocFloat Pmenu
