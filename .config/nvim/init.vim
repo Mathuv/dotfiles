@@ -41,7 +41,17 @@ set foldmethod=marker
 " - Avoid using standard Vim directory names like 'plugin'
 " call plug#begin('~/.vim/plugged')
 
+" Function to condionally install pluging
+" https://github.com/asvetliakov/vscode-neovim/issues/415
+function! Cond(Cond, ...)
+    let opts = get(a:000, 0, {})
+    return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
 call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
 " fzf + ripgrep setup for fuzzy search
 " Using brew locaion below so that it can be kept updated
@@ -137,6 +147,8 @@ if !exists('g:vscode')
     " posts suggest
     " Multiple cursor editing plugin
     Plug 'terryma/vim-multiple-cursors'
+    " check this our later and vim-multi-cursor is not longer maintianed
+    " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     
     " Git wrapper
     Plug 'tpope/vim-fugitive'
@@ -164,7 +176,7 @@ if !exists('g:vscode')
     
     "Python semantic syntax highlighting (may slow down with deoplete)
     "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+    " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
     
     
     "Adds file type icons (This is supposed to the last plugin)
@@ -297,6 +309,7 @@ let g:highlightedyank_highlight_duration = 1000
 "highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 let g:deoplete#enable_at_startup = 1
+set completeopt-=preview
 
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
@@ -470,7 +483,7 @@ let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
 let g:semshi#error_sign = v:false
 " Not to slow down semshi together with deoplete
 " https://soduu.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-let g:deoplete#auto_complete_delay = 100
+" let g:deoplete#auto_complete_delay = 100
 
 
 "To show the buffer no next to file name
@@ -832,6 +845,27 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+
+" whether to enable diagnostics for vim-lsp (we may want to use ALE for other
+" plugins for that.
+let g:lsp_diagnostics_enabled = 1
+
+" show diagnostic signs
+let g:lsp_signs_enabled = 1
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '!'}
+let g:lsp_highlights_enabled = 0
+
+" Do not use virtual text, they are far too obtrusive.
+let g:lsp_virtual_text_enabled = 0
+" echo a diagnostic message at cursor position
+let g:lsp_diagnostics_echo_cursor = 0
+" show diagnostic in floating window
+let g:lsp_diagnostics_float_cursor = 1
+" whether to enable highlight a symbol and its references
+let g:lsp_highlight_references_enabled = 1
+let g:lsp_preview_max_width = 80
+
 " flake8 specific settings
 " https://jdhao.github.io/2020/11/05/pyls_flake8_setup/
 if executable('pyls')
@@ -850,4 +884,6 @@ if executable('pyls')
           \         }
           \ }})
 endif
+
+
 " LSP settings END
