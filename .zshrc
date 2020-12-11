@@ -413,6 +413,9 @@ export NVM_DIR=/Users/mediushealth/.nvm
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 alias jrsp='jira sprint'
 alias tm='tmux'
+alias nvd='nvim $(gdn)'
+alias bld='black $(gdn)'
+alias isd='isort $(gdn)'
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/path.zsh.inc'; fi
