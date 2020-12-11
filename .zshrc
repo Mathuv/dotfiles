@@ -94,8 +94,8 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 # Set neovim as default editor
-export VISUAL=nvim
-export EDITOR="$VISUAL"
+# export VISUAL=nvim
+# export EDITOR="$VISUAL"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -245,9 +245,9 @@ fbr() {
 
 # Arguments passed to this function (like --color) will be passed to the second
 # invokation of `cheat`.
-function cheat-fzf {
-  eval `cheat -l | tail -n +2 | fzf | awk -v vars="$*" '{ print "cheat " $1 " -t " $3, vars }'`
-}
+# function cheat-fzf {
+#   eval `cheat -l | tail -n +2 | fzf | awk -v vars="$*" '{ print "cheat " $1 " -t " $3, vars }'`
+# }
 
 # using ripgrep combined with preview
 # find-in-file - usage: fif <searchTerm>
@@ -282,10 +282,10 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 # 20180804 Mathu Pipenv auto completion
-eval "$(pipenv --completion)"
+# eval "$(pipenv --completion)"
 
 # 20191104 go-jira tab completion
-eval "$(jira --completion-script-zsh)"
+# eval "$(jira --completion-script-zsh)"
 
 # # 20180801 MATHU Zsh Themen configuration - START
 # # https://medium.com/the-code-review/make-your-terminal-more-colourful-and-productive-with-iterm2-and-zsh-11b91607b98c
@@ -364,7 +364,7 @@ if which pyenv-virtualenv-init > /dev/null; then
 fi
 
 # 2018-01-23 After brew install thefuck
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 
 # After brew install curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
@@ -404,12 +404,12 @@ _fzf_complete_git_post() {
 export PATH="/Users/mediushealth/.cargo/bin:$PATH"
 
 # 2019-05-06 after brew install nvm 9node version manager)
-export NVM_DIR=/Users/mediushealth/.nvm
-  [ -s /usr/local/opt/nvm/nvm.sh ] && . /usr/local/opt/nvm/nvm.sh  # This loads nvm
-  [ -s /usr/local/opt/nvm/etc/bash_completion ] && . /usr/local/opt/nvm/etc/bash_completion  # This loads nvm bash_completion
+# export NVM_DIR=/Users/mediushealth/.nvm
+#   [ -s /usr/local/opt/nvm/nvm.sh ] && . /usr/local/opt/nvm/nvm.sh  # This loads nvm
+#   [ -s /usr/local/opt/nvm/etc/bash_completion ] && . /usr/local/opt/nvm/etc/bash_completion  # This loads nvm bash_completion
 
-# added by travis gem
-[ -f /Users/mediushealth/.travis/travis.sh ] && source /Users/mediushealth/.travis/travis.sh
+# # added by travis gem
+# [ -f /Users/mediushealth/.travis/travis.sh ] && source /Users/mediushealth/.travis/travis.sh
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 alias jrsp='jira sprint'
 alias tm='tmux'
@@ -418,10 +418,10 @@ alias bld='black $(gdn)'
 alias isd='isort $(gdn)'
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc'; fi
+# if [ -f '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Created by `userpath` on 2020-07-21 01:56:44
 export PATH="$PATH:/Users/mediushealth/.local/bin"
