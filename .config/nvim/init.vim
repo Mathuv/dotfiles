@@ -154,9 +154,9 @@ if !exists('g:vscode')
     " hmm, seems vim-multiple-cursons does much more than what the aboe medius
     " posts suggest
     " Multiple cursor editing plugin
-    Plug 'terryma/vim-multiple-cursors'
+    " Plug 'terryma/vim-multiple-cursors'
     " check this our later and vim-multi-cursor is not longer maintianed
-    " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+    Plug 'mg979/vim-visual-multi', {'branch': 'master'}
     
     " Git wrapper
     Plug 'tpope/vim-fugitive'
@@ -415,6 +415,7 @@ nnoremap <silent><esc> :noh<return><esc>
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
+set diffopt+=vertical
 
 "20191122 Move line up and down
 "https://vim.fandom.com/wiki/Moving_lines_up_or_down
