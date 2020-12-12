@@ -104,7 +104,7 @@ if !exists('g:vscode')
     " Displays function signatures from completions
     Plug 'Shougo/echodoc.vim'
 
-    Plug 'junegunn/seoul256.vim'
+    " Plug 'junegunn/seoul256.vim'
     Plug 'joshdick/onedark.vim'
 
     Plug 'sheerun/vim-polyglot'
@@ -162,7 +162,7 @@ if !exists('g:vscode')
     Plug 'tpope/vim-fugitive'
     " Fugitive Gbrowse handler
     " Doesn't seem to work
-    Plug 'tommcdo/vim-fubitive'
+    " Plug 'tommcdo/vim-fubitive'
     " A git commit browser in Vim
     Plug 'junegunn/gv.vim'
     
@@ -173,10 +173,10 @@ if !exists('g:vscode')
     Plug 'dracula/vim', { 'as': 'dracula' }
     
     " clolorscheme
-    Plug 'morhetz/gruvbox'
+    " Plug 'morhetz/gruvbox'
     " Seems to be faster/better than gruvbox
     " https://github.com/lifepillar/vim-gruvbox8/blob/master/Readme.md
-    Plug 'lifepillar/vim-gruvbox8'
+    " Plug 'lifepillar/vim-gruvbox8'
     
     
     " Advanced neovim terminal handling
@@ -203,24 +203,24 @@ if !exists('g:vscode')
     
     
     "20191125
-    Plug 'godlygeek/tabular'
+    " Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
     
-    Plug 'cespare/vim-toml'
+    " Plug 'cespare/vim-toml'
     
     Plug 'editorconfig/editorconfig-vim'
     
-    Plug 'lifepillar/pgsql.vim'
+    " Plug 'lifepillar/pgsql.vim'
     
     " To have ipython like feature within vim
-    Plug 'jpalardy/vim-slime', { 'for': 'python' }
-    Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+    " Plug 'jpalardy/vim-slime', { 'for': 'python' }
+    " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
     
     "integration with dash
     Plug 'rizzatti/dash.vim'
     
     "Jump to any definition and usages
-    Plug 'pechorin/any-jump.nvim'
+    " Plug 'pechorin/any-jump.nvim'
     
     " 20200929 Disabled for Black. Fix it.
     " Rg|fzf find and replace
@@ -230,7 +230,7 @@ if !exists('g:vscode')
     Plug 'tpope/vim-abolish'
     
     " Modern database interface for Vim
-    Plug 'tpope/vim-dadbod'
+    " Plug 'tpope/vim-dadbod'
     
     " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
     Plug 'tpope/vim-speeddating'
@@ -238,7 +238,7 @@ if !exists('g:vscode')
     " https://github.com/sakhnik/nvim-gdb
     Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
     
-    Plug 'freitass/todo.txt-vim'
+    " Plug 'freitass/todo.txt-vim'
     
     " Linter for grammar check
     " Plug 'dense-analysis/ale'
@@ -451,28 +451,28 @@ let g:vim_markdown_toml_frontmatter = 1  " for TOML format
 let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " (END)
 
-"------------------------------------------------------------------------------
-" slime configuration 
-"------------------------------------------------------------------------------
-" always use tmux
-let g:slime_target = 'tmux'
+""------------------------------------------------------------------------------
+"" slime configuration 
+""------------------------------------------------------------------------------
+"" always use tmux
+"let g:slime_target = 'tmux'
 
-" fix paste issues in ipython
-let g:slime_python_ipython = 1
+"" fix paste issues in ipython
+"let g:slime_python_ipython = 1
 
-" always send text to the top-right pane in the current tmux tab without asking
-let g:slime_default_config = {
-	    \ 'socket_name': get(split($TMUX, ','), 0),
-	    \ 'target_pane': '{top-right}' }
-let g:slime_dont_ask_default = 1
+"" always send text to the top-right pane in the current tmux tab without asking
+"let g:slime_default_config = {
+"	    \ 'socket_name': get(split($TMUX, ','), 0),
+"	    \ 'target_pane': '{top-right}' }
+"let g:slime_dont_ask_default = 1
 
-"------------------------------------------------------------------------------
-" ipython-cell configuration
-"------------------------------------------------------------------------------
-" Use '##' to define cells instead of using marks
-let g:ipython_cell_delimit_cells_by = 'tags'
+""------------------------------------------------------------------------------
+"" ipython-cell configuration
+""------------------------------------------------------------------------------
+"" Use '##' to define cells instead of using marks
+"let g:ipython_cell_delimit_cells_by = 'tags'
 
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+"let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
 
 "20191216 Add psql syntax highlighting 
