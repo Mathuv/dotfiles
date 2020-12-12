@@ -95,9 +95,11 @@ if !exists('g:vscode')
     "   Plug 'roxma/nvim-yarp'
     "   Plug 'roxma/vim-hug-neovim-rpc'
     " endif
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'lighttiger2505/deoplete-vim-lsp'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'Shougo/deoplete.nvim'
+    " Plug 'lighttiger2505/deoplete-vim-lsp'
+    " User coc.vim instead
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     
     Plug 'chriskempson/base16-vim'
 
@@ -143,10 +145,6 @@ if !exists('g:vscode')
     Plug 'neomake/neomake'
     
     
-    " 20190707 Disabled for later configuration
-    " For VSCode like completion and docstring
-    " https://github.com/neoclide/coc.nvim/
-    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
     
     
     " https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
@@ -345,9 +343,9 @@ augroup END
 let g:highlightedyank_highlight_duration = 1000
 "highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 " Disable deoplete preview window
-set completeopt-=preview
+" set completeopt-=preview
 
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
@@ -788,12 +786,12 @@ autocmd FileType gitcommit setlocal spell
 " let g:deoplete#ignore_sources = {}
 " let g:deoplete#ignore_sources._ = ['buffer', 'around']
 "https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
-if has("gui_vimr")
-else
-    call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
-endif
-" maximum candidate window length
-call deoplete#custom#source('_', 'max_menu_width', 80)
+" if has("gui_vimr")
+" else
+"     call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+" endif
+" " maximum candidate window length
+" call deoplete#custom#source('_', 'max_menu_width', 80)
 
 " Autocomplete with dictionary words when spell check is on
 " This doesn't seem to work.
@@ -827,7 +825,7 @@ let g:Lf_PreviewInPopup = 1
 
 
 " https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
-call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+" call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
 
 " Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
 " Disable vim-airline when firenvim starts since vim-airline takes two lines.
