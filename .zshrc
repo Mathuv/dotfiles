@@ -328,15 +328,15 @@ setopt hist_ignore_all_dups
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # 2019-11-06 Disable Cowsay
-# # 2018-09-18 Mathu: Add Colourful Cows to yur terminal
-# # https://schier.co/blog/2016/08/09/add-colorful-cows-to-your-terminal/
-# # Randomly select a cow name
-# cow=$(node -e "var c='$(cowsay -l)'.split('  ');console.log(c[Math.floor(Math.random()*c.length)])")
-# 
-# # Or, if you have shuf (or gshuf) installed
-# #  cow=$(shuf -n 1 -e $(cowsay -l))
-# 
-# fortune | cowsay -f "$cow" | lolcat --spread 1.0
+# 2018-09-18 Mathu: Add Colourful Cows to yur terminal
+# https://schier.co/blog/2016/08/09/add-colorful-cows-to-your-terminal/
+# Randomly select a cow name
+cow=$(node -e "var c='$(cowsay -l)'.split('  ');console.log(c[Math.floor(Math.random()*c.length)])")
+
+# Or, if you have shuf (or gshuf) installed
+#  cow=$(shuf -n 1 -e $(cowsay -l))
+
+fortune | cowsay -f "$cow" | lolcat --spread 1.0
 
 # https://remysharp.com/2018/08/23/cli-improved
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
