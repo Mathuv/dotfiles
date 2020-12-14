@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # 2018-12-06
 # export TERM="xterm-256color"
 # If you come from bash you might have to change your $PATH.
@@ -17,7 +24,7 @@ export ZSH=/Users/mediushealth/.oh-my-zsh
 # 20180802 Mathu
 # nerdfont-complete has to be loaded before using powerlevel9k theme to show the special symbles
 POWERLEVEL9K_MODE='nerdfont-complete'
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -84,8 +91,11 @@ source $ZSH/oh-my-zsh.sh
 # 2018-10-30 After elixit installation via brew
 # export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
 
+# 20201214 Solution to tmux on Alacritty. Enable below.
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+# 20201214 Solution to tmux on Alacritty.
+export LC_CTYPE=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -298,7 +308,8 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs newline status)
 # POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
  DISABLE_UPDATE_PROMPT=true
 # Mathu to show virtual env
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv vi_mode)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv vi_mode)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv time)
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir virtualenv vcs)
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 # POWERLEVEL9K_VI_COMMAND_MODE_STRING="NORMAL"
@@ -364,7 +375,7 @@ if which pyenv-virtualenv-init > /dev/null; then
 fi
 
 # 2018-01-23 After brew install thefuck
-# eval $(thefuck --alias)
+eval $(thefuck --alias)
 
 # After brew install curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
@@ -427,3 +438,12 @@ alias isd='isort $(gdn)'
 export PATH="$PATH:/Users/mediushealth/.local/bin"
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
+PATH="/Users/mediushealth/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/mediushealth/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/mediushealth/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/mediushealth/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/mediushealth/perl5"; export PERL_MM_OPT;
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
