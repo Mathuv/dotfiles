@@ -75,7 +75,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Disabling vi-mode
 # plugins=(git osx brew python django python colored-man-pages celery aws colorize pip docker docker-compose docker-machine zsh-syntax-highlighting history-substring-search virtualenv vi-mode tmux zsh-completions git-open)
 # plugins=(git osx brew python django python colored-man-pages celery aws colorize pip docker docker-compose docker-machine zsh-syntax-highlighting history-substring-search virtualenv tmux zsh-completions git-open)
-plugins=(git osx brew python fzf django colored-man-pages colorize pip zsh-syntax-highlighting zsh-completions git-open)
+plugins=(git osx brew python fzf django colored-man-pages colorize pip zsh-syntax-highlighting zsh-completions git-open docker docker-compose docker-machine)
 
 # 2018-08-27 Mathu: https://github.com/zsh-users/zsh-completions
 autoload -U compinit && compinit
@@ -427,6 +427,7 @@ alias tm='tmux'
 alias nvd='nvim $(gdn)'
 alias bld='black $(gdn)'
 alias isd='isort $(gdn)'
+alias gcbr='git current-branch'
 
 # The next line updates PATH for the Google Cloud SDK.
 # if [ -f '/Users/mediushealth/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mediushealth/google-cloud-sdk/path.zsh.inc'; fi
