@@ -101,12 +101,14 @@ if !exists('g:vscode')
     " User coc.vim instead
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     
+    Plug 'ludovicchabant/vim-gutentags'
+    
     Plug 'chriskempson/base16-vim'
 
     " Displays function signatures from completions
     Plug 'Shougo/echodoc.vim'
 
-    " Plug 'junegunn/seoul256.vim'
+    Plug 'junegunn/seoul256.vim'
     Plug 'joshdick/onedark.vim'
 
     Plug 'sheerun/vim-polyglot'
@@ -174,7 +176,7 @@ if !exists('g:vscode')
     " Plug 'morhetz/gruvbox'
     " Seems to be faster/better than gruvbox
     " https://github.com/lifepillar/vim-gruvbox8/blob/master/Readme.md
-    " Plug 'lifepillar/vim-gruvbox8'
+    Plug 'lifepillar/vim-gruvbox8'
     
     
     " Advanced neovim terminal handling
@@ -182,7 +184,7 @@ if !exists('g:vscode')
     
     "Python semantic syntax highlighting (may slow down with deoplete)
     "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-    " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
     
     
     "Adds file type icons (This is supposed to the last plugin)
@@ -218,7 +220,7 @@ if !exists('g:vscode')
     Plug 'rizzatti/dash.vim'
     
     "Jump to any definition and usages
-    " Plug 'pechorin/any-jump.nvim'
+    Plug 'pechorin/any-jump.nvim'
     
     " 20200929 Disabled for Black. Fix it.
     " Rg|fzf find and replace
@@ -309,7 +311,7 @@ else
   " " Unified color scheme (default: dark)
   " let g:seoul256_background = 233
   " colo seoul256
-  " onedark
+  " " onedark
   let g:onedark_termcolors=256
   colorscheme onedark
   syntax on
@@ -848,81 +850,81 @@ if exists('g:vscode')
     nmap gcc <Plug>VSCodeCommentaryLine
 endif
 
-" LSP settings START
-" https://jdhao.github.io/2020/11/04/replace_deoplete_jedi_for_LSP/
-" settings for pyls
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'allowlist': ['python'],
-        \ })
-endif
+" " LSP settings START
+" " https://jdhao.github.io/2020/11/04/replace_deoplete_jedi_for_LSP/
+" " settings for pyls
+" if executable('pyls')
+"     " pip install python-language-server
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'pyls',
+"         \ 'cmd': {server_info->['pyls']},
+"         \ 'allowlist': ['python'],
+"         \ })
+" endif
 
-function! s:on_lsp_buffer_enabled() abort
-    " use omnifunc if you are fine with it.
-    " setlocal omnifunc=lsp#complete
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    " some mappings to use, tweak as you wish.
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-endfunction
+" function! s:on_lsp_buffer_enabled() abort
+"     " use omnifunc if you are fine with it.
+"     " setlocal omnifunc=lsp#complete
+"     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"     " some mappings to use, tweak as you wish.
+"     nmap <buffer> gd <plug>(lsp-definition)
+"     nmap <buffer> gr <plug>(lsp-references)
+"     nmap <buffer> gi <plug>(lsp-implementation)
+"     nmap <buffer> gt <plug>(lsp-type-definition)
+"     nmap <buffer> <leader>rn <plug>(lsp-rename)
+"     nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+"     nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+"     nmap <buffer> K <plug>(lsp-hover)
+" endfunction
 
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-
-" whether to enable diagnostics for vim-lsp (we may want to use ALE for other
-" plugins for that.
-let g:lsp_diagnostics_enabled = 1
-
-" show diagnostic signs
-let g:lsp_signs_enabled = 1
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '!'}
-let g:lsp_highlights_enabled = 0
-
-" Do not use virtual text, they are far too obtrusive.
-let g:lsp_virtual_text_enabled = 0
-" echo a diagnostic message at cursor position
-let g:lsp_diagnostics_echo_cursor = 0
-" show diagnostic in floating window
-let g:lsp_diagnostics_float_cursor = 1
-" whether to enable highlight a symbol and its references
-let g:lsp_highlight_references_enabled = 1
-let g:lsp_preview_max_width = 80
-
-" flake8 specific settings
-" https://jdhao.github.io/2020/11/05/pyls_flake8_setup/
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-          \ 'name': 'pyls',
-          \ 'cmd': {server_info->['pyls']},
-          \ 'allowlist': ['python'],
-          \ 'workspace_config': {
-          \    'pyls':
-          \        {'configurationSources': ['flake8'],
-          \         'plugins': {'flake8': {'enabled': v:true},
-          \                     'pyflakes': {'enabled': v:false},
-          \                     'pycodestyle': {'enabled': v:false},
-          \                    }
-          \         }
-          \ }})
-endif
+" augroup lsp_install
+"     au!
+"     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+"     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+" augroup END
 
 
-" LSP settings END
+" " whether to enable diagnostics for vim-lsp (we may want to use ALE for other
+" " plugins for that.
+" let g:lsp_diagnostics_enabled = 1
+
+" " show diagnostic signs
+" let g:lsp_signs_enabled = 1
+" let g:lsp_signs_error = {'text': '✗'}
+" let g:lsp_signs_warning = {'text': '!'}
+" let g:lsp_highlights_enabled = 0
+
+" " Do not use virtual text, they are far too obtrusive.
+" let g:lsp_virtual_text_enabled = 0
+" " echo a diagnostic message at cursor position
+" let g:lsp_diagnostics_echo_cursor = 0
+" " show diagnostic in floating window
+" let g:lsp_diagnostics_float_cursor = 1
+" " whether to enable highlight a symbol and its references
+" let g:lsp_highlight_references_enabled = 1
+" let g:lsp_preview_max_width = 80
+
+" " flake8 specific settings
+" " https://jdhao.github.io/2020/11/05/pyls_flake8_setup/
+" if executable('pyls')
+"     " pip install python-language-server
+"     au User lsp_setup call lsp#register_server({
+"           \ 'name': 'pyls',
+"           \ 'cmd': {server_info->['pyls']},
+"           \ 'allowlist': ['python'],
+"           \ 'workspace_config': {
+"           \    'pyls':
+"           \        {'configurationSources': ['flake8'],
+"           \         'plugins': {'flake8': {'enabled': v:true},
+"           \                     'pyflakes': {'enabled': v:false},
+"           \                     'pycodestyle': {'enabled': v:false},
+"           \                    }
+"           \         }
+"           \ }})
+" endif
+
+
+" " LSP settings END
 "
 " Or, you could use neovim's floating text feature.
 let g:echodoc#enable_at_startup = 1
@@ -965,3 +967,107 @@ function! s:GetBufNums() abort
   return l:buf_nums
 endfunction
 " END
+"
+" CoC config START
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+" END
+"
+" Gutentag START
+" https://www.reddit.com/r/vim/comments/d77t6j/guide_how_to_setup_ctags_with_gutentags_properly/
+" Specifically configure what a "new project" is for Gutentags.
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root = ['package.json', '.git']
+
+" Make Gutentags generate in most cases
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+
+" Let Gutentags generate more info for the tags.
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
+
+" Making Gutentags faster by ignoring a lot of unnecessary filetypes.
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+
+" END 
+
+" shortcuts for Tags
+nnoremap <Leader>t :BTags<CR>
