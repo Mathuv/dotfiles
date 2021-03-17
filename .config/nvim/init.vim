@@ -27,7 +27,9 @@ set cursorline
 " set nocursorline
 
 "" Marker fold method(research)
-set foldmethod=marker
+" 20210312
+" set foldmethod=marker
+set foldmethod=syntax
 
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
@@ -258,6 +260,11 @@ if !exists('g:vscode')
     " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
     
     Plug 'ervandew/supertab'
+
+    Plug 'elzr/vim-json'
+
+    Plug 'dbeniamine/cheat.sh-vim'
+
 endif
 
 " Initialize plugin system
@@ -773,6 +780,7 @@ nnoremap <C-H> <C-W><C-H>
 let g:db = "postgresql://medius:TcdSXjzYhD63rM@quro-nonprod.cdlree0m10um.ap-southeast-2.rds.amazonaws.com/mediuschatserver_dev"
 
 com! FormatJSON %!python -m json.tool
+com! JQFormatJSON %!jq
 
 " https://thoughtbot.com/blog/opt-in-project-specific-vim-spell-checking-and-word-completion
 " Spell Check
@@ -1071,3 +1079,4 @@ let g:gutentags_ctags_exclude = [
 
 " shortcuts for Tags
 nnoremap <Leader>t :BTags<CR>
+
