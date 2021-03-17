@@ -448,3 +448,5 @@ PERL_MM_OPT="INSTALL_BASE=/Users/mediushealth/perl5"; export PERL_MM_OPT;
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/bit bit
