@@ -263,7 +263,7 @@ if !exists('g:vscode')
 
     Plug 'elzr/vim-json'
 
-    Plug 'dbeniamine/cheat.sh-vim'
+    " Plug 'dbeniamine/cheat.sh-vim'
 
 endif
 
