@@ -207,6 +207,9 @@ alias lg='lazygit'
 alias yd='ydiff -s -w0'
 
 alias cfg='/usr/local/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+alias rgi='rg -i'
+alias rgie='rgi -e'
+alias rgiel='rgie -l'
 
 # https://gist.github.com/XVilka/8346728
 function check-terminal-colours {
