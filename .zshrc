@@ -138,6 +138,7 @@ alias cl='clear'
 # git aliases
 # alias gst='git status'
 alias gdn='git diff --name-only'
+alias gdnp="gdn -- '*.py'"
 alias gwt='git worktree'
 alias gwta='git worktree add'
 alias gwtr='git worktree remove'
@@ -210,6 +211,14 @@ alias cfg='/usr/local/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 alias rgi='rg -i'
 alias rgie='rgi -e'
 alias rgiel='rgie -l'
+
+alias pt='pytest'
+alias ptd='pytest --pdb'
+alias ptlf='pytest --lf'
+alias ptlfd='pytest --pdb --lf'
+
+alias xa='xargs'
+alias xan='xargs nvim'
 
 # https://gist.github.com/XVilka/8346728
 function check-terminal-colours {
