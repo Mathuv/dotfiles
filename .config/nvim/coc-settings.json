@@ -1,0 +1,23 @@
+{
+    "languageserver": {
+        "sourcery": {
+            "command": "/Users/mediushealth/Devel/Medius/medius_chatserver_37/.venv/bin/sourcery",
+            "args": [
+                "lsp"
+            ],
+            "filetypes": [
+                "python"
+            ],
+            "initializationOptions": {
+                "token": "user_0UEuhoAIPZlGj0XLkCv40a0i6Dhh5xiPW1uGVsW0vZKPie3FC3sFklrHBcY",
+                "extension_version": "coc.vim",
+                "editor_version": "vim"
+            },
+            "settings": {
+                "sourcery": {
+                    "metricsEnabled": true
+                }
+            }
+        }
+    }
+}
