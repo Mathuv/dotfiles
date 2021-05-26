@@ -1,11 +1,8 @@
 # This is Git's per-user configuration file.
-[user]
 # Please adapt and uncomment the following lines:
-#	name = Mathu Mounasamy
-#	email = mathu.mounasamy@mediushealth.org
 [core]
-	excludesfile = /Users/mediushealth/.gitignore_global
-	attributesFile = /Users/mediushealth/.gitattributes
+	excludesfile = ~/.gitignore_global
+	attributesFile = ~/.gitattributes
 	# git-delta config
 	pager = delta
 	# pager = delta --diff-so-fancy --diff-highlight
@@ -24,7 +21,7 @@
 	name = Mathu Mounasamy
 	email = mathu.mounasamy@mediushealth.org
 [commit]
-	template = /Users/mediushealth/.stCommitMsg
+	template = ~/.stCommitMsg
 # Disabled for git-delata
 # 2018-08-31 Mathu: to use diff-so-fancy for git diff
 # [pager]
