@@ -1,10 +1,19 @@
 {
-    "languageserver": {
+	"jedi.executable.command": "jedi-language-server",
+	// coc-pyright
+	"python.formatting.provider": "autopep8",
+	"python.linting.flake8Enabled": true,
+	"python.sortImports.path": "isort",
+	"pyright.organizeimports.provider": "isort",
+	// coc-highlight
+	"coc.preferences.colorSupport": true,
+	// Sourcery
+	"languageserver": {
         "sourcery": {
-            "command": "/Users/mediushealth/Devel/Medius/medius_chatserver_37/.venv/bin/sourcery",
+            "command": "sourcery",
             "args": [
                 "lsp"
-            ],
+           ],
             "filetypes": [
                 "python"
             ],

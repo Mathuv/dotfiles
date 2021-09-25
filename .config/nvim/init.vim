@@ -29,7 +29,7 @@ set cursorline
 "" Marker fold method(research)
 " 20210312
 " set foldmethod=marker
-set foldmethod=syntax
+" set foldmethod=syntax
 
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
@@ -57,7 +57,7 @@ Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymot
 
 " fzf + ripgrep setup for fuzzy search
 " Using brew locaion below so that it can be kept updated
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/opt/fzf'
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " This is required to make other fzf feature available within vim
 Plug 'junegunn/fzf.vim'
@@ -73,11 +73,11 @@ Plug 'sbdchd/neoformat'
 
 "" Black code formatter
 ""Plug 'python/black'
-"Plug 'psf/black'
-Plug 'psf/black', { 'branch': 'stable' }
+" Plug 'psf/black'
+Plug 'psf/black', { 'branch': 'main' }
 
 " For code folding
-Plug 'tmhedberg/SimpylFold'
+" Plug 'tmhedberg/SimpylFold'
 
 " For pyhon isort: use command :Isort
 Plug 'fisadev/vim-isort'
@@ -186,7 +186,7 @@ if !exists('g:vscode')
     
     "Python semantic syntax highlighting (may slow down with deoplete)
     "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+    " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
     
     
     "Adds file type icons (This is supposed to the last plugin)
@@ -232,7 +232,9 @@ if !exists('g:vscode')
     Plug 'tpope/vim-abolish'
     
     " Modern database interface for Vim
-    " Plug 'tpope/vim-dadbod'
+    Plug 'tpope/vim-dadbod'
+    " Simple UI for dadbod
+    Plug 'kristijanhusak/vim-dadbod-ui'
     
     " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
     Plug 'tpope/vim-speeddating'
@@ -269,6 +271,38 @@ if !exists('g:vscode')
     Plug 'tpope/vim-vinegar'
 
     Plug 'wlemuel/vim-tldr'
+
+
+    if !has("gui_vimr")
+        " 20210529 Treesitter 
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        Plug 'nvim-treesitter/playground'
+
+        " 20210529 Telescope
+        Plug 'nvim-lua/popup.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
+
+        " 20210529 Popup show the keyboard shortcut
+        Plug 'folke/which-key.nvim'
+
+        Plug 'sudormrfbin/cheatsheet.nvim'
+        Plug 'kyazdani42/nvim-web-devicons'
+
+    endif
+
+    Plug 'preservim/tagbar'
+
+    Plug 'phaazon/hop.nvim'
+
+    Plug 'kshenoy/vim-signature'
+
+    " Start up screen
+    Plug 'mhinz/vim-startify'
+    "For better commit message intrface
+    Plug 'rhysd/committia.vim'
+    Plug 'junegunn/vim-plug'
+
 endif
 
 " Initialize plugin system
@@ -301,13 +335,15 @@ if (has("autocmd") && !has("gui_running"))
   augroup END
 endif
 
+" syntax on
+
 " VimR specific settings
 if has("gui_vimr")
   " Here goes some VimR specific settings like
   " color iceberg 
   " color default 
   " set background=dark
-  syntax on
+  " syntax on
   " set termguicolors
   " colorscheme iceberg
   " colorscheme base16-dracula
@@ -325,7 +361,7 @@ else
   " " onedark
   let g:onedark_termcolors=256
   colorscheme onedark
-  syntax on
+  " syntax on
 endif
 
 
@@ -360,15 +396,19 @@ let g:highlightedyank_highlight_duration = 1000
 " Disable deoplete preview window
 " set completeopt-=preview
 
+" 2021-05-26 to disable python2 provider
+" let g:loaded_python_provider = 0
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
 " environments
 " https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
 "let g:python_host_prog = '/usr/bin/python2.7'
-let g:python_host_prog = '/Users/mediushealth/.pyenv/versions/neovim2/bin/python'
+let g:python_host_prog = '/Users/mathu/.pyenv/versions/neovim2/bin/python'
+" let g:python_host_prog = '/Users/mathu/.pyenv/shims/python'
+" let g:python_host_prog = ''
 "let g:python3_host_prog = 'python3'
 " let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
-let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim37/bin/python'
+let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim39/bin/python'
 
 " Jedi-Vim settings just got code jumping
 " disable autocompletion, cause we use deoplete for completion
@@ -496,7 +536,7 @@ set hidden
 "autocmd VimEnter * NERDTree | wincmd p
 
 " Black - formatting settings 
-let g:black_virtualenv = '/Users/mediushealth/.pyenv/versions/neovim37'
+let g:black_virtualenv = '/Users/mathu/.local/pipx/venvs/black/'
 let g:black_linelength = 119
 " TODO
 "autocmd BufWritePre *.py execute ':Black'
@@ -530,7 +570,7 @@ let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
 
 "20191122 Semshi settingas
 "https://soduu.com/numirias/semshi
-let g:semshi#error_sign = v:false
+" let g:semshi#error_sign = v:false
 " Not to slow down semshi together with deoplete
 " https://soduu.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
 " let g:deoplete#auto_complete_delay = 100
@@ -781,7 +821,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-let g:db = "postgresql://medius:TcdSXjzYhD63rM@quro-nonprod.cdlree0m10um.ap-southeast-2.rds.amazonaws.com/mediuschatserver_dev"
+let g:db = "postgresql://stockspotprod:@localhost/stockspot_dev"
 
 com! FormatJSON %!python -m json.tool
 com! JQFormatJSON %!jq
@@ -1006,10 +1046,35 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
+" Looks like coc-jedi still doesn't support this. check back later.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType python,typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 " END
 "
 " Gutentag START
@@ -1096,3 +1161,124 @@ nnoremap <Leader>t :BTags<CR>
 nnoremap <silent> <Leader>hh :History<CR>
 nnoremap <silent> <Leader>h: :History:<CR>
 nnoremap <silent> <Leader>h/ :History/<CR> 
+set rtp+=/opt/homebrew/opt/fzf
+
+" https://github.com/neoclide/coc.nvim/issues/856
+if $NVM_BIN != ""
+  let g:coc_node_path = '$NVM_BIN/node'
+endif
+
+" nvim-treesitter config (START)
+if !has("gui_vimr")
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      ["foo.bar"] = "Identifier",
+    },
+  },
+}
+EOF
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+}
+EOF
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  indent = {
+    enable = true
+  }
+}
+EOF
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+" nvim-treesitter config (END)
+
+" 20210529 Telescope.nvim config
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+command L Telescope
+
+" 20210529 Whichkay
+lua << EOF
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
+
+"web-devicon setup
+lua << EOF
+  require'nvim-web-devicons'.setup {
+   -- your personnal icons can go here (to override)
+   -- DevIcon will be appended to `name`
+   override = {
+    zsh = {
+      icon = "",
+      color = "#428850",
+      name = "Zsh"
+    }
+   };
+   -- globally enable default icons (default to false)
+   -- will get overriden by `get_icons` option
+   default = true;
+  }
+
+  require'nvim-web-devicons'.get_icon(filename, extension, options)
+EOF
+
+endif
+
+" python tagbar
+nmap <F8> :TagbarToggle<CR>
+
+" " Toggle tagbar statusline
+" " This doesn't seem to work
+" " https://stackoverflow.com/questions/33699049/display-current-function-in-vim-status-line
+" command! -nargs=0 TagbarToggleStatusline call TagbarToggleStatusline()
+" " nnoremap <silent> <c-F12> :TagbarToggleStatusline<CR>
+" function! TagbarToggleStatusline()
+"    let tStatusline = '%{exists(''*tagbar#currenttag'')?
+"             \tagbar#currenttag(''     [%s] '',''''):''''}'
+"    if stridx(&statusline, tStatusline) != -1
+"       let &statusline = substitute(&statusline, '\V'.tStatusline, '', '')
+"    else
+"       let &statusline = substitute(&statusline, '\ze%=%-', tStatusline, '')
+"    endif
+" endfunction
+
+" filetype plugin indent on
+" syntax on
+" au User AirlineAfterInit let g:airline_section_x = airline#section#create_right(['tagbar'])
+
+" :Rg exlucde files name match
+" https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
+" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+" Rg current word
+nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+
+" Sourcery config
+nnoremap <leader>cl :CocDiagnostics<cr>
+nnoremap <leader>cf :CocFix<cr>
+nnoremap <leader>ch :call CocAction('doHover')<cr>
