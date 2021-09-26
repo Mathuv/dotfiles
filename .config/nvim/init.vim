@@ -303,9 +303,26 @@ if !exists('g:vscode')
     Plug 'rhysd/committia.vim'
     Plug 'junegunn/vim-plug'
 
+    Plug 'tpope/vim-dispatch'
+    Plug 'tpope/vim-dotenv'
+
+    " Testing
+    Plug 'janko-m/vim-test'
+    "https://linuxtut.com/en/96d4cda9074f9719bc82/
+    " Plug 'tlvince/vim-compiler-python'
+
+    "debugging
+    Plug 'puremourning/vimspector'
+
+    " Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'mfussenegger/nvim-dap'
+    " Plug 'mfussenegger/nvim-dap-python'
+
+
 endif
 
 " Initialize plugin system
+" plugend
 call plug#end()
 
 
@@ -457,7 +474,17 @@ let g:jedi#use_splits_not_buffers = "right"
 "nnoremap <silent> <C-s> :NERDTreeToggle<CR>
 nnoremap <Leader>b :NERDTreeToggle<CR>
 "To map <Esc> to exit terminal-mode: >
-tnoremap <Esc> <C-\><C-n>
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-v><Esc> <Esc>
+endif
+
+" Chage the colout of the cursot in terminal
+if has('nvim')
+  highlight! link TermCursor Cursor
+  highlight! TermCursorNC guibg=red guifg=white ctermbg=1 ctermfg=15
+endif
+
 
 " Clear search highlighting with Escape key
 nnoremap <silent><esc> :noh<return><esc>
@@ -816,12 +843,36 @@ vim.command('map <f5> :py remove_breakpoints()<cr>')
 EOF
 
 " Easier  split navigation
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 
-let g:db = "postgresql://stockspotprod:@localhost/stockspot_dev"
+" normal mode
+nnoremap <C-h> <c-w>h
+nnoremap <C-j> <c-w>j
+nnoremap <C-k> <c-w>k
+nnoremap <C-l> <c-w>l
+if has('nvim')
+  " terminal mode
+  tnoremap <C-h> <c-\><c-n><c-w>h
+  tnoremap <C-j> <c-\><c-n><c-w>j
+  tnoremap <C-k> <c-\><c-n><c-w>k
+  tnoremap <C-l> <c-\><c-n><c-w>l
+  " insert mode
+  inoremap <C-h> <c-\><c-n><c-w>h
+  inoremap <C-j> <c-\><c-n><c-w>j
+  inoremap <C-k> <c-\><c-n><c-w>k
+  inoremap <C-l> <c-\><c-n><c-w>l
+  " Visual mode
+  vnoremap <C-h> <c-\><c-n><c-w>h
+  vnoremap <C-j> <c-\><c-n><c-w>j
+  vnoremap <C-k> <c-\><c-n><c-w>k
+  vnoremap <C-l> <c-\><c-n><c-w>l
+endif
+
+" dasbod, dadbod-ui
+" let g:db = "postgresql://db_user:@localhost/db_name"
 
 com! FormatJSON %!python -m json.tool
 com! JQFormatJSON %!jq
@@ -1282,3 +1333,45 @@ nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 nnoremap <leader>cl :CocDiagnostics<cr>
 nnoremap <leader>cf :CocFix<cr>
 nnoremap <leader>ch :call CocAction('doHover')<cr>
+
+" test.vim settings
+" make test commands execute using dispatch.vim
+let test#strategy = "dispatch"
+
+" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
+" Plugin works without this config
+let test#python#runner = 'djangotest'
+" Runners available are 'pytest', 'nose', 'nose2', 'djangotest', 'djangonose', 'mamba', and Python's built-in unittest as 'pyunit'
+
+" let test#python#djangotest#options = '--noinput --parallel 8'
+" let test#python#djangotest#options = '--noinput'
+let test#python#djangotest#options = {
+  \ 'all': '--noinput',
+  \ 'file': '--parallel 4',
+  \ 'suite': '--parallel 8'
+\}
+
+" Vimspector
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+nmap <leader>vl :call vimspector#Launch()<CR>
+nmap <leader>vr :VimspectorReset<CR>
+nmap <leader>ve :VimspectorEval
+nmap <leader>vw :VimspectorWatch
+nmap <leader>vo :VimspectorShowOutput
+nmap <leader>vi <Plug>VimspectorBalloonEval
+xmap <leader>vi <Plug>VimspectorBalloonEval
+let g:vimspector_install_gadgets = [ 'debugpy']
+
+" mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
+
