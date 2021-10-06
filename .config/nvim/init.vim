@@ -300,7 +300,8 @@ if !exists('g:vscode')
     " Start up screen
     Plug 'mhinz/vim-startify'
     "For better commit message intrface
-    Plug 'rhysd/committia.vim'
+    " Disabled for neovim terminal
+    " Plug 'rhysd/committia.vim'
     Plug 'junegunn/vim-plug'
 
     Plug 'tpope/vim-dispatch'
@@ -477,6 +478,8 @@ nnoremap <Leader>b :NERDTreeToggle<CR>
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
   tnoremap <C-v><Esc> <Esc>
+  tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+  tnoremap <C-v><C-R> <C-R>
 endif
 
 " Chage the colout of the cursot in terminal
@@ -1375,3 +1378,8 @@ nmap <Leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
+
+" Use neovim-remote as default text editor if inside :terminal
+if has('nvim') && executable('nvr')
+  let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+endif
