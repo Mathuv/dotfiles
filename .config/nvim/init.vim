@@ -319,6 +319,8 @@ if !exists('g:vscode')
     " Plug 'mfussenegger/nvim-dap'
     " Plug 'mfussenegger/nvim-dap-python'
 
+    "TODO: you may want to remap the key away from <C-E> to reclaim cursor key
+    Plug 'simeji/winresizer'
 
 endif
 
@@ -1383,3 +1385,4 @@ xmap <Leader>di <Plug>VimspectorBalloonEval
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
 endif
+
