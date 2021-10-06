@@ -82,7 +82,7 @@ export ZSH="/Users/mathu/.oh-my-zsh"
 # plugins=(git)
 # From Med
 # plugins=(git osx brew python fzf django colored-man-pages colorize pip zsh-syntax-highlighting zsh-completions git-open docker docker-compose docker-machine)
-plugins=(git osx brew python fzf django colored-man-pages colorize pip docker docker-compose docker-machine)
+plugins=(git osx brew python fzf colored-man-pages colorize pip docker docker-compose docker-machine)
 
 
 # 20210525 You may want to review this, disabling permission check
@@ -243,3 +243,14 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # Enable multiprocessing
 # https://stackoverflow.com/questions/50168647/multiprocessing-causes-python-to-crash-and-gives-an-error-may-have-been-in-progr
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# User neovim-remote to prevent nested nvim inside :terminal
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+  if [ -x "$(command -v nvr)" ]; then
+    alias nvim=nvr
+  else
+    alias nvim='echo "No nesting!"'
+  fi
+fi
+
+export VISUAL=nvim
