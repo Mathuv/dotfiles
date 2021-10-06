@@ -4,7 +4,10 @@
 	excludesfile = ~/.gitignore_global
 	attributesFile = ~/.gitattributes
 	# git-delta config
-	pager = delta
+	; pager = delta
+	# editor = nvim # set via #VISUAL
+	#  If you are using a light terminal theme, then you may prefer:
+	# pager = delta --light
 	# pager = delta --diff-so-fancy --diff-highlight
 	# pager = delta --diff-highlight
 
@@ -19,14 +22,19 @@
   	cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
 [user]
 	name = Mathu Mounasamy
-	email = mathu.mounasamy@mediushealth.org
+	email = mathu@stockspot.com.au
 [commit]
 	template = ~/.stCommitMsg
+	verbose = false
 # Disabled for git-delata
 # 2018-08-31 Mathu: to use diff-so-fancy for git diff
-# [pager]
-#	diff = diff-so-fancy | less --tabs=1,5 -RFX
-# 	show = diff-so-fancy | less --tabs=1,5 -RFX
+ [pager]
+	# diff = diff-so-fancy | less --tabs=1,5 -RFX
+	# show = diff-so-fancy | less --tabs=1,5 -RFX
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
 [alias]
 # https://stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git/34467298#34467298
 	lg = !"git lg1"
