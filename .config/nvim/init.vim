@@ -322,6 +322,8 @@ if !exists('g:vscode')
     "TODO: you may want to remap the key away from <C-E> to reclaim cursor key
     Plug 'simeji/winresizer'
 
+    Plug 'romainl/vim-devdocs'
+
 endif
 
 " Initialize plugin system
@@ -499,6 +501,7 @@ nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 set diffopt+=vertical
+nnoremap <leader>gb :Git blame<CR>
 
 "20191122 Move line up and down
 "https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -799,6 +802,24 @@ command! -bang -nargs=? -complete=dir FilesP2
 
 command! -bang -nargs=* PRg
   \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2]}, <bang>0)
+
+" git grep wrapper
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+" Advanced ripgrep integration
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
 
 " to close and delete all the other buffers
 command! BufOnly silent! execute '%bd|e#|bd#|normal `"'
@@ -1333,6 +1354,8 @@ nmap <F8> :TagbarToggle<CR>
 
 " Rg current word
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+nnoremap <silent> <Leader>hrg :Rgh <C-R><C-W><CR>
+nnoremap <silent> <Leader>rrg :RG <C-R><C-W><CR>
 
 " Sourcery config
 nnoremap <leader>cl :CocDiagnostics<cr>
@@ -1385,4 +1408,20 @@ xmap <Leader>di <Plug>VimspectorBalloonEval
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
 endif
+
+" Set default :vsplit to split right.
+set splitright
+
+" Show line numbers in search rusults
+let g:any_jump_list_numbers = 1
+
+" Amount of preview lines for each search result
+let g:any_jump_preview_lines_count = 30
+
+" Any-jump window size & position options
+let g:any_jump_window_width_ratio  = 0.8
+let g:any_jump_window_height_ratio = 0.8
+let g:any_jump_window_top_offset   = 4
+
+autocmd TermOpen * startinsert
 
