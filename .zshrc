@@ -254,3 +254,5 @@ if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
 fi
 
 export VISUAL=nvim
+
+complete -C aws_completer aws
