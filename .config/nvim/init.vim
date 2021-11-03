@@ -1381,6 +1381,7 @@ let test#python#runner = 'djangotest'
 " let test#python#djangotest#options = '--noinput'
 let test#python#djangotest#options = {
   \ 'all': '--noinput',
+  \ 'nearest': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb',
   \ 'file': '--parallel 4',
   \ 'suite': '--parallel 8'
 \}
@@ -1425,3 +1426,23 @@ let g:any_jump_window_top_offset   = 4
 
 autocmd TermOpen * startinsert
 
+" diff git-gutter againse master
+" <Bar> is '|' to separate multiple commands.
+nmap <leader>dm :let g:gitgutter_diff_base = 'master' <Bar> GitGutter<CR>
+nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
+
+lua << EOF
+require'hop'.setup()
+EOF
+
+" hop.nvim mappings
+nmap <leader><leader>w :HopWordAC<CR>
+nmap <leader><leader>b :HopWordBC<CR>
+nmap <leader><leader>s :HopChar1AC<CR>
+nmap <leader><leader>S :HopChar1BC<CR>
+nmap <leader><leader>j :HopLineAC<CR>
+nmap <leader><leader>k :HopLineBC<CR>
+nmap <leader><leader>/ :HopPatternAC<CR>
+nmap <leader><leader>? :HopPatternBC<CR>
+nmap <leader><leader>f :HopChar1CurrentLineAC<CR>
+nmap <leader><leader>F :HopChar1CurrentLineBC<CR>
