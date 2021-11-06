@@ -52,6 +52,8 @@ endfunction
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'nathom/filetype.nvim'
+
 Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
@@ -80,7 +82,7 @@ Plug 'psf/black', { 'branch': 'main' }
 " Plug 'tmhedberg/SimpylFold'
 
 " For pyhon isort: use command :Isort
-Plug 'fisadev/vim-isort'
+" Plug 'fisadev/vim-isort'
 
 Plug 'machakann/vim-highlightedyank'
 
@@ -113,7 +115,7 @@ if !exists('g:vscode')
     Plug 'junegunn/seoul256.vim'
     Plug 'joshdick/onedark.vim'
 
-    Plug 'sheerun/vim-polyglot'
+    " Plug 'sheerun/vim-polyglot'
     
     " https://github.com/airblade/vim-gitgutter
     Plug 'airblade/vim-gitgutter'
@@ -324,11 +326,30 @@ if !exists('g:vscode')
 
     Plug 'romainl/vim-devdocs'
 
+    Plug 'tweekmonster/startuptime.vim'
+
+    Plug 'mhartington/formatter.nvim'
+
+    if has('nvim')
+      Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'gelguy/wilder.nvim'
+    endif
+
+    Plug 'Xuyuanp/scrollbar.nvim'
+
+    Plug 'kyazdani42/nvim-tree.lua'
+
 endif
 
 " Initialize plugin system
 " plugend
 call plug#end()
+
+lua <<EOF
+-- Do not source the default filetype.vim
+vim.g.did_load_filetypes = 1
+EOF
 
 
 let g:airline#extensions#tabline#enabled = 1
@@ -1442,7 +1463,73 @@ nmap <leader><leader>s :HopChar1AC<CR>
 nmap <leader><leader>S :HopChar1BC<CR>
 nmap <leader><leader>j :HopLineAC<CR>
 nmap <leader><leader>k :HopLineBC<CR>
-nmap <leader><leader>/ :HopPatternAC<CR>
+nmap <leader><leader>/ :HopPattern<CR>
 nmap <leader><leader>? :HopPatternBC<CR>
 nmap <leader><leader>f :HopChar1CurrentLineAC<CR>
 nmap <leader><leader>F :HopChar1CurrentLineBC<CR>
+
+lua <<EOF
+require('formatter').setup(...)
+EOF
+" Provided by setup function
+ nnoremap <silent> <leader>f :Format<CR>
+
+lua <<EOF
+require('formatter').setup({
+  filetype = {
+    python = {
+      -- Configuration for psf/black
+      function()
+        return {
+          exe = "black", -- this should be available on your $PATH
+          args = { '-' },
+          stdin = true,
+        }
+      end
+    }
+  }
+})
+EOF
+
+" https://github.com/gelguy/wilder.nvim
+" Key bindings can be changed, see below
+call wilder#setup({'modes': [':', '/', '?']})
+
+call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline({
+      \       'fuzzy': 1,
+      \       'set_pcre2_pattern': has('nvim'),
+      \     }),
+      \     wilder#python_search_pipeline({
+      \       'pattern': 'fuzzy',
+      \     }),
+      \   ),
+      \ ])
+
+let s:highlighters = [
+        \ wilder#pcre2_highlighter(),
+        \ wilder#basic_highlighter(),
+        \ ]
+
+
+" 'highlighter' : applies highlighting to the candidates
+" \ 'highlighter': wilder#basic_highlighter(),
+call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': s:highlighters,
+      \ 'left': [
+      \   ' ', wilder#popupmenu_devicons(),
+      \ ],
+      \ 'right': [
+      \   ' ', wilder#popupmenu_scrollbar(),
+      \ ],
+      \ }))
+
+" https://github.com/Xuyuanp/scrollbar.nvim
+augroup ScrollbarInit
+  autocmd!
+  autocmd CursorMoved,VimResized,QuitPre * silent! lua require('scrollbar').show()
+  autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
+  autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
+augroup end
+
