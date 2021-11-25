@@ -145,7 +145,7 @@ if !exists('g:vscode')
     
     
     " File managing and exploration plugin
-    Plug 'scrooloose/nerdtree'
+    " Plug 'scrooloose/nerdtree'
     
     " For linting
     Plug 'neomake/neomake'
@@ -166,7 +166,6 @@ if !exists('g:vscode')
     Plug 'tpope/vim-fugitive'
     " Fugitive Gbrowse handler
     " Doesn't seem to work
-    " Plug 'tommcdo/vim-fubitive'
     " A git commit browser in Vim
     Plug 'junegunn/gv.vim'
     
@@ -295,7 +294,7 @@ if !exists('g:vscode')
 
     Plug 'preservim/tagbar'
 
-    Plug 'phaazon/hop.nvim'
+    Plug 'phaazon/hop.nvim', Cond(!exists('g:vscode'))
 
     Plug 'kshenoy/vim-signature'
 
@@ -338,7 +337,11 @@ if !exists('g:vscode')
 
     Plug 'Xuyuanp/scrollbar.nvim'
 
-    Plug 'kyazdani42/nvim-tree.lua'
+    if !has("gui_vimr")
+        Plug 'kyazdani42/nvim-tree.lua'
+    endif
+
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 endif
 
@@ -408,12 +411,12 @@ else
 endif
 
 
-"" NERDTree configuration
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeWinSize = 35
-"let g:NERDTreeChDirMode=2
+""" NERDTree configuration
+"let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+"let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+"let g:nerdtree_tabs_focus_on_files=1
+"let g:NERDTreeWinSize = 35
+""let g:NERDTreeChDirMode=2
 
 augroup my_neomake_signs
     au!
@@ -498,7 +501,7 @@ let g:jedi#use_splits_not_buffers = "right"
 " Changed to Ctrl + s as the previous one doesn't work after some other
 " plugins. Investigate later. It didn't work because of Karabinar map
 "nnoremap <silent> <C-s> :NERDTreeToggle<CR>
-nnoremap <Leader>b :NERDTreeToggle<CR>
+" nnoremap <Leader>b :NERDTreeToggle<CR>
 "To map <Esc> to exit terminal-mode: >
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -763,21 +766,6 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
-
-" https://github.com/junegunn/fzf/wiki/Examples-(vim)
-" Simple MRU search
-command! FZFMru call fzf#run({
-\ 'source':  reverse(s:all_files()),
-\ 'sink':    'edit',
-\ 'options': '-m -x +s',
-\ 'down':    '40%' })
-
-function! s:all_files()
-  return extend(
-  \ filter(copy(v:oldfiles),
-  \        "v:val !~ 'fugitive:\\|NERD_tree\\|^/tmp/\\|.git/'"),
-  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
-endfunction
 
 " Search lines in all open vim buffers
 function! s:line_handler(l)
@@ -1374,8 +1362,8 @@ nmap <F8> :TagbarToggle<CR>
 " command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " Rg current word
-nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
-nnoremap <silent> <Leader>hrg :Rgh <C-R><C-W><CR>
+nnoremap <silent> <Leader>rg :Rg! <C-R><C-W><CR>
+nnoremap <silent> <Leader>hrg :Rgh! <C-R><C-W><CR>
 nnoremap <silent> <Leader>rrg :RG <C-R><C-W><CR>
 
 " Sourcery config
@@ -1514,7 +1502,6 @@ let s:highlighters = [
 
 
 " 'highlighter' : applies highlighting to the candidates
-" \ 'highlighter': wilder#basic_highlighter(),
 call wilder#set_option('renderer', wilder#popupmenu_renderer({
       \ 'highlighter': s:highlighters,
       \ 'left': [
@@ -1532,4 +1519,176 @@ augroup ScrollbarInit
   autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
   autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
 augroup end
+
+
+" nvim-tree config
+let g:nvim_tree_gitignore = 1 "0 by default
+let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
+let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
+let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+let g:nvim_tree_add_trailing = 1 "0 by default, append a trailing slash to folder names
+let g:nvim_tree_group_empty = 1 " 0 by default, compact folders that only contain a single folder into one node in the file tree
+let g:nvim_tree_disable_window_picker = 1 "0 by default, will disable the window picker.
+let g:nvim_tree_icon_padding = ' ' "one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
+let g:nvim_tree_symlink_arrow = ' >> ' " defaults to ' ➛ '. used as a separator between symlinks' source and target.
+let g:nvim_tree_respect_buf_cwd = 1 "0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+let g:nvim_tree_create_in_closed_folder = 0 "1 by default, When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
+let g:nvim_tree_refresh_wait = 500 "1000 by default, control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
+let g:nvim_tree_window_picker_exclude = {
+    \   'filetype': [
+    \     'notify',
+    \     'packer',
+    \     'qf'
+    \   ],
+    \   'buftype': [
+    \     'terminal'
+    \   ]
+    \ }
+" Dictionary of buffer option names mapped to a list of option values that
+" indicates to the window picker that the buffer's window should not be
+" selectable.
+let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
+let g:nvim_tree_show_icons = {
+    \ 'git': 1,
+    \ 'folders': 1,
+    \ 'files': 1,
+    \ 'folder_arrows': 0,
+    \ }
+"If 0, do not show the icons for one of 'git' 'folder' and 'files'
+"1 by default, notice that if 'files' is 1, it will only display
+"if nvim-web-devicons is installed and on your runtimepath.
+"if folder is 1, you can also tell folder_arrows 1 to show small arrows next to the folder icons.
+"but this will not work when you set indent_markers (because of UI conflict)
+
+" default will show icon by default if no icon is provided
+" default shows no icon by default
+let g:nvim_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ 'git': {
+    \   'unstaged': "✗",
+    \   'staged': "✓",
+    \   'unmerged': "",
+    \   'renamed': "➜",
+    \   'untracked': "★",
+    \   'deleted': "",
+    \   'ignored': "◌"
+    \   },
+    \ 'folder': {
+    \   'arrow_open': "",
+    \   'arrow_closed': "",
+    \   'default': "",
+    \   'open': "",
+    \   'empty': "",
+    \   'empty_open': "",
+    \   'symlink': "",
+    \   'symlink_open': "",
+    \   }
+    \ }
+
+" nnoremap <C-n> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
+" NvimTreeOpen, NvimTreeClose, NvimTreeFocus, NvimTreeFindFileToggle, and NvimTreeResize are also available if you need them
+
+" set termguicolors " this variable must be enabled for colors to be applied properly
+
+" a list of groups can be found at `:help nvim_tree_highlight`
+highlight NvimTreeFolderIcon guibg=blue
+
+nnoremap <Leader>b :NvimTreeToggle<CR>
+
+
+lua <<EOF
+-- following options are the default
+-- each of these are documented in `:help nvim-tree.OPTION_NAME`
+require'nvim-tree'.setup {
+  disable_netrw       = false,
+  hijack_netrw        = true,
+  open_on_setup       = false,
+  ignore_ft_on_setup  = {},
+  auto_close          = false,
+  open_on_tab         = false,
+  hijack_cursor       = false,
+  update_cwd          = false,
+  update_to_buf_dir   = {
+    enable = true,
+    auto_open = true,
+  },
+  diagnostics = {
+    enable = false,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    }
+  },
+  update_focused_file = {
+    enable      = false,
+    update_cwd  = false,
+    ignore_list = {}
+  },
+  system_open = {
+    cmd  = nil,
+    args = {}
+  },
+  filters = {
+    dotfiles = false,
+    custom = {}
+  },
+  view = {
+    width = 30,
+    height = 30,
+    hide_root_folder = false,
+    side = 'left',
+    auto_resize = false,
+    mappings = {
+      custom_only = false,
+      list = {}
+    }
+  }
+}
+EOF
+
+lua <<EOF
+-- You dont need to set any of these options. These are the default ones. Only
+-- the loading is important
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').load_extension('fzf')
+EOF
+
+" https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
+au FileType qf call AdjustWindowHeight(3, 15)
+    function! AdjustWindowHeight(minheight, maxheight)
+        let l = 1
+        let n_lines = 0
+        let w_width = winwidth(0)
+        while l <= line('$')
+            " number to float for division
+            let l_len = strlen(getline(l)) + 0.0
+            let line_width = l_len/w_width
+            let n_lines += float2nr(ceil(line_width))
+            let l += 1
+        endw
+        exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+    endfunction
+
+" <CR> mapping to make coc auto import work
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
