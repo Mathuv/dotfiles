@@ -342,6 +342,7 @@ if !exists('g:vscode')
     endif
 
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    
 
 endif
 
@@ -1233,7 +1234,8 @@ let g:gutentags_ctags_exclude = [
 " END 
 
 " shortcuts for Tags
-nnoremap <Leader>t :BTags<CR>
+nnoremap <Leader>tb :BTags<CR>
+nnoremap <Leader>tt :Tags<CR>
 
 " PLUGIN: FZF
 " https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko
@@ -1522,8 +1524,8 @@ augroup end
 
 
 " nvim-tree config
-let g:nvim_tree_gitignore = 1 "0 by default
-let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
+" let g:nvim_tree_gitignore = 1 "0 by default
+" let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
 let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
 let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
 let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
@@ -1605,7 +1607,7 @@ lua <<EOF
 -- following options are the default
 -- each of these are documented in `:help nvim-tree.OPTION_NAME`
 require'nvim-tree'.setup {
-  disable_netrw       = false,
+  disable_netrw       = true,
   hijack_netrw        = true,
   open_on_setup       = false,
   ignore_ft_on_setup  = {},
@@ -1639,6 +1641,11 @@ require'nvim-tree'.setup {
     dotfiles = false,
     custom = {}
   },
+  git = {
+    enable = true,
+    ignore = false,
+    timeout = 500,
+  },
   view = {
     width = 30,
     height = 30,
@@ -1648,7 +1655,14 @@ require'nvim-tree'.setup {
     mappings = {
       custom_only = false,
       list = {}
-    }
+    },
+    number = false,
+    relativenumber = false,
+    signcolumn = "yes"
+  },
+  trash = {
+    cmd = "trash",
+    require_confirm = true
   }
 }
 EOF
@@ -1692,3 +1706,28 @@ au FileType qf call AdjustWindowHeight(3, 15)
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+nnoremap <Leader>cc :ccl<CR>
+nnoremap <Leader>co :Copen<CR>
+
+" Fugitive
+nmap <leader>gs :Git<CR><C-w>8-
+
+"https://github.com/tpope/vim-fugitive/issues/401
+function! ToggleGStatus()
+  if buflisted(bufname('.git/index'))
+    bd .git/index
+  else
+    Git
+    15wincmd_
+  endif
+endfunction
+command! ToggleGStatus :call ToggleGStatus()
+nnoremap <silent> <leader>gg :ToggleGStatus<cr>
+
+augroup fugitive_au
+  autocmd!
+  autocmd FileType fugitive setlocal winfixheight
+augroup END
+
+" short cut to save
+noremap <Leader>s :update<CR>
