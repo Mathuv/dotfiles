@@ -82,7 +82,7 @@ export ZSH="/Users/mathu/.oh-my-zsh"
 # plugins=(git)
 # From Med
 # plugins=(git osx brew python fzf django colored-man-pages colorize pip zsh-syntax-highlighting zsh-completions git-open docker docker-compose docker-machine)
-plugins=(git macos brew python fzf colored-man-pages colorize pip docker docker-compose docker-machine)
+plugins=(git macos brew python fzf colored-man-pages colorize pip docker docker-compose docker-machine rust)
 
 
 # 20210525 You may want to review this, disabling permission check
@@ -256,3 +256,6 @@ fi
 export VISUAL=nvim
 
 complete -C aws_completer aws
+
+# DOOM emacs
+export PATH="$HOME/.emacs.d/bin:$PATH"
