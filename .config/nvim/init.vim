@@ -346,7 +346,10 @@ if !exists('g:vscode')
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
     Plug 'github/copilot.vim'
-    
+
+    Plug 'tpope/vim-repeat'
+
+    Plug 'ggandor/lightspeed.nvim'
 
 endif
 
@@ -1402,6 +1405,13 @@ let test#python#djangotest#options = {
   \ 'file': '--parallel 4',
   \ 'suite': '--parallel 8'
 \}
+
+" map the python unittest compiler 'pyunit' for the executable python
+" for 'python3' vim-dispatch picks it up automatically
+let g:dispatch_compilers = {}
+let g:dispatch_compilers['python'] = 'pyunit'
+let g:dispatch_compilers['python3'] = 'pyunit'
+
 
 " Vimspector
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
