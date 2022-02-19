@@ -103,7 +103,9 @@ if !exists('g:vscode')
     " Plug 'Shougo/deoplete.nvim'
     " Plug 'lighttiger2505/deoplete-vim-lsp'
     " User coc.vim instead
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    if !has("gui_vimr")
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    endif
     
     Plug 'ludovicchabant/vim-gutentags'
     
@@ -269,12 +271,12 @@ if !exists('g:vscode')
     " Plug 'dbeniamine/cheat.sh-vim'
 
     " Replacement for NERDTree together with netrw
-    Plug 'tpope/vim-vinegar'
+    " Plug 'tpope/vim-vinegar'
 
     Plug 'wlemuel/vim-tldr'
 
 
-    if !has("gui_vimr")
+    " if !has("gui_vimr")
         " 20210529 Treesitter 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'nvim-treesitter/playground'
@@ -290,7 +292,7 @@ if !exists('g:vscode')
         Plug 'sudormrfbin/cheatsheet.nvim'
         Plug 'kyazdani42/nvim-web-devicons'
 
-    endif
+    " endif
 
     Plug 'preservim/tagbar'
 
@@ -337,11 +339,13 @@ if !exists('g:vscode')
 
     Plug 'Xuyuanp/scrollbar.nvim'
 
-    if !has("gui_vimr")
+    " if !has("gui_vimr")
         Plug 'kyazdani42/nvim-tree.lua'
-    endif
+    " endif
 
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+    Plug 'github/copilot.vim'
     
 
 endif
@@ -1134,7 +1138,9 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 " Looks like coc-jedi still doesn't support this. check back later.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+if !has("gui_vimr")
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+endif
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -1607,8 +1613,8 @@ lua <<EOF
 -- following options are the default
 -- each of these are documented in `:help nvim-tree.OPTION_NAME`
 require'nvim-tree'.setup {
-  disable_netrw       = true,
-  hijack_netrw        = true,
+  disable_netrw       = false,
+  hijack_netrw        = false,
   open_on_setup       = false,
   ignore_ft_on_setup  = {},
   auto_close          = false,
