@@ -103,9 +103,9 @@ if !exists('g:vscode')
     " Plug 'Shougo/deoplete.nvim'
     " Plug 'lighttiger2505/deoplete-vim-lsp'
     " User coc.vim instead
-    if !has("gui_vimr")
+    " if !has("gui_vimr")
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    endif
+    " endif
     
     Plug 'ludovicchabant/vim-gutentags'
     
@@ -332,7 +332,13 @@ if !exists('g:vscode')
     Plug 'mhartington/formatter.nvim'
 
     if has('nvim')
-      Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
+      function! UpdateRemotePlugins(...)
+        " Needed to refresh runtime files
+        let &rtp=&rtp
+        UpdateRemotePlugins
+      endfunction
+    
+      Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
     else
       Plug 'gelguy/wilder.nvim'
     endif
@@ -350,6 +356,10 @@ if !exists('g:vscode')
     Plug 'tpope/vim-repeat'
 
     Plug 'ggandor/lightspeed.nvim'
+
+    Plug 'lukas-reineke/indent-blankline.nvim'
+
+    Plug 'christoomey/vim-system-copy'
 
 endif
 
@@ -590,7 +600,7 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 "" Use '##' to define cells instead of using marks
 "let g:ipython_cell_delimit_cells_by = 'tags'
 
-"let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'vim', 'help']
 
 
 "20191216 Add psql syntax highlighting 
@@ -1141,9 +1151,9 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 " Looks like coc-jedi still doesn't support this. check back later.
-if !has("gui_vimr")
+" if !has("gui_vimr")
     autocmd CursorHold * silent call CocActionAsync('highlight')
-endif
+" endif
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -1406,11 +1416,18 @@ let test#python#djangotest#options = {
   \ 'suite': '--parallel 8'
 \}
 
+let test#python#djangotest#executable = 'python3 manage.py test'
+" let test#python#djangotest#executable = 'docker-compose exec app python manage.py test'
+" let test#python#djangotest#executable = 'docker exec -t dev_app_1 python manage.py test'
+
 " map the python unittest compiler 'pyunit' for the executable python
 " for 'python3' vim-dispatch picks it up automatically
 let g:dispatch_compilers = {}
 let g:dispatch_compilers['python'] = 'pyunit'
 let g:dispatch_compilers['python3'] = 'pyunit'
+" let g:dispatch_compilers['docker exec -t dev_app_1 python'] = 'pyunit'
+
+let g:test#echo_command = 0
 
 
 " Vimspector
@@ -1499,7 +1516,8 @@ EOF
 
 " https://github.com/gelguy/wilder.nvim
 " Key bindings can be changed, see below
-call wilder#setup({'modes': [':', '/', '?']})
+" call wilder#setup({'modes': [':', '/', '?']})
+call wilder#setup({'modes': [':']})
 
 call wilder#set_option('pipeline', [
       \   wilder#branch(
@@ -1747,3 +1765,44 @@ augroup END
 
 " short cut to save
 noremap <Leader>s :update<CR>
+
+let g:winresizer_start_key = '<C-S>'
+
+" Not sure if this works
+" call coc#config("languageserver.sourcery.initializationOptions.token", $SOURCERY_TOKEN)
+"
+
+" Remap keys for SystemCopy, used to be 'cp' and 'cv'
+nmap cy <Plug>SystemCopy
+xmap cy <Plug>SystemCopy
+nmap cY <Plug>SystemCopyLine
+nmap cp <Plug>SystemPaste
+xmap cp <Plug>SystemPaste
+nmap cP <Plug>SystemPasteLine
+
+if has('nvim')
+  command Spt sp|terminal
+  command Vspt vsp|terminal
+
+  nnoremap <silent><C-w>t <c-\><c-n>:Vspt<CR>
+  tnoremap <silent><C-w>t <c-\><c-n>:Vspt<CR>
+  inoremap <silent><C-w>t <c-\><c-n>:Vspt<CR>
+  vnoremap <silent><C-w>t <c-\><c-n>:Vspt<CR>
+endif
+
+" Map some frequently used test commands
+command TestUseDocker let test#python#djangotest#executable = 'docker-compose exec app python manage.py test'
+command TestUserLocal let test#python#djangotest#executable = 'python3 manage.py test'
+command TestStrDispatch let test#strategy = dispatch""
+command TestStrNeovim let test#strategy = 'neovim'
+" Open curent file in vscode focusing at the current_line
+command Code call system('code -g ' . expand('%') . ':' . line('.'))
+
+" Copy file name shortcuts
+command CopyFilename let @+=expand('%:t:r')
+command CopyFilenameExt let @+=expand('%:t')
+command CopyFilenameFullPath let @+=expand('%:p')
+command CopyFilenameHomePath let @+=expand('%:p:~')
+command CopyFileRelativePath let @+=expand('%')
+command CopyFileFullPath let @+=expand('%:p:h')
+command CopyFileHomePath let @+=expand("%:p:~:h")
