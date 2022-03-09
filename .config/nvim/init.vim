@@ -83,6 +83,7 @@ Plug 'psf/black', { 'branch': 'main' }
 
 " For pyhon isort: use command :Isort
 " Plug 'fisadev/vim-isort'
+Plug 'brentyi/isort.vim'
 
 Plug 'machakann/vim-highlightedyank'
 
@@ -126,7 +127,8 @@ if !exists('g:vscode')
     "comment plugin
     "Plug 'scrooloose/nerdcommenter'
     "20191125
-    Plug 'tpope/vim-commentary'
+    " Plug 'tpope/vim-commentary'
+    Plug 'numToStr/Comment.nvim' 
     
     " " (-/+)2019-05-30 Disabling deoplete for jedi-vim
     " " Git hug address is different now
@@ -360,6 +362,10 @@ if !exists('g:vscode')
     Plug 'lukas-reineke/indent-blankline.nvim'
 
     Plug 'christoomey/vim-system-copy'
+
+    Plug 'fladson/vim-kitty'
+
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 endif
 
@@ -1092,8 +1098,8 @@ highlight link EchoDocFloat Pmenu
 
 " gb, gB for switching between buffers START
 "  https://jdhao.github.io/2020/10/16/nvim_switch_buffer_with_mapping/
-nnoremap <silent> gb :<C-U>call <SID>GoToBuffer(v:count, 'forward')<CR>
-nnoremap <silent> gB :<C-U>call <SID>GoToBuffer(v:count, 'backward')<CR>
+" nnoremap <silent> gb :<C-U>call <SID>GoToBuffer(v:count, 'forward')<CR>
+" nnoremap <silent> gB :<C-U>call <SID>GoToBuffer(v:count, 'backward')<CR>
 
 function! s:GoToBuffer(count, direction) abort
   if a:count == 0
@@ -1412,7 +1418,7 @@ let test#python#runner = 'djangotest'
 let test#python#djangotest#options = {
   \ 'all': '--noinput',
   \ 'nearest': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb',
-  \ 'file': '--parallel 4',
+  \ 'file': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb --parallel 4',
   \ 'suite': '--parallel 8'
 \}
 
@@ -1426,9 +1432,6 @@ let g:dispatch_compilers = {}
 let g:dispatch_compilers['python'] = 'pyunit'
 let g:dispatch_compilers['python3'] = 'pyunit'
 " let g:dispatch_compilers['docker exec -t dev_app_1 python'] = 'pyunit'
-
-let g:test#echo_command = 0
-
 
 " Vimspector
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
@@ -1793,7 +1796,7 @@ endif
 " Map some frequently used test commands
 command TestUseDocker let test#python#djangotest#executable = 'docker-compose exec app python manage.py test'
 command TestUserLocal let test#python#djangotest#executable = 'python3 manage.py test'
-command TestStrDispatch let test#strategy = dispatch""
+command TestStrDispatch let test#strategy = 'dispatch'
 command TestStrNeovim let test#strategy = 'neovim'
 " Open curent file in vscode focusing at the current_line
 command Code call system('code -g ' . expand('%') . ':' . line('.'))
@@ -1806,3 +1809,5 @@ command CopyFilenameHomePath let @+=expand('%:p:~')
 command CopyFileRelativePath let @+=expand('%')
 command CopyFileFullPath let @+=expand('%:p:h')
 command CopyFileHomePath let @+=expand("%:p:~:h")
+
+lua require('Comment').setup()
