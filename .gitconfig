@@ -97,3 +97,5 @@
 # git-delta config
 [interactive]
     diffFilter = delta --color-only
+[merge]
+	conflictstyle = diff3
