@@ -54,7 +54,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'nathom/filetype.nvim'
 
-Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+" Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
 " fzf + ripgrep setup for fuzzy search
@@ -172,6 +172,7 @@ if !exists('g:vscode')
     " Doesn't seem to work
     " A git commit browser in Vim
     Plug 'junegunn/gv.vim'
+    Plug 'tpope/vim-rhubarb'
     
     
     Plug 'tpope/vim-surround'
@@ -292,7 +293,7 @@ if !exists('g:vscode')
         Plug 'folke/which-key.nvim'
 
         Plug 'sudormrfbin/cheatsheet.nvim'
-        Plug 'kyazdani42/nvim-web-devicons'
+        Plug 'nvim-tree/nvim-web-devicons'
 
     " endif
 
@@ -344,12 +345,16 @@ if !exists('g:vscode')
       Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
     else
       Plug 'gelguy/wilder.nvim'
+    
+      " To use Python remote plugin features in Vim, can be skipped
+      " Plug 'roxma/nvim-yarp'
+      " Plug 'roxma/vim-hug-neovim-rpc'
     endif
 
     Plug 'Xuyuanp/scrollbar.nvim'
 
     " if !has("gui_vimr")
-        Plug 'kyazdani42/nvim-tree.lua'
+        Plug 'nvim-tree/nvim-tree.lua'
     " endif
 
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -367,6 +372,17 @@ if !exists('g:vscode')
     Plug 'fladson/vim-kitty'
 
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+    Plug 'hkupty/iron.nvim'
+
+    Plug 'mechatroner/rainbow_csv'
+
+    Plug 'folke/zen-mode.nvim'
+
+    Plug 'kristijanhusak/vim-dadbod-completion'
+
+    " Disabled to later use it with more configurations
+    " Plug 'folke/twilight.nvim'
 
 endif
 
@@ -479,7 +495,7 @@ let g:python_host_prog = '/Users/mathu/.pyenv/versions/neovim2/bin/python'
 " let g:python_host_prog = ''
 "let g:python3_host_prog = 'python3'
 " let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
-let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim39/bin/python'
+let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python'
 
 " Jedi-Vim settings just got code jumping
 " disable autocompletion, cause we use deoplete for completion
@@ -974,9 +990,22 @@ let g:ale_linters = {
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
 
+""""""""""""""""""""""""vim-grammarous settings""""""""""""""""""""""""""""""
 
 "I want to use system global LanguageTool command
-let g:grammarous#languagetool_cmd = 'languagetool'
+"let g:grammarous#languagetool_cmd = 'languagetool'
+let g:grammarous#languagetool_cmd = 'languagetool --level PICKY'
+
+let g:grammarous#disabled_rules = {
+         \ '*' : ['WHITESPACE_RULE', 'EN_QUOTES', 'ARROWS', 'SENTENCE_WHITESPACE',
+         \        'WORD_CONTAINS_UNDERSCORE', 'COMMA_PARENTHESIS_WHITESPACE',
+         \        'EN_UNPAIRED_BRACKETS', 'UPPERCASE_SENTENCE_START',
+         \        'ENGLISH_WORD_REPEAT_BEGINNING_RULE', 'DASH_RULE', 'PLUS_MINUS',
+         \        'PUNCTUATION_PARAGRAPH_END', 'MULTIPLICATION_SIGN', 'PRP_CHECKOUT',
+         \        'CAN_CHECKOUT', 'SOME_OF_THE', 'DOUBLE_PUNCTUATION', 'HELL',
+         \        'CURRENCY', 'POSSESSIVE_APOSTROPHE', 'ENGLISH_WORD_REPEAT_RULE',
+         \        'NON_STANDARD_WORD'],
+         \ }
 
 "feret settings
 " Don't bind ferret commands.
@@ -1348,22 +1377,48 @@ EOF
 
 "web-devicon setup
 lua << EOF
-  require'nvim-web-devicons'.setup {
-   -- your personnal icons can go here (to override)
-   -- DevIcon will be appended to `name`
-   override = {
-    zsh = {
-      icon = "",
-      color = "#428850",
-      name = "Zsh"
-    }
-   };
-   -- globally enable default icons (default to false)
-   -- will get overriden by `get_icons` option
-   default = true;
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- you can specify color or cterm_color instead of specifying both of them
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    cterm_color = "65",
+    name = "Zsh"
   }
-
-  require'nvim-web-devicons'.get_icon(filename, extension, options)
+ };
+ -- globally enable different highlight colors per icon (default to true)
+ -- if set to false all icons will have the default icon's color
+ color_icons = true;
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+ -- globally enable "strict" selection of icons - icon will be looked up in
+ -- different tables, first by filename, and if not found by extension; this
+ -- prevents cases when file doesn't have any extension but still gets some icon
+ -- because its name happened to match some extension (default to false)
+ strict = true;
+ -- same as `override` but specifically for overrides by filename
+ -- takes effect when `strict` is true
+ override_by_filename = {
+  [".gitignore"] = {
+    icon = "",
+    color = "#f1502f",
+    name = "Gitignore"
+  }
+ };
+ -- same as `override` but specifically for overrides by extension
+ -- takes effect when `strict` is true
+ override_by_extension = {
+  ["log"] = {
+    icon = "",
+    color = "#81e043",
+    name = "Log"
+  }
+ };
+}
 EOF
 
 endif
@@ -1400,9 +1455,13 @@ nnoremap <silent> <Leader>hrg :Rgh! <C-R><C-W><CR>
 nnoremap <silent> <Leader>rrg :RG <C-R><C-W><CR>
 
 " Sourcery config
-nnoremap <leader>cl :CocDiagnostics<cr>
-nnoremap <leader>cf :CocFix<cr>
-nnoremap <leader>ch :call CocAction('doHover')<cr>
+" nnoremap <leader>cl :CocDiagnostics<cr>
+" nnoremap <leader>cf :CocFix<cr>
+" nnoremap <leader>ch :call CocAction('doHover')<cr>
+nnoremap <silent> <leader>cl :CocDiagnostics<cr>
+nnoremap <silent> <leader>ch :call CocAction('doHover')<cr>
+nnoremap <silent> <leader>cf <plug>(coc-codeaction-cursor)
+nnoremap <silent> <leader>ca <plug>(coc-fix-current)
 
 " test.vim settings
 " make test commands execute using dispatch.vim
@@ -1417,14 +1476,24 @@ nmap <silent> t<C-g> :TestVisit<CR>
 
 " Plugin works without this config
 let test#python#runner = 'djangotest'
+" let test#python#runner = 'pyunit'
 " Runners available are 'pytest', 'nose', 'nose2', 'djangotest', 'djangonose', 'mamba', and Python's built-in unittest as 'pyunit'
 
 " let test#python#djangotest#options = '--noinput --parallel 8'
 " let test#python#djangotest#options = '--noinput'
+"
+" 20230418 TODO: check this configuration in favour of adtrac project
+" let test#python#djangotest#options = {
+"   \ 'all': '--noinput',
+"   \ 'nearest': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb',
+"   \ 'file': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb --parallel 4',
+"   \ 'suite': '--parallel 8'
+" \}
+
 let test#python#djangotest#options = {
   \ 'all': '--noinput',
-  \ 'nearest': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb',
-  \ 'file': '--noinput --testrunner=stockspot.testrunner.NoDbTestRunner --keepdb --parallel 4',
+  \ 'nearest': '--noinput',
+  \ 'file': '--noinput --parallel 4',
   \ 'suite': '--parallel 8'
 \}
 
@@ -1461,7 +1530,10 @@ let g:dispatch_compilers['python3'] = 'pyunit'
 " Use neovim-remote as default text editor if inside :terminal
 if has('nvim') && executable('nvr')
   let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+  " let $GIT_EDITOR = 'nvr -cc split --remote-wait' 
 endif
+
+" autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
 
 " Set default :vsplit to split right.
 set splitright
@@ -1481,14 +1553,15 @@ autocmd TermOpen * startinsert
 
 " diff git-gutter againse master
 " <Bar> is '|' to separate multiple commands.
-nmap <leader>dm :let g:gitgutter_diff_base = 'master' <Bar> GitGutter<CR>
+" nmap <leader>dm :let g:gitgutter_diff_base = 'master' <Bar> GitGutter<CR>
+nmap <leader>dm :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter<CR>
 nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
 
 lua << EOF
 require'hop'.setup()
 EOF
 
-" hop.nvim mappings
+" " hop.nvim mappings
 nmap <leader><leader>w :HopWordAC<CR>
 nmap <leader><leader>b :HopWordBC<CR>
 nmap <leader><leader>s :HopChar1AC<CR>
@@ -1528,34 +1601,47 @@ EOF
 " call wilder#setup({'modes': [':', '/', '?']})
 call wilder#setup({'modes': [':']})
 
+" For Neovim or Vim with yarp
+" For wild#cmdline_pipeline():
+"   'language'   : set to 'python' to use python
+"   'fuzzy'      : 0 - turns off fuzzy matching
+"                : 1 - turns on fuzzy matching
+"                : 2 - partial fuzzy matching (match does not have to begin with the same first letter)
+" For wild#python_search_pipeline():
+"   'pattern'    : can be set to wilder#python_fuzzy_delimiter_pattern() for stricter fuzzy matching
+"   'sorter'     : omit to get results in the order they appear in the buffer
+"   'engine'     : can be set to 're2' for performance, requires pyre2 to be installed
+"                : see :h wilder#python_search() for more details
 call wilder#set_option('pipeline', [
       \   wilder#branch(
       \     wilder#cmdline_pipeline({
-      \       'fuzzy': 1,
-      \       'set_pcre2_pattern': has('nvim'),
+      \       'language': 'python',
+      \       'fuzzy': 0,
       \     }),
       \     wilder#python_search_pipeline({
-      \       'pattern': 'fuzzy',
+      \       'pattern': wilder#python_fuzzy_delimiter_pattern(),
+      \       'sorter': wilder#python_difflib_sorter(),
+      \       'engine': 're',
       \     }),
       \   ),
       \ ])
 
-let s:highlighters = [
-        \ wilder#pcre2_highlighter(),
-        \ wilder#basic_highlighter(),
-        \ ]
-
-
-" 'highlighter' : applies highlighting to the candidates
-call wilder#set_option('renderer', wilder#popupmenu_renderer({
-      \ 'highlighter': s:highlighters,
-      \ 'left': [
-      \   ' ', wilder#popupmenu_devicons(),
-      \ ],
-      \ 'right': [
-      \   ' ', wilder#popupmenu_scrollbar(),
-      \ ],
-      \ }))
+" let s:highlighters = [
+"         \ wilder#pcre2_highlighter(),
+"         \ wilder#basic_highlighter(),
+"         \ ]
+"
+"
+" " 'highlighter' : applies highlighting to the candidates
+" call wilder#set_option('renderer', wilder#popupmenu_renderer({
+"       \ 'highlighter': s:highlighters,
+"       \ 'left': [
+"       \   ' ', wilder#popupmenu_devicons(),
+"       \ ],
+"       \ 'right': [
+"       \   ' ', wilder#popupmenu_scrollbar(),
+"       \ ],
+"       \ }))
 
 " https://github.com/Xuyuanp/scrollbar.nvim
 augroup ScrollbarInit
@@ -1647,67 +1733,36 @@ nnoremap <Leader>b :NvimTreeFindFileToggle<CR>
 
 
 lua <<EOF
--- following options are the default
--- each of these are documented in `:help nvim-tree.OPTION_NAME`
-require'nvim-tree'.setup {
-  disable_netrw       = false,
-  hijack_netrw        = false,
-  open_on_setup       = false,
-  ignore_ft_on_setup  = {},
-  auto_close          = false,
-  open_on_tab         = false,
-  hijack_cursor       = false,
-  update_cwd          = false,
-  update_to_buf_dir   = {
-    enable = true,
-    auto_open = true,
+-- examples for your init.lua
+
+-- disable netrw at the very start of your init.lua (strongly advised)
+-- vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup()
+
+-- OR setup with some options
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
   },
-  diagnostics = {
-    enable = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    }
-  },
-  update_focused_file = {
-    enable      = false,
-    update_cwd  = false,
-    ignore_list = {}
-  },
-  system_open = {
-    cmd  = nil,
-    args = {}
+  renderer = {
+    group_empty = true,
   },
   filters = {
-    dotfiles = false,
-    custom = {}
+    dotfiles = true,
   },
-  git = {
-    enable = true,
-    ignore = false,
-    timeout = 500,
-  },
-  view = {
-    width = 30,
-    height = 30,
-    hide_root_folder = false,
-    side = 'left',
-    auto_resize = false,
-    mappings = {
-      custom_only = false,
-      list = {}
-    },
-    number = false,
-    relativenumber = false,
-    signcolumn = "yes"
-  },
-  trash = {
-    cmd = "trash",
-    require_confirm = true
-  }
-}
+})
 EOF
 
 lua <<EOF
@@ -1757,8 +1812,8 @@ nmap <leader>gs :Git<CR><C-w>8-
 
 "https://github.com/tpope/vim-fugitive/issues/401
 function! ToggleGStatus()
-  if buflisted(bufname('.git/index'))
-    bd .git/index
+  if buflisted(bufname('fugitive:///*/.git//$'))
+    execute ":bdelete" bufname('fugitive:///*/.git//$')
   else
     Git
     15wincmd_
@@ -1773,7 +1828,7 @@ augroup fugitive_au
 augroup END
 
 " short cut to save
-noremap <Leader>s :update<CR>
+" noremap <Leader>s :update<CR>
 
 let g:winresizer_start_key = '<C-S>'
 
@@ -1820,9 +1875,14 @@ lua require('Comment').setup()
 
 lua << EOF
 local dap = require('dap')
+-- dap.adapters.python = {
+--   type = 'executable';
+--   command = '/.venv/bin/python';
+--   args = { '-m', 'debugpy.adapter' };
+-- }
 dap.adapters.python = {
   type = 'executable';
-  command = '/.venv/bin/python';
+  command = '~/.virtualenvs/debugpy/bin/python';
   args = { '-m', 'debugpy.adapter' };
 }
 EOF
@@ -1874,3 +1934,131 @@ EOF
 " nnoremap <leader>dA :lua require'debugHelper'.attachToRemote()<CR>
 " nnoremap <leader>di :lua require'dap.ui.widgets'.hover()<CR>
 " nnoremap <leader>d? :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
+"
+
+luafile $HOME/.config/nvim/plugins.lua
+
+" 20230418 
+
+function! CopyPythonDotPath()
+    " Save the current cursor position
+    let l:current_pos = getpos('.')
+
+    " Find the method definition
+    let l:method = ''
+    if search('^\s*def\s\+\zs\k\+\ze\s*(', 'bW') > 0
+        let l:method = matchstr(getline('.'), '^\s*def\s\+\zs\k\+\ze\s*(')
+    endif
+
+    " Find the class definition
+    let l:class = ''
+    if search('^\s*class\s\+\zs\k\+\ze\s*(', 'bW') > 0
+        let l:class = matchstr(getline('.'), '^\s*class\s\+\zs\k\+\ze\s*(')
+    endif
+
+    " Restore the original cursor position
+    call setpos('.', l:current_pos)
+
+    " Get the current file's relative path
+    let l:relative_path = expand('%:.')
+
+    " Replace forward slashes with '.'
+    let l:dot_path = substitute(l:relative_path, '/', '.', 'g')
+
+    " Remove the file extension
+    let l:dot_path_no_ext = substitute(l:dot_path, '\.[^.]*$', '', '')
+
+" Combine the path, class, and method
+    let l:full_path = l:dot_path_no_ext
+    if len(l:class) > 0
+        let l:full_path = l:full_path . '.' . l:class
+    endif
+    if len(l:method) > 0
+        let l:full_path = l:full_path . '.' . l:method
+    endif
+
+    " Copy the final value to the clipboard
+    if has('clipboard')
+        let @+ = l:full_path
+    else
+        echoerr 'Clipboard support is not available.'
+    endif
+endfunction
+
+" Optional: Create a command to call the function more easily
+command! CopyPythonDotPath :call CopyPythonDotPath()
+
+
+nnoremap <Leader>ee :GFiles?<CR>
+
+" Mapt Ctrl+: to Esc + save
+" inoremap <C-;> <Esc>:w<CR>
+" nnoremap <C-;> <Esc>:w<CR>
+inoremap <C-;> <Esc>:update<CR>
+nnoremap <C-;> <Esc>:update<CR>
+
+" Map <leader>bd to close buffer
+nnoremap <leader>bd :bd<CR>
+
+" Map <leader>bh to hide buffer
+nnoremap <Leader>bh :hide<CR>
+
+" map :Git push to <leader>gp
+nnoremap <leader>gp :Git push<CR>
+
+" command to format document with Coc prettier
+" command! -nargs=0 FormatCoc :call CocAction('format')
+command! -nargs=0 PrettierCoc :CocCommand prettier.forceFormatDocument
+command! -nargs=0 FormatCoc :CocCommand editor.action.formatDocument
+
+" Activate pipenv when neovim terminal is opened
+function! TerminalOpened()
+  if filereadable('Pipfile')
+    call termopen('pipenv shell')
+  else
+    call termopen($SHELL)
+  endif
+endfunction
+
+" autocmd TermOpen * call TerminalOpened()
+" autocmd BufEnter * call TerminalOpened()
+
+function! OpenTermWithPipenv()
+    if filereadable('Pipfile')
+        let cmd = 'pipenv shell'
+    else
+        let cmd = $SHELL
+    endif
+    " call termopen(cmd)
+    " open in vertical split
+    call termopen(cmd, {'vertical': v:true})
+    startinsert
+endfunction
+
+nnoremap <leader>tv :call OpenTermWithPipenv()<cr>
+
+" map for zenmode
+nnoremap <leader>z :ZenMode<CR>
+
+" map fugitive Git status to F3
+function! ToggleGit()
+    if buflisted(bufname('fugitive:///*/.git//$'))
+        " bd .git/index
+	" execute ":bdelete" bufname('fugitive:///*/.git/')
+	execute ":bdelete" bufname('fugitive:///*/.git//$')
+    else
+        Git
+    endif
+endfunction
+command ToggleGit :call ToggleGit()
+nmap <F3> :ToggleGit<CR>
+
+" enable dbui nerd font
+let g:db_ui_use_nerd_fonts = 1
+let g:db_ui_show_database_icon = 1
+" Diable execute on save
+let g:db_ui_execute_on_save = 0
+let g:db_ui_save_location = '~/devel/adtrac/db_scripts'
+
+" command to format pgsql with visual selection 
+command! -range=% FormatPgsql <line1>,<line2>!pg_format -s 2 -u 2 -U 1 -w 80 -g -i
