@@ -152,7 +152,7 @@ if !exists('g:vscode')
     " Plug 'scrooloose/nerdtree'
     
     " For linting
-    Plug 'neomake/neomake'
+    " Plug 'neomake/neomake'
     
     
     
@@ -459,14 +459,14 @@ endif
 "let g:NERDTreeWinSize = 35
 ""let g:NERDTreeChDirMode=2
 
-augroup my_neomake_signs
-    au!
-    autocmd ColorScheme *
-        \ hi NeomakeError ctermfg=red |
-        \ hi NeomakeWarning ctermfg=yellow |
-        \ hi NeomakeInfo ctermfg=white |
-        \ hi NeomakeMessage ctermfg=white
-augroup END
+" augroup my_neomake_signs
+"     au!
+"     autocmd ColorScheme *
+"         \ hi NeomakeError ctermfg=red |
+"         \ hi NeomakeWarning ctermfg=yellow |
+"         \ hi NeomakeInfo ctermfg=white |
+"         \ hi NeomakeMessage ctermfg=white
+" augroup END
 
 " grep.vim
 " https://pastebin.com/u2TA9hUp
@@ -643,30 +643,30 @@ let g:black_linelength = 119
 
 "neomake linting
 " Neomake automatic mode
-call neomake#configure#automake('nrwi', 500)
+" call neomake#configure#automake('nrwi', 500)
 "let g:neomake_python_enabled_makers = ['pylint']
-let g:neomake_python_enabled_makers = ['flake8']
+" let g:neomake_python_enabled_makers = ['flake8']
 
 "20191122 https://github.com/neomake/neomake/issues/245
-let g:neomake_error_sign = {
- \ 'text': '✖',
- \ 'texthl': 'NeomakeErrorSign',
- \ }
-let g:neomake_warning_sign = {
- \   'text': '‼',
- \   'texthl': 'NeomakeWarningSign',
- \ }
-let g:neomake_message_sign = {
-  \   'text': '➤',
-  \   'texthl': 'NeomakeMessageSign',
-  \ }
-let g:neomake_info_sign = {
-  \ 'text': 'ℹ',
-  \ 'texthl': 'NeomakeInfoSign'
-  \ }
-
-":highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
-let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
+" let g:neomake_error_sign = {
+"  \ 'text': '✖',
+"  \ 'texthl': 'NeomakeErrorSign',
+"  \ }
+" let g:neomake_warning_sign = {
+"  \   'text': '‼',
+"  \   'texthl': 'NeomakeWarningSign',
+"  \ }
+" let g:neomake_message_sign = {
+"   \   'text': '➤',
+"   \   'texthl': 'NeomakeMessageSign',
+"   \ }
+" let g:neomake_info_sign = {
+"   \ 'text': 'ℹ',
+"   \ 'texthl': 'NeomakeInfoSign'
+"   \ }
+"
+" ":highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
+" let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
 
 "20191122 Semshi settingas
 "https://soduu.com/numirias/semshi
@@ -2062,3 +2062,8 @@ let g:db_ui_save_location = '~/devel/adtrac/db_scripts'
 
 " command to format pgsql with visual selection 
 command! -range=% FormatPgsql <line1>,<line2>!pg_format -s 2 -u 2 -U 1 -w 80 -g -i
+
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', '.venv', '__pycache__', '.pytest_cache', '.mypy_cache', '.tox', 'venv', 'env']
+
+set autoread
+autocmd BufWritePost *.py silent :!darker %

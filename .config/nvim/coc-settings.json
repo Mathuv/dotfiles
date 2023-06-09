@@ -1,59 +1,85 @@
 {
-	"jedi.executable.command": "jedi-language-server",
-	// coc-pyright
-	"python.formatting.provider": "autopep8",
-	"python.linting.enabled": true,
-	"python.linting.flake8Enabled": true,
-	"python.sortImports.path": "isort",
-	"python.analysis.typeCheckingMode": "off",
-	"pyright.organizeimports.provider": "isort",
-	// coc-highlight
-	"coc.preferences.colorSupport": true,
-	// Sourcery
-	"languageserver": {
+  "diagnostic.virtualText": false,
+  "diagnostic.virtualTextCurrentLineOnly": true,
+  "diagnostic.checkCurrentLine": "true"",
+  "diagnostic.enableMessage": "always",
+  // coc-pyright
+  "python.formatting.provider": "autopep8",
+  //"python.formatting.provider": "darker", 
+  "python.analysis.autoImportCompletions": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.sortImports.path": "isort",
+  //"python.analysis.typeCheckingMode": "off",
+  "python.analysis.typeCheckingMode": "basic",
+  "pyright.organizeimports.provider": "isort", // or "ruff" or "pyright"
+  "pyright.reportMissingTypeStubs": true,
+  "python.linting.ruffEnabled": true,
+  "python.analysis.stubPath": "~/devel/adtrac/typings",
+  // coc-highlight
+  "coc.preferences.colorSupport": true,
+  //// pyright codelens
+  "codeLens.enable": true,
+  "pyright.codelens.references": true,
+  "pyright.codelens.referencesCodeLens.enabled": true,
+  "pyright.codelens.referencesCodeLens.showOnAllFunctions": true,
+  "pyright.codelens.referencesCodeLens.showOnLocalVariables": true,
+  "pyright.codelens.referencesCodeLens.showOnParameters": true,
+  "pyright.codelens.referencesCodeLens.showOnProperties": true,
+  "pyright.codelens.referencesCodeLens.showOnModules": true,
+  "pyright.codelens.referencesCodeLens.showOnClasses": true,
+  "pyright.codelens.referencesCodeLens.showOnInterfaces": true,
+  "pyright.codelens.referencesCodeLens.showOnEnums": true,
+  // Sourcery
+  "languageserver": {
+    //"ruff-lsp": {
+    //  "command": "ruff-lsp",
+    //  "filetypes": ["python"]
+    //},
+    "sourcery": {
+      "command": "sourcery",
+      "args": ["lsp"],
+      "filetypes": ["python"],
+      "initializationOptions": {
+        "token": "user_0UEuhoAIPZlGj0XLkCv40a0i6Dhh5xiPW1uGVsW0vZKPie3FC3sFklrHBcY",
+        "extension_version": "coc.vim",
+        "editor_version": "vim"
+      },
+      "settings": {
         "sourcery": {
-            "command": "sourcery",
-            "args": [
-                "lsp"
-           ],
-            "filetypes": [
-                "python"
-            ],
-            "initializationOptions": {
-                "token": "user_0UEuhoAIPZlGj0XLkCv40a0i6Dhh5xiPW1uGVsW0vZKPie3FC3sFklrHBcY",
-                "extension_version": "coc.vim",
-                "editor_version": "vim"
-            },
-            "settings": {
-                "sourcery": {
-                    "metricsEnabled": false
-                }
-            }
-        },
-	"vimls": {
-	    "command": "vim-language-server",
-	    "args": ["--stdio"],
-	    "initializationOptions": {
-	      "isNeovim": true, // is neovim, default false
-	      "iskeyword": "@,48-57,_,192-255,-#", // vim iskeyword option
-	      "vimruntime": "",                    // $VIMRUNTIME option
-	      "runtimepath": "",                   // vim runtime path separate by `,`
-	      "diagnostic": {
-		"enable": true
-	      },
-	      "indexes": {
-		"runtimepath": true,      // if index runtimepath's vim files this will effect the suggest
-		"gap": 100,               // index time gap between next file
-		"count": 3,               // count of files index at the same time
-		"projectRootPatterns" : ["strange-root-pattern", ".git", "autoload", "plugin"] // Names of files used as the mark of project root. If empty, the default value [".git", "autoload", "plugin"] will be used
-	      },
-	      "suggest": {
-		"fromVimruntime": true,   // completionItems from vimruntime's vim files
-		"fromRuntimepath": false  // completionItems from runtimepath's vim files, if this is true that fromVimruntime is true
-	      }
-	    },
-	    "filetypes": [ "vim" ]
-  	}
+          "metricsEnabled": false
+        }
+      }
     },
-    "Lua.telemetry.enable": true
+    "vimls": {
+      "command": "vim-language-server",
+      "args": ["--stdio"],
+      "initializationOptions": {
+        "isNeovim": true, // is neovim, default false
+        "iskeyword": "@,48-57,_,192-255,-#", // vim iskeyword option
+        "vimruntime": "", // $VIMRUNTIME option
+        "runtimepath": "", // vim runtime path separate by `,`
+        "diagnostic": {
+          "enable": true
+        },
+        "indexes": {
+          "runtimepath": true, // if index runtimepath's vim files this will effect the suggest
+          "gap": 100, // index time gap between next file
+          "count": 3, // count of files index at the same time
+          "projectRootPatterns": [
+            "strange-root-pattern",
+            ".git",
+            "autoload",
+            "plugin"
+          ] // Names of files used as the mark of project root. If empty, the default value [".git", "autoload", "plugin"] will be used
+        },
+        "suggest": {
+          "fromVimruntime": true, // completionItems from vimruntime's vim files
+          "fromRuntimepath": false // completionItems from runtimepath's vim files, if this is true that fromVimruntime is true
+        }
+      },
+      "filetypes": ["vim"]
+    }
+  },
+  "Lua.telemetry.enable": true
 }
