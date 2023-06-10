@@ -1,4 +1,5 @@
 {
+  "semanticTokens.enable": true,
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextCurrentLineOnly": true,
   "diagnostic.checkCurrentLine": "true"",
@@ -18,6 +19,7 @@
   "python.analysis.stubPath": "~/devel/adtrac/typings",
   // coc-highlight
   "coc.preferences.colorSupport": true,
+  "coc.preferences.enableMessageDialog": true,
   //// pyright codelens
   "codeLens.enable": true,
   "pyright.codelens.references": true,

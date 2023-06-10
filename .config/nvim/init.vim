@@ -580,9 +580,9 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " 20191125 https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<C-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
 " 20191125 vim-markdown settings (START)
 " https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
@@ -1092,7 +1092,7 @@ endif
 " let g:lsp_highlights_enabled = 0
 
 " " Do not use virtual text, they are far too obtrusive.
-" let g:lsp_virtual_text_enabled = 0
+let g:lsp_virtual_text_enabled = 1
 " " echo a diagnostic message at cursor position
 " let g:lsp_diagnostics_echo_cursor = 0
 " " show diagnostic in floating window
@@ -1733,6 +1733,7 @@ nnoremap <Leader>b :NvimTreeFindFileToggle<CR>
 
 
 lua <<EOF
+vim.diagnostic.config({ virtual_text = true })
 -- examples for your init.lua
 
 -- disable netrw at the very start of your init.lua (strongly advised)
