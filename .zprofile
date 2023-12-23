@@ -24,3 +24,8 @@ eval "$(pyenv init -)"
 
 # Created by `pipx` on 2022-12-06 11:53:31
 export PATH="$PATH:/Users/mathu/.local/bin"
+
+
+# Added by Toolbox App
+export PATH="$PATH:/usr/local/bin"
+

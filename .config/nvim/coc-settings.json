@@ -2,11 +2,12 @@
   "semanticTokens.enable": true,
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextCurrentLineOnly": true,
-  "diagnostic.checkCurrentLine": "true"",
-  "diagnostic.enableMessage": "always",
+  "diagnostic.checkCurrentLine": true,
+  //"diagnostic.checkCurrentLine": true,
+  //"diagnostic.enableMessage": "always",
   // coc-pyright
   "python.formatting.provider": "autopep8",
-  //"python.formatting.provider": "darker", 
+  //"python.formatting.provider": "darker",
   "python.analysis.autoImportCompletions": true,
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": false,
@@ -20,6 +21,9 @@
   // coc-highlight
   "coc.preferences.colorSupport": true,
   "coc.preferences.enableMessageDialog": true,
+  "coc.preferences.renameFillCurrent": true,
+  "colors.enable": true,
+  "highlight.trace": "verbose",
   //// pyright codelens
   "codeLens.enable": true,
   "pyright.codelens.references": true,

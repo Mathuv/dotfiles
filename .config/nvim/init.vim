@@ -1,5 +1,5 @@
-"20180801 (Mathu) My very first vimrc config
 "https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+"20180801 (Mathu) My very first vimrc config
 "20190704: Based on https://stackoverflow.com/questions/2287440/how-to-do-case-insensitive-search-in-vim
 "To ignore case 
 "Case insensitive searching
@@ -188,7 +188,7 @@ if !exists('g:vscode')
     
     
     " Advanced neovim terminal handling
-    Plug 'kassio/neoterm'
+    " Plug 'kassio/neoterm'
     
     "Python semantic syntax highlighting (may slow down with deoplete)
     "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
@@ -221,8 +221,7 @@ if !exists('g:vscode')
     " Plug 'lifepillar/pgsql.vim'
     
     " To have ipython like feature within vim
-    " Plug 'jpalardy/vim-slime', { 'for': 'python' }
-    " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+    Plug 'jpalardy/vim-slime'
     
     "integration with dash
     Plug 'rizzatti/dash.vim'
@@ -246,7 +245,7 @@ if !exists('g:vscode')
     Plug 'tpope/vim-speeddating'
     
     " https://github.com/sakhnik/nvim-gdb
-    Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+    " Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
     
     " Plug 'freitass/todo.txt-vim'
     
@@ -363,7 +362,8 @@ if !exists('g:vscode')
 
     Plug 'tpope/vim-repeat'
 
-    Plug 'ggandor/lightspeed.nvim'
+    " Plug 'ggandor/lightspeed.nvim'
+    Plug 'ggandor/leap.nvim'
 
     Plug 'lukas-reineke/indent-blankline.nvim'
 
@@ -373,13 +373,19 @@ if !exists('g:vscode')
 
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
-    Plug 'hkupty/iron.nvim'
+    Plug 'Vigemus/iron.nvim'
 
     Plug 'mechatroner/rainbow_csv'
 
     Plug 'folke/zen-mode.nvim'
 
     Plug 'kristijanhusak/vim-dadbod-completion'
+
+    Plug 'antoinemadec/coc-fzf'
+
+    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+
+    Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
     " Disabled to later use it with more configurations
     " Plug 'folke/twilight.nvim'
@@ -412,6 +418,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+set termguicolors
 "onedark.vim override: Set a custom background color in the terminal
 if (has("autocmd") && !has("gui_running"))
   augroup colors
@@ -567,6 +574,10 @@ nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 set diffopt+=vertical
 nnoremap <leader>gb :Git blame<CR>
+" map <leader>gdd to Gdiffsplit against develop
+nnoremap <leader>gdd :Gdiffsplit! develop<CR>
+" map <leader>gdu to Gdiffsplit against current branch's upstream
+nnoremap <leader>gdu :Gdiffsplit! @{u}<CR>
 
 "20191122 Move line up and down
 "https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -606,10 +617,10 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 "" slime configuration 
 ""------------------------------------------------------------------------------
 "" always use tmux
-"let g:slime_target = 'tmux'
+let g:slime_target = 'neovim'
 
 "" fix paste issues in ipython
-"let g:slime_python_ipython = 1
+let g:slime_python_ipython = 1
 
 "" always send text to the top-right pane in the current tmux tab without asking
 "let g:slime_default_config = {
@@ -689,11 +700,11 @@ set nofoldenable
 
 " 2018-08029 Mathu: show line nuber
 "set relativenumber
-"set number
+set number
 
 "20191123 https://github.com/jeffkreeftmeijer/neovim-sensible/blob/master/plugin/neovim-sensible.vim
 " Use "hybrid" (both absolute and relative) line numbers
-set number relativenumber
+" set number relativenumber
 
 " 2019-05-31 Auto close the preview window of jedi-deoplete
 " https://jdhao.github.io/2018/12/24/centos_nvim_install_use_guide_en/
@@ -875,6 +886,92 @@ endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
+" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
+"
+" function! s:RgBoth(...)
+"     if a:0 != 2
+"         echo "Please provide exactly two arguments."
+"         return
+"     endif
+"     let l:cmd = 'rg -l '.shellescape(a:1).' | xargs rg -l '.shellescape(a:2)
+"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
+" endfunction
+
+" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
+"
+" function! s:RgBoth(...)
+"     if a:0 != 2
+"         echo "Please provide exactly two arguments."
+"         return
+"     endif
+"     let l:cmd = 'rg '.shellescape(a:1).' | xargs rg '.shellescape(a:2)
+"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
+" endfunction
+
+" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
+"
+" function! s:RgBoth(...)
+"     if a:0 != 2
+"         echo "Please provide exactly two arguments."
+"         return
+"     endif
+"     let l:cmd = 'rg -l '.shellescape(a:1).' | xargs rg -l '.shellescape(a:2).' | xargs rg '.shellescape(a:1.'\\|'.a:2)
+"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
+" endfunction
+
+" function! RgBoth() abort
+"   call fzf#vim#grep("rg -l 'opening_hours' | xargs rg -l 'save'", 1, fzf#vim#with_preview())
+" endfunction
+"
+" command! -bang RgBoth call RgBoth()
+
+
+" function! RgBoth() abort
+"     let l:grep_cmd = "rg -l 'opening_hours' | xargs rg -l 'save'"
+"
+"     let s:source = split(system(l:grep_cmd), "\n")
+"
+"     let l:options = {
+"                 \ 'source':  s:source,
+"                 \ 'sink':    function('s:open_file'),
+"                 \ 'options': '--ansi --prompt "RgBoth> "',
+"                 \ 'down':    '40%'
+"                 \ }
+"
+"     call fzf#run(l:options)
+" endfunction
+"
+" function! s:open_file(line) abort
+"     execute 'edit' a:line
+" endfunction
+"
+
+function! RgBoth(search_term1, search_term2) abort
+    let l:grep_cmd = "rg -l '" . a:search_term1 . "' | xargs rg -l '" . a:search_term2 . "'"
+
+    let s:source = split(system(l:grep_cmd), "\n")
+
+    let l:preview_cmd = has('win32') || has('win64') ? 'bat --style=numbers --color=always --line-range :500 {}' : 'bat --style=numbers --color=always --line-range :500 {} || cat {}'
+
+    let l:options = {
+                \ 'source':  s:source,
+                \ 'sink':    function('s:open_file'),
+                \ 'options': '--ansi --prompt "RgBoth> " --preview-window "right:60%:wrap" --preview "' . l:preview_cmd . '"',
+                \ 'down':    '100%'
+                \ }
+
+    call fzf#run(l:options)
+endfunction
+
+function! s:open_file(line) abort
+    execute 'edit' a:line
+endfunction
+
+command! -nargs=+ RgBoth call RgBoth(<f-args>)
+
+
+
+
 
 " to close and delete all the other buffers
 command! BufOnly silent! execute '%bd|e#|bd#|normal `"'
@@ -886,7 +983,7 @@ tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
 
 
 "How can I navigate through the auto-completion list with Tab?
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 "Keymap to paste multiple times
 xnoremap p pgvy
@@ -1166,6 +1263,13 @@ endfunction
 " END
 "
 " CoC config START
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -1177,16 +1281,27 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" " Use K to show documentation in preview window.
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   elseif (coc#rpc#ready())
+"     call CocActionAsync('doHover')
+"   else
+"     execute '!' . &keywordprg . " " . expand('<cword>')
+"   endif
+" endfunction
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -1203,6 +1318,8 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+" https://github.com/neoclide/coc.nvim/issues/2918
+" nmap <leader>rn :CocCommand document.renameCurrentWord
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -1216,12 +1333,54 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
+" Remap keys for applying code actions at the cursor position
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>as  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+xmap <silent> <leader>rf <Plug>(coc-refactor)
+nmap <silent> <leader>rf <Plug>(coc-refactor)
+
+" Run the Code Lens action on the current line
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Use CTRL-S for selections ranges
+" Requires 'textDocument/selectionRange' support of language server
+" Not supported by pyright
+" nmap <silent> <C-s> <Plug>(coc-range-select)
+" xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add (Neo)Vim's native statusline support
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" let g:airline#extensions#coc#enabled = 1
+
 " END
 "
 " Gutentag START
@@ -1294,8 +1453,8 @@ let g:gutentags_ctags_exclude = [
 " END 
 
 " shortcuts for Tags
-nnoremap <Leader>tb :BTags<CR>
-nnoremap <Leader>tt :Tags<CR>
+" nnoremap <Leader>tb :BTags<CR>
+" nnoremap <Leader>tt :Tags<CR>
 
 " PLUGIN: FZF
 " https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko
@@ -1355,6 +1514,29 @@ EOF
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 " nvim-treesitter config (END)
+"
+" nvim-treesitter-refactor config (START)
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    navigation = {
+      enable = true,
+      -- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+      keymaps = {
+        -- goto_definition = "gnd",
+        -- goto_definition_lsp_fallback = "gnd",
+        -- list_definitions = "gnD",
+        list_definitions_toc = "gO",
+        -- goto_next_usage = "<a-*>",
+        goto_next_usage = "gnd",
+        -- goto_previous_usage = "<a-#>",
+        goto_previous_usage = "gnD",
+      },
+    },
+  },
+}
+EOF
+" nvim-treesitter-refactor config (END)
 
 " 20210529 Telescope.nvim config
 " Find files using Telescope command-line sugar.
@@ -1362,6 +1544,12 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>tt <cmd>Telescope tags<cr>
+nnoremap <leader>tb <cmd>Telescope current_buffer_tags<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
+
+
+
 
 command L Telescope
 
@@ -1454,14 +1642,14 @@ nnoremap <silent> <Leader>rg :Rg! <C-R><C-W><CR>
 nnoremap <silent> <Leader>hrg :Rgh! <C-R><C-W><CR>
 nnoremap <silent> <Leader>rrg :RG <C-R><C-W><CR>
 
-" Sourcery config
-" nnoremap <leader>cl :CocDiagnostics<cr>
-" nnoremap <leader>cf :CocFix<cr>
-" nnoremap <leader>ch :call CocAction('doHover')<cr>
-nnoremap <silent> <leader>cl :CocDiagnostics<cr>
-nnoremap <silent> <leader>ch :call CocAction('doHover')<cr>
-nnoremap <silent> <leader>cf <plug>(coc-codeaction-cursor)
-nnoremap <silent> <leader>ca <plug>(coc-fix-current)
+"" Sourcery config
+"" nnoremap <leader>cl :CocDiagnostics<cr>
+"" nnoremap <leader>cf :CocFix<cr>
+"" nnoremap <leader>ch :call CocAction('doHover')<cr>
+" nnoremap <silent> <leader>cl :CocDiagnostics<cr>
+" nnoremap <silent> <leader>ch :call CocAction('doHover')<cr>
+" nnoremap <silent> <leader>cf <plug>(coc-codeaction-cursor)
+" nnoremap <silent> <leader>ca <plug>(coc-fix-current)
 
 " test.vim settings
 " make test commands execute using dispatch.vim
@@ -1493,8 +1681,8 @@ let test#python#runner = 'djangotest'
 let test#python#djangotest#options = {
   \ 'all': '--noinput',
   \ 'nearest': '--noinput',
-  \ 'file': '--noinput --parallel 4',
-  \ 'suite': '--parallel 8'
+  \ 'file': '--noinput',
+  \ 'suite': '--parallel'
 \}
 
 let test#python#djangotest#executable = 'python3 manage.py test'
@@ -1554,8 +1742,16 @@ autocmd TermOpen * startinsert
 " diff git-gutter againse master
 " <Bar> is '|' to separate multiple commands.
 " nmap <leader>dm :let g:gitgutter_diff_base = 'master' <Bar> GitGutter<CR>
-nmap <leader>dm :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter<CR>
-nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
+" nmap <leader>dm :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter<CR>
+" nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
+" Add a command to set the diff base to the current commit
+command! GitGutterDiffHead :let g:gitgutter_diff_base = 'head' <Bar> GitGutter
+command! GGDH :let g:gitgutter_diff_base = 'head' <Bar> GitGutter
+" Add a command to set the diff base to 'develop'
+command! GitGutterDiffDevelop :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter
+command! GGDD :let g:gitgutter_diff_base = 'origin/develop' <Bar> GitGutter
+command! GGDM :let g:gitgutter_diff_base = 'origin/master' <Bar> GitGutter
+
 
 lua << EOF
 require'hop'.setup()
@@ -1597,51 +1793,82 @@ require('formatter').setup({
 EOF
 
 " https://github.com/gelguy/wilder.nvim
-" Key bindings can be changed, see below
-" call wilder#setup({'modes': [':', '/', '?']})
-call wilder#setup({'modes': [':']})
+call wilder#setup({'modes': [':', '/', '?']})
 
-" For Neovim or Vim with yarp
-" For wild#cmdline_pipeline():
-"   'language'   : set to 'python' to use python
-"   'fuzzy'      : 0 - turns off fuzzy matching
-"                : 1 - turns on fuzzy matching
-"                : 2 - partial fuzzy matching (match does not have to begin with the same first letter)
-" For wild#python_search_pipeline():
-"   'pattern'    : can be set to wilder#python_fuzzy_delimiter_pattern() for stricter fuzzy matching
-"   'sorter'     : omit to get results in the order they appear in the buffer
-"   'engine'     : can be set to 're2' for performance, requires pyre2 to be installed
-"                : see :h wilder#python_search() for more details
+" call wilder#set_option('pipeline', [
+"       \   wilder#branch(
+"       \     wilder#cmdline_pipeline(),
+"       \     wilder#search_pipeline(),
+"       \   ),
+"       \ ])
+
 call wilder#set_option('pipeline', [
       \   wilder#branch(
       \     wilder#cmdline_pipeline({
       \       'language': 'python',
-      \       'fuzzy': 0,
+      \       'fuzzy': 3,
       \     }),
-      \     wilder#python_search_pipeline({
-      \       'pattern': wilder#python_fuzzy_delimiter_pattern(),
-      \       'sorter': wilder#python_difflib_sorter(),
-      \       'engine': 're',
-      \     }),
+      \     wilder#search_pipeline(),
       \   ),
       \ ])
 
-" let s:highlighters = [
-"         \ wilder#pcre2_highlighter(),
-"         \ wilder#basic_highlighter(),
-"         \ ]
-"
-"
-" " 'highlighter' : applies highlighting to the candidates
-" call wilder#set_option('renderer', wilder#popupmenu_renderer({
-"       \ 'highlighter': s:highlighters,
-"       \ 'left': [
-"       \   ' ', wilder#popupmenu_devicons(),
-"       \ ],
-"       \ 'right': [
-"       \   ' ', wilder#popupmenu_scrollbar(),
-"       \ ],
+" call wilder#set_option('renderer', wilder#wildmenu_renderer({
+"       \ 'highlighter': wilder#basic_highlighter(),
 "       \ }))
+
+call wilder#set_option('renderer', wilder#renderer_mux({
+      \ ':': wilder#popupmenu_renderer({
+      \   'highlighter': wilder#basic_highlighter(),
+      \ }),
+      \ '/': wilder#wildmenu_renderer(),
+      \ }))
+
+
+" " Key bindings can be changed, see below
+" " call wilder#setup({'modes': [':', '/', '?']})
+" call wilder#setup({'modes': [':']})
+"
+" " For Neovim or Vim with yarp
+" " For wild#cmdline_pipeline():
+" "   'language'   : set to 'python' to use python
+" "   'fuzzy'      : 0 - turns off fuzzy matching
+" "                : 1 - turns on fuzzy matching
+" "                : 2 - partial fuzzy matching (match does not have to begin with the same first letter)
+" " For wild#python_search_pipeline():
+" "   'pattern'    : can be set to wilder#python_fuzzy_delimiter_pattern() for stricter fuzzy matching
+" "   'sorter'     : omit to get results in the order they appear in the buffer
+" "   'engine'     : can be set to 're2' for performance, requires pyre2 to be installed
+" "                : see :h wilder#python_search() for more details
+" call wilder#set_option('pipeline', [
+"       \   wilder#branch(
+"       \     wilder#cmdline_pipeline({
+"       \       'language': 'python',
+"       \       'fuzzy': 0,
+"       \     }),
+"       \     wilder#python_search_pipeline({
+"       \       'pattern': wilder#python_fuzzy_delimiter_pattern(),
+"       \       'sorter': wilder#python_difflib_sorter(),
+"       \       'engine': 're',
+"       \     }),
+"       \   ),
+"       \ ])
+"
+" " let s:highlighters = [
+" "         \ wilder#pcre2_highlighter(),
+" "         \ wilder#basic_highlighter(),
+" "         \ ]
+" "
+" "
+" " " 'highlighter' : applies highlighting to the candidates
+" " call wilder#set_option('renderer', wilder#popupmenu_renderer({
+" "       \ 'highlighter': s:highlighters,
+" "       \ 'left': [
+" "       \   ' ', wilder#popupmenu_devicons(),
+" "       \ ],
+" "       \ 'right': [
+" "       \   ' ', wilder#popupmenu_scrollbar(),
+" "       \ ],
+" "       \ }))
 
 " https://github.com/Xuyuanp/scrollbar.nvim
 augroup ScrollbarInit
@@ -1862,6 +2089,9 @@ command TestStrDispatch let test#strategy = 'dispatch'
 command TestStrNeovim let test#strategy = 'neovim'
 " Open curent file in vscode focusing at the current_line
 command Code call system('code -g ' . expand('%') . ':' . line('.'))
+" command Pycharm call system('pycharm --line ' . expand('%') . ':' . line('.'))
+" Open curent file in pycharm focusing at the current_line
+command Pycharm call system('pycharm --line ' . line('.') . ' ' . expand('%'))
 
 " Copy file name shortcuts
 command CopyFilename let @+=expand('%:t:r')
@@ -2010,7 +2240,12 @@ nnoremap <leader>gp :Git push<CR>
 " command to format document with Coc prettier
 " command! -nargs=0 FormatCoc :call CocAction('format')
 command! -nargs=0 PrettierCoc :CocCommand prettier.forceFormatDocument
-command! -nargs=0 FormatCoc :CocCommand editor.action.formatDocument
+" command! -nargs=0 FormatCoc :CocCommand editor.action.formatDocument
+" Add `:Format` command to format current buffer
+command! -nargs=0 FormatCoc :call CocActionAsync('format')
+" Add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
 
 " Activate pipenv when neovim terminal is opened
 function! TerminalOpened()
@@ -2067,4 +2302,206 @@ command! -range=% FormatPgsql <line1>,<line2>!pg_format -s 2 -u 2 -U 1 -w 80 -g 
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env', '.venv', '__pycache__', '.pytest_cache', '.mypy_cache', '.tox', 'venv', 'env']
 
 set autoread
-autocmd BufWritePost *.py silent :!darker %
+" autocmd BufWritePost *.py silent :!darker %
+
+nnoremap <silent><nowait> <space>d  :call CocAction('jumpDefinition', v:false)<CR>
+
+" - Popup window (center of the current window)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1.0, 'relative': v:true } }
+
+" let g:fzf_preview_window = ['right,50%', 'ctrl-/']
+"
+hi CocCursorRange guibg=#b16286 guifg=#ebdbb2
+
+nmap <expr> <silent> <C-c> <SID>select_current_word()
+function! s:select_current_word()
+  if !get(b:, 'coc_cursors_activated', 0)
+    return "\<Plug>(coc-cursors-word)"
+  endif
+  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
+endfunc
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" changing coc highlight color cause light grey is invisible
+" BUT is overwritten by scheme so defining it in an autocmd after colorscheme
+" change
+autocmd ColorScheme * highlight CocHighlightText     ctermfg=LightMagenta    guifg=LightMagenta
+
+lua require('leap').add_default_mappings()
+
+
+lua << EOF
+local iron = require("iron.core")
+local view = require("iron.view")
+
+iron.setup {
+  config = {
+    -- Whether a repl should be discarded or not
+    scratch_repl = true,
+    -- Your repl definitions come here
+    repl_definition = {
+      sh = {
+        -- Can be a table or a function that
+        -- returns a table (see below)
+        command = {"zsh"}
+      },
+      -- ipython for python
+      python = {
+	command = {"ipython"}
+      },
+    },
+    -- How the repl window will be displayed
+    -- See below for more information
+    -- repl_open_cmd = require('iron.view').bottom(40),
+  },
+-- Iron doesn't set keymaps by default anymore.
+  -- You can set them here or manually add keymaps to the functions in iron.core
+  keymaps = {
+    send_motion = "<space>isc",
+    visual_send = "<space>isc",
+    send_file = "<space>isf",
+    send_line = "<space>isl",
+    send_until_cursor = "<space>isu",
+    send_mark = "<space>ism",
+    mark_motion = "<space>imc",
+    mark_visual = "<space>imc",
+    remove_mark = "<space>imd",
+    cr = "<space>is<cr>",
+    interrupt = "<space>is<space>",
+    exit = "<space>isq",
+    clear = "<space>icl",
+  },
+  -- If the highlight is on, you can change how it looks
+  -- For the available options, check nvim_set_hl
+  highlight = {
+    italic = true
+  },
+  ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
+}
+
+
+-- Vertical 50 columns split
+-- Split has a metatable that allows you to set up the arguments in a "fluent" API
+-- you can write as you would write a vim command.
+-- It accepts:
+--   - vertical
+--   - leftabove/aboveleft
+--   - rightbelow/belowright
+--   - topleft
+--   - botright
+-- They'll return a metatable that allows you to set up the next argument
+-- or call it with a size parameter
+-- repl_open_cmd = view.split.vertical.botright(50)
+--
+-- -- If the supplied number is a fraction between 1 and 0,
+-- -- it will be used as a proportion
+-- repl_open_cmd = view.split.vertical.botright(0.61903398875)
+
+-- The size parameter can be a number, a string or a function.
+-- When it's a *number*, it will be the size in rows/columns
+-- If it's a *string*, it requires a "%" sign at the end and is calculated
+-- as a percentage of the editor size
+-- If it's a *function*, it should return a number for the size of rows/columns
+
+-- repl_open_cmd = view.split("40%")
+
+-- You can supply custom logic
+-- to determine the size of your
+-- repl's window
+-- repl_open_cmd = view.split.topleft(function()
+--   if some_check then
+--     return vim.o.lines * 0.4
+--   end
+--   return 20
+-- end)
+--
+-- -- An optional set of options can be given to the split function if one
+-- -- wants to configure the window behavior.
+-- -- Note that, by default `winfixwidth` and `winfixheight` are set
+-- -- to `true`. If you want to overwrite those values,
+-- -- you need to specify the keys in the option map as the example below
+--
+-- repl_open_cmd = view.split("40%", {
+--   winfixwidth = false,
+--   winfixheight = false,
+--   -- any window-local configuration can be used here
+--   number = true
+-- })
+-- open the repl in a vertical split
+repl_open_cmd = view.split.vertical(50)
+
+-- iron also has a list of commands, see :h iron-commands for all available commands
+vim.keymap.set('n', '<space>ii', '<cmd>IronRepl<cr>')
+vim.keymap.set('n', '<space>ir', '<cmd>IronRestart<cr>')
+vim.keymap.set('n', '<space>if', '<cmd>IronFocus<cr>')
+vim.keymap.set('n', '<space>ih', '<cmd>IronHide<cr>')
+EOF
+
+function! OpenIssueURL()
+    " Get the word under the cursor
+    let current_word = expand('<cword>')
+
+    " Construct the URL
+    let base_url = "https://adtrac.atlassian.net/browse/INDY-"
+    let full_url = base_url . current_word
+
+    " Echo the URL to the command line
+    echo "Opening URL: " . full_url
+
+    " Open the URL in the default browser based on the platform
+    if has("unix")
+        if system("uname") == "Darwin\n"
+            silent execute "!open" full_url
+        else
+            silent execute "!xdg-open" full_url
+        endif
+    elseif has("win32")
+        silent execute "!start" full_url
+    endif
+endfunction
+
+" Map a key (e.g., <Leader>o) to the function in normal mode
+nnoremap <Leader>o :call OpenIssueURL()<CR>
+
+" Command to disable Python breakpoints by setting PYTHONBREAKPOINT to 0
+command! DisableBreakpoints :let $PYTHONBREAKPOINT = "0"
+
+" Command to enable Python breakpoints by unsetting PYTHONBREAKPOINT
+command! EnableBreakpoints :unlet $PYTHONBREAKPOINT
+
+" Command to delete lines containing 'breakpoint()' in all open buffers and save them
+command! DelBreakpoints :bufdo g/breakpoint()/d | update
+
+" 20210503 - Add commmand to open current file on Github with line number
+" command! GBrowseAtLine execute line('.') . 'GBrowse'
+" command! GBrowseAtLine! execute line('.') . 'GBrowse!'
+command! -bang GBrowseAtLine execute line('.') . 'GBrowse' . ( '<bang>' == '!' ? '!' : '' )
+
+
+" Define a new command called GBrowseBlame that opens the blame URL for the currently selected lines
+" command! -range GBrowseBlame silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' ) | let url = getreg('+') | let url = substitute(url, '/blob/', '/blame/', '') | execute '!open ' . shellescape(url)
+
+" command! -range GBrowseBlame execute line('.') . 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' ) | let url = getreg('+') | if a:firstline != a:lastline | let line_range = "#" . "L" . a:firstline . "-L" . a:lastline | let url = substitute(url, '/blob/', '/blame/', '') . line_range | else | let url = substitute(url, '/blob/', '/blame/', '') . "#" . "L" . a:firstline | endif | execute '!open ' . shellescape(url)
+
+" function! BrowseBlame()
+"   silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' )
+"   let url = getreg('+')
+"   let url = substitute(url, '/blob/', '/blame/', '')
+"   execute '!open ' . shellescape(url)
+" endfunction
+
+function! BrowseBlame()
+  silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' )
+  let url = getreg('+')
+  let url = substitute(url, '/blob/', '/blame/', '')
+  if a:firstline != a:lastline
+    let line_range = "#" . "L" . a:firstline . "-L" . a:lastline
+    let url = url . line_range
+  else
+    let url = url . "#" . "L" . a:firstline
+  endif
+  execute '!open ' . shellescape(url)
+endfunction
+
+command! -range GBrowseBlame execute line('.') . 'call BrowseBlame()' . ( '<bang>' == '!' ? '!' : '' )
