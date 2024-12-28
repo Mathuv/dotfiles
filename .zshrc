@@ -78,7 +78,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages kubectl)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages kubectl kubetail)
+
+# https://docs.brew.sh/Shell-Completion
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
 
 source $ZSH/oh-my-zsh.sh
 
@@ -257,3 +261,16 @@ export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # export CPPFLAGS="-I/opt/homebrew/opt/icu4c@72/include"
 # export PATH="/opt/homebrew/opt/icu4c@72/bin:$PATH"
 # export PATH="/opt/homebrew/opt/icu4c@72/sbin:$PATH"
+export PATH="/opt/homebrew/opt/icu4c/bin:$PATH"
+export PATH="/opt/homebrew/opt/icu4c/sbin:$PATH"
+
+export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig"
+
+eval "$(gh copilot alias -- zsh)"
+
+export PATH="/Users/mathu/my_scripts:$PATH"
+
+# Added by Windsurf
+export PATH="/Users/mathu/.codeium/windsurf/bin:$PATH"

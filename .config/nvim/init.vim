@@ -390,6 +390,8 @@ if !exists('g:vscode')
     " Disabled to later use it with more configurations
     " Plug 'folke/twilight.nvim'
 
+    " Plug 'stevearc/oil.nvim'
+
 endif
 
 " Initialize plugin system
@@ -575,7 +577,8 @@ nnoremap gdl :diffget //3<CR>
 set diffopt+=vertical
 nnoremap <leader>gb :Git blame<CR>
 " map <leader>gdd to Gdiffsplit against develop
-nnoremap <leader>gdd :Gdiffsplit! develop<CR>
+nnoremap <leader>gdd :Gdiffsplit! origin/develop<CR>
+nnoremap <leader>gdm :Gdiffsplit! origin/master<CR>
 " map <leader>gdu to Gdiffsplit against current branch's upstream
 nnoremap <leader>gdu :Gdiffsplit! @{u}<CR>
 
@@ -859,6 +862,12 @@ command! -bang -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+" RipGrep with case sensitivity
+command! -bang -nargs=* Rgc
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --case-sensitive '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
 " Add preview to Files command 
 command! -bang -nargs=? -complete=dir FilesP
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -978,8 +987,10 @@ command! BufOnly silent! execute '%bd|e#|bd#|normal `"'
 command! B silent! execute 'Buffers'
 
 "With this maps you can now toggle the terminal
-nnoremap <F7> :call MonkeyTerminalToggle()<cr>
-tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
+" nnoremap <F7> :call MonkeyTerminalToggle()<cr>
+" tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
+nnoremap <C-`> :call MonkeyTerminalToggle()<cr>
+tnoremap <C-`> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
 
 
 "How can I navigate through the auto-completion list with Tab?
@@ -2034,6 +2045,8 @@ inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
 
 nnoremap <Leader>cc :ccl<CR>
 nnoremap <Leader>co :Copen<CR>
+nnoremap <Leader>lc :lclose<CR>
+nnoremap <Leader>lo :lopen<CR>
 
 " Fugitive
 nmap <leader>gs :Git<CR><C-w>8-
@@ -2089,6 +2102,7 @@ command TestStrDispatch let test#strategy = 'dispatch'
 command TestStrNeovim let test#strategy = 'neovim'
 " Open curent file in vscode focusing at the current_line
 command Code call system('code -g ' . expand('%') . ':' . line('.'))
+command Cursor call system('cursor -g ' . expand('%') . ':' . line('.'))
 " command Pycharm call system('pycharm --line ' . expand('%') . ':' . line('.'))
 " Open curent file in pycharm focusing at the current_line
 command Pycharm call system('pycharm --line ' . line('.') . ' ' . expand('%'))
@@ -2505,3 +2519,13 @@ function! BrowseBlame()
 endfunction
 
 command! -range GBrowseBlame execute line('.') . 'call BrowseBlame()' . ( '<bang>' == '!' ? '!' : '' )
+
+" lua <<EOF
+" require("oil").setup()
+" EOF
+
+" Check https://github.com/nvim-telescope/telescope.nvim/issues/1911 for
+" enhanced version of this
+nnoremap <leader>fF :execute 'Telescope find_files default_text=' . "'" . expand('<cword>')<cr>
+nnoremap <leader>fG :execute 'Telescope live_grep default_text=' . expand('<cword>')<cr>
+nnoremap <leader>tT :execute 'Telescope tags default_text=' . expand('<cword>')<cr>

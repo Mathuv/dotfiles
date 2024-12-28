@@ -11,6 +11,10 @@
 	# pager = delta --diff-so-fancy --diff-highlight
 	# pager = delta --diff-highlight
 
+# https://difftastic.wilfred.me.uk/git.html
+# [diff]
+#    external = difft
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
@@ -40,6 +44,7 @@
 	log = delta
 	reflog = delta
 	show = delta
+	range-diff = delta
 [alias]
 # https://stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git/34467298#34467298
 	lg = !"git lg1"

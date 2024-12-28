@@ -6,15 +6,16 @@
   //"diagnostic.checkCurrentLine": true,
   //"diagnostic.enableMessage": "always",
   // coc-pyright
-  "python.formatting.provider": "autopep8",
+  //"python.formatting.provider": "autopep8",
   //"python.formatting.provider": "darker",
   "python.analysis.autoImportCompletions": true,
   "python.linting.enabled": true,
-  "python.linting.flake8Enabled": false,
-  "python.sortImports.path": "isort",
+  //"python.linting.flake8Enabled": false,
+  //"python.sortImports.path": "isort",
   //"python.analysis.typeCheckingMode": "off",
   "python.analysis.typeCheckingMode": "basic",
-  "pyright.organizeimports.provider": "isort", // or "ruff" or "pyright"
+  //"pyright.organizeimports.provider": "isort", // or "ruff" or "pyright"
+  "pyright.organizeimports.provider": "ruff", //"isort", // or "ruff" or "pyright"
   "pyright.reportMissingTypeStubs": true,
   "python.linting.ruffEnabled": true,
   "python.analysis.stubPath": "~/devel/adtrac/typings",
@@ -25,38 +26,38 @@
   "colors.enable": true,
   "highlight.trace": "verbose",
   //// pyright codelens
-  "codeLens.enable": true,
-  "pyright.codelens.references": true,
-  "pyright.codelens.referencesCodeLens.enabled": true,
-  "pyright.codelens.referencesCodeLens.showOnAllFunctions": true,
-  "pyright.codelens.referencesCodeLens.showOnLocalVariables": true,
-  "pyright.codelens.referencesCodeLens.showOnParameters": true,
-  "pyright.codelens.referencesCodeLens.showOnProperties": true,
-  "pyright.codelens.referencesCodeLens.showOnModules": true,
-  "pyright.codelens.referencesCodeLens.showOnClasses": true,
-  "pyright.codelens.referencesCodeLens.showOnInterfaces": true,
-  "pyright.codelens.referencesCodeLens.showOnEnums": true,
+ // "codeLens.enable": true,
+ // "pyright.codelens.references": true,
+ // "pyright.codelens.referencesCodeLens.enabled": true,
+ // "pyright.codelens.referencesCodeLens.showOnAllFunctions": true,
+ // "pyright.codelens.referencesCodeLens.showOnLocalVariables": true,
+ // "pyright.codelens.referencesCodeLens.showOnParameters": true,
+ // "pyright.codelens.referencesCodeLens.showOnProperties": true,
+ // "pyright.codelens.referencesCodeLens.showOnModules": true,
+ // "pyright.codelens.referencesCodeLens.showOnClasses": true,
+ // "pyright.codelens.referencesCodeLens.showOnInterfaces": true,
+ // "pyright.codelens.referencesCodeLens.showOnEnums": true,
   // Sourcery
   "languageserver": {
     //"ruff-lsp": {
     //  "command": "ruff-lsp",
     //  "filetypes": ["python"]
     //},
-    "sourcery": {
-      "command": "sourcery",
-      "args": ["lsp"],
-      "filetypes": ["python"],
-      "initializationOptions": {
-        "token": "user_0UEuhoAIPZlGj0XLkCv40a0i6Dhh5xiPW1uGVsW0vZKPie3FC3sFklrHBcY",
-        "extension_version": "coc.vim",
-        "editor_version": "vim"
-      },
-      "settings": {
-        "sourcery": {
-          "metricsEnabled": false
-        }
-      }
-    },
+    //"sourcery": {
+    //  "command": "sourcery",
+    //  "args": ["lsp"],
+    //  "filetypes": ["python"],
+    //  "initializationOptions": {
+    //    "token": "user_0UEuhoAIPZlGj0XLkCv40a0i6Dhh5xiPW1uGVsW0vZKPie3FC3sFklrHBcY",
+    //    "extension_version": "coc.vim",
+    //    "editor_version": "vim"
+    //  },
+    //  "settings": {
+    //    "sourcery": {
+    //      "metricsEnabled": false
+    //    }
+    //  }
+    //},
     "vimls": {
       "command": "vim-language-server",
       "args": ["--stdio"],
