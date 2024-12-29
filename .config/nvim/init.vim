@@ -1,10 +1,4 @@
-"https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
-"20180801 (Mathu) My very first vimrc config
-"20190704: Based on https://stackoverflow.com/questions/2287440/how-to-do-case-insensitive-search-in-vim
-"To ignore case 
-"Case insensitive searching
 set ignorecase
-"Will automatically switch to case sensitive if you use any capitals
 set smartcase
 
 
@@ -20,366 +14,123 @@ augroup END
 " Substitute live preview
 set inccommand=nosplit
 
-" 20191123 
 " highlights cursorline with an underline
 set cursorline
-" Highlight the line on which the cursor lives(research)
-" set nocursorline
-
-"" Marker fold method(research)
-" 20210312
-" set foldmethod=marker
-" set foldmethod=syntax
-
-
-" 2019-05-27 Mathu: to make python auto complete work with virtual
-" environments
-" let g:python_host_prog = 'python'
-" let g:python3_host_prog = 'python3'
-
-"
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
-" call plug#begin('~/.vim/plugged')
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Plug 'nathom/filetype.nvim'
-
 Plug 'asvetliakov/vim-easymotion'
-
-" fzf + ripgrep setup for fuzzy search
-" Using brew locaion below so that it can be kept updated
 Plug '/opt/homebrew/opt/fzf'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" This is required to make other fzf feature available within vim
 Plug 'junegunn/fzf.vim'
-
-"Automatic quote and bracket completion
 Plug 'jiangmiao/auto-pairs'
-
-
-
-
-"code auto-format plugin
 Plug 'sbdchd/neoformat'
-
-"" Black code formatter
-""Plug 'python/black'
-" Plug 'psf/black'
 Plug 'psf/black', { 'branch': 'main' }
-
-" For code folding
-" Plug 'tmhedberg/SimpylFold'
-
-" For pyhon isort: use command :Isort
-" Plug 'fisadev/vim-isort'
 Plug 'brentyi/isort.vim'
-
 Plug 'machakann/vim-highlightedyank'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'chriskempson/base16-vim'
+" Displays function signatures from completions
+Plug 'Shougo/echodoc.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'numToStr/Comment.nvim' 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-surround'
+" clolorscheme
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'ryanoasis/vim-devicons'
+Plug 'psliwka/vim-smoothie'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'plasticboy/vim-markdown'
+Plug 'editorconfig/editorconfig-vim'
+" To have ipython like feature within vim
+Plug 'jpalardy/vim-slime'
+"integration with dash
+Plug 'rizzatti/dash.vim'
+Plug 'pechorin/any-jump.nvim'
+" Case sensitive find and replace
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+" speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
+Plug 'tpope/vim-speeddating'
+Plug 'rhysd/vim-grammarous'
+Plug 'tpope/vim-unimpaired'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'tpope/vim-obsession'
+Plug 'ervandew/supertab'
+Plug 'elzr/vim-json'
+Plug 'wlemuel/vim-tldr'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" 20210529 Telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+" 20210529 Popup show the keyboard shortcut
+Plug 'folke/which-key.nvim'
+Plug 'sudormrfbin/cheatsheet.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'preservim/tagbar'
+Plug 'phaazon/hop.nvim'
+Plug 'kshenoy/vim-signature'
+" Start up screen
+Plug 'mhinz/vim-startify'
+"For better commit message intrface
+" Disabled for neovim terminal
+" Plug 'rhysd/committia.vim'
+Plug 'junegunn/vim-plug'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-dotenv'
+Plug 'janko-m/vim-test'
+Plug 'mfussenegger/nvim-dap'
+"TODO: you may want to remap the key away from <C-E> to reclaim cursor key
+Plug 'simeji/winresizer'
+Plug 'romainl/vim-devdocs'
+Plug 'tweekmonster/startuptime.vim'
+Plug 'mhartington/formatter.nvim'
+if has('nvim')
+  function! UpdateRemotePlugins(...)
+    " Needed to refresh runtime files
+    let &rtp=&rtp
+    UpdateRemotePlugins
+  endfunction
 
-    " " 2019-05-30 Disabling all below for jedi vim (use either this or jedi-vim
-    " " Make sure you use single quotes
-    " " 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
-    " if has('nvim')
-    "   " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2','do': ':UpdateRemotePlugins' }
-    " else
-    "   Plug 'Shougo/deoplete.nvim', { 'tag': '5.2' }
-    "   " Plug 'Shougo/deoplete.nvim'
-    "   Plug 'roxma/nvim-yarp'
-    "   Plug 'roxma/vim-hug-neovim-rpc'
-    " endif
-    " Plug 'prabirshrestha/vim-lsp'
-    " Plug 'Shougo/deoplete.nvim'
-    " Plug 'lighttiger2505/deoplete-vim-lsp'
-    " User coc.vim instead
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    
-    Plug 'ludovicchabant/vim-gutentags'
-    
-    Plug 'chriskempson/base16-vim'
-
-    " Displays function signatures from completions
-    Plug 'Shougo/echodoc.vim'
-
-    Plug 'junegunn/seoul256.vim'
-    Plug 'joshdick/onedark.vim'
-
-    " Plug 'sheerun/vim-polyglot'
-    
-    " https://github.com/airblade/vim-gitgutter
-    Plug 'airblade/vim-gitgutter'
-    " Plug 'mhinz/vim-signify'
-    
-    "comment plugin
-    "Plug 'scrooloose/nerdcommenter'
-    "20191125
-    " Plug 'tpope/vim-commentary'
-    Plug 'numToStr/Comment.nvim' 
-    
-    " " (-/+)2019-05-30 Disabling deoplete for jedi-vim
-    " " Git hug address is different now
-    " " Plug 'zchee/deoplete-jedi'
-    " Plug 'deoplete-plugins/deoplete-jedi'
-    
-    " " Code jump (go-to) plugin
-    " Plug 'davidhalter/jedi-vim'
-    
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
-    
-    
-    
-    " File managing and exploration plugin
-    " Plug 'scrooloose/nerdtree'
-    
-    " For linting
-    " Plug 'neomake/neomake'
-    
-    
-    
-    
-    " https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
-    " 2019-11-25 no longer need as the same can be achieve using native vim commands.
-    " hmm, seems vim-multiple-cursons does much more than what the aboe medius
-    " posts suggest
-    " Multiple cursor editing plugin
-    " Plug 'terryma/vim-multiple-cursors'
-    " check this our later and vim-multi-cursor is not longer maintianed
-    Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-    
-    " Git wrapper
-    Plug 'tpope/vim-fugitive'
-    " Fugitive Gbrowse handler
-    " Doesn't seem to work
-    " A git commit browser in Vim
-    Plug 'junegunn/gv.vim'
-    Plug 'tpope/vim-rhubarb'
-    
-    
-    Plug 'tpope/vim-surround'
-    
-    " colorschema dracula
-    Plug 'dracula/vim', { 'as': 'dracula' }
-    
-    " clolorscheme
-    " Plug 'morhetz/gruvbox'
-    " Seems to be faster/better than gruvbox
-    " https://github.com/lifepillar/vim-gruvbox8/blob/master/Readme.md
-    Plug 'lifepillar/vim-gruvbox8'
-    
-    
-    " Advanced neovim terminal handling
-    " Plug 'kassio/neoterm'
-    
-    "Python semantic syntax highlighting (may slow down with deoplete)
-    "https://github.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-    " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-    
-    
-    "Adds file type icons (This is supposed to the last plugin)
-    Plug 'ryanoasis/vim-devicons'
-    
-    
-    "20191122 Smooth scrolling
-    Plug 'psliwka/vim-smoothie'
-    
-    " 20191125 Markdown perview
-    " https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
-    " Track the engine.
-    Plug 'SirVer/ultisnips'
-    " Snippets are separated from the engine. Add this if you want them:
-    Plug 'honza/vim-snippets'
-    
-    
-    "20191125
-    " Plug 'godlygeek/tabular'
-    Plug 'plasticboy/vim-markdown'
-    
-    " Plug 'cespare/vim-toml'
-    
-    Plug 'editorconfig/editorconfig-vim'
-    
-    " Plug 'lifepillar/pgsql.vim'
-    
-    " To have ipython like feature within vim
-    Plug 'jpalardy/vim-slime'
-    
-    "integration with dash
-    Plug 'rizzatti/dash.vim'
-    
-    "Jump to any definition and usages
-    Plug 'pechorin/any-jump.nvim'
-    
-    " 20200929 Disabled for Black. Fix it.
-    " Rg|fzf find and replace
-    " Plug 'wincent/ferret'
-    
-    " Case sensitive find and replace
-    Plug 'tpope/vim-abolish'
-    
-    " Modern database interface for Vim
-    Plug 'tpope/vim-dadbod'
-    " Simple UI for dadbod
-    Plug 'kristijanhusak/vim-dadbod-ui'
-    
-    " speeddating.vim: use CTRL-A/CTRL-X to increment dates, times, and more
-    Plug 'tpope/vim-speeddating'
-    
-    " https://github.com/sakhnik/nvim-gdb
-    " Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
-    
-    " Plug 'freitass/todo.txt-vim'
-    
-    " Linter for grammar check
-    " Plug 'dense-analysis/ale'
-    
-    Plug 'rhysd/vim-grammarous'
-    
-    Plug 'tpope/vim-unimpaired'
-    
-    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-    
-    
-    " Plug 'hashrocket/vim-macdown'
-    
-    Plug 'tpope/vim-obsession'
-    
-    " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-    
-    Plug 'ervandew/supertab'
-
-    Plug 'elzr/vim-json'
-
-    " Plug 'dbeniamine/cheat.sh-vim'
-
-    " Replacement for NERDTree together with netrw
-    " Plug 'tpope/vim-vinegar'
-
-    Plug 'wlemuel/vim-tldr'
-
-
-        " 20210529 Treesitter 
-        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-        " Plug 'nvim-treesitter/playground'
-
-        " 20210529 Telescope
-        Plug 'nvim-lua/popup.nvim'
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'nvim-telescope/telescope.nvim'
-
-        " 20210529 Popup show the keyboard shortcut
-        Plug 'folke/which-key.nvim'
-
-        Plug 'sudormrfbin/cheatsheet.nvim'
-        Plug 'nvim-tree/nvim-web-devicons'
-
-
-    Plug 'preservim/tagbar'
-
-    Plug 'phaazon/hop.nvim'
-
-    Plug 'kshenoy/vim-signature'
-
-    " Start up screen
-    Plug 'mhinz/vim-startify'
-    "For better commit message intrface
-    " Disabled for neovim terminal
-    " Plug 'rhysd/committia.vim'
-    Plug 'junegunn/vim-plug'
-
-    Plug 'tpope/vim-dispatch'
-    Plug 'tpope/vim-dotenv'
-
-    " Testing
-    Plug 'janko-m/vim-test'
-    "https://linuxtut.com/en/96d4cda9074f9719bc82/
-    " Plug 'tlvince/vim-compiler-python'
-
-    "debugging
-    " Plug 'puremourning/vimspector'
-    Plug 'mfussenegger/nvim-dap'
-
-    " Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'mfussenegger/nvim-dap'
-    " Plug 'mfussenegger/nvim-dap-python'
-
-    "TODO: you may want to remap the key away from <C-E> to reclaim cursor key
-    Plug 'simeji/winresizer'
-
-    Plug 'romainl/vim-devdocs'
-
-    Plug 'tweekmonster/startuptime.vim'
-
-    Plug 'mhartington/formatter.nvim'
-
-    if has('nvim')
-      function! UpdateRemotePlugins(...)
-        " Needed to refresh runtime files
-        let &rtp=&rtp
-        UpdateRemotePlugins
-      endfunction
-    
-      Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
-    else
-      Plug 'gelguy/wilder.nvim'
-    
-      " To use Python remote plugin features in Vim, can be skipped
-      " Plug 'roxma/nvim-yarp'
-      " Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-
-    Plug 'Xuyuanp/scrollbar.nvim'
-
-        Plug 'nvim-tree/nvim-tree.lua'
-
-    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-
-    Plug 'github/copilot.vim'
-
-    Plug 'tpope/vim-repeat'
-
-    " Plug 'ggandor/lightspeed.nvim'
-    Plug 'ggandor/leap.nvim'
-
-    Plug 'lukas-reineke/indent-blankline.nvim'
-
-    Plug 'christoomey/vim-system-copy'
-
-    Plug 'fladson/vim-kitty'
-
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-
-    Plug 'Vigemus/iron.nvim'
-
-    Plug 'mechatroner/rainbow_csv'
-
-    Plug 'folke/zen-mode.nvim'
-
-    Plug 'kristijanhusak/vim-dadbod-completion'
-
-    Plug 'antoinemadec/coc-fzf'
-
-    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
-
-    Plug 'nvim-treesitter/nvim-treesitter-refactor'
-
-    " Disabled to later use it with more configurations
-    " Plug 'folke/twilight.nvim'
-
-    " Plug 'stevearc/oil.nvim'
-
-
+  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+else
+  Plug 'gelguy/wilder.nvim'
+endif
+Plug 'Xuyuanp/scrollbar.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'github/copilot.vim'
+Plug 'tpope/vim-repeat'
+Plug 'ggandor/leap.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'christoomey/vim-system-copy'
+Plug 'fladson/vim-kitty'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'Vigemus/iron.nvim'
+Plug 'mechatroner/rainbow_csv'
+Plug 'folke/zen-mode.nvim'
+Plug 'kristijanhusak/vim-dadbod-completion'
+Plug 'antoinemadec/coc-fzf'
+Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+" Disabled to later use it with more configurations
+" Plug 'folke/twilight.nvim'
+" Plug 'stevearc/oil.nvim'
 " Initialize plugin system
 " plugend
 call plug#end()
-
-" lua <<EOF
-" -- Do not source the default filetype.vim
-" vim.g.did_load_filetypes = 1
-" EOF
 
 
 let g:airline#extensions#tabline#enabled = 1
@@ -409,63 +160,19 @@ if (has("autocmd") && !has("gui_running"))
   augroup END
 endif
 
-" syntax on
-
-  " colorscheme gruvbox8
-  set termguicolors
-  " seol256
-  " " Unified color scheme (default: dark)
-  " let g:seoul256_background = 233
-  " colo seoul256
-  " " onedark
-  let g:onedark_termcolors=256
-  colorscheme onedark
-  " syntax on
+ set termguicolors
+ let g:onedark_termcolors=256
+ colorscheme onedark
 
 
-""" NERDTree configuration
-"let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-"let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-"let g:nerdtree_tabs_focus_on_files=1
-"let g:NERDTreeWinSize = 35
-""let g:NERDTreeChDirMode=2
-
-" augroup my_neomake_signs
-"     au!
-"     autocmd ColorScheme *
-"         \ hi NeomakeError ctermfg=red |
-"         \ hi NeomakeWarning ctermfg=yellow |
-"         \ hi NeomakeInfo ctermfg=white |
-"         \ hi NeomakeMessage ctermfg=white
-" augroup END
-
-" grep.vim
-" https://pastebin.com/u2TA9hUp
-"nnoremap <silent> <leader>s :Rgrep<CR>
-"let Grep_Default_Options = '-IR'
-"let Grep_Skip_Files = '*.log *.db'
-"let Grep_Skip_Dirs = '.git node_modules'
 
 " Highlighted yank (-1 for persistent)
 let g:highlightedyank_highlight_duration = 1000
-"highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-" let g:deoplete#enable_at_startup = 1
-" Disable deoplete preview window
-" set completeopt-=preview
 
 " 2021-05-26 to disable python2 provider
 let g:loaded_python_provider = 0
 
-" 2019-05-27 Mathu: to make python auto complete work with virtual
-" environments
-" https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
-"let g:python_host_prog = '/usr/bin/python2.7'
-" let g:python_host_prog = '/Users/mathu/.pyenv/versions/neovim2/bin/python'
-" let g:python_host_prog = '/Users/mathu/.pyenv/shims/python'
-" let g:python_host_prog = ''
-"let g:python3_host_prog = 'python3'
-" let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
 let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python3'
 
 " Jedi-Vim settings just got code jumping
@@ -486,9 +193,6 @@ set list listchars=tab:▸▸,trail:·
 set mouse=a
 
 
-" Mapping similar to CtrlP extension
-" nnoremap <C-p> :Files<Cr>
-
 " Copy & paste to system clipboard with <Space>p and <Space>y
 " https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 vmap <Leader>y "+y
@@ -506,14 +210,6 @@ nnoremap <Leader>e :LeaderfMruCwd<CR>
 " open the go-to function in split, not another buffer
 let g:jedi#use_splits_not_buffers = "right"
 
-"https://jdhao.github.io/2018/09/10/nerdtree_usage/
-"For example, imitating the way Sublime Text opens the side bar, we can use this setting:
-"20191122 Had to turn it off sue to tmux prefix shortcut
-"nnoremap <silent> <C-k><C-B> :NERDTreeToggle<CR>
-" Changed to Ctrl + s as the previous one doesn't work after some other
-" plugins. Investigate later. It didn't work because of Karabinar map
-"nnoremap <silent> <C-s> :NERDTreeToggle<CR>
-" nnoremap <Leader>b :NERDTreeToggle<CR>
 "To map <Esc> to exit terminal-mode: >
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -554,14 +250,6 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 
-" 20191125 https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<C-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-
-" 20191125 vim-markdown settings (START)
-" https://jdhao.github.io/2019/01/15/markdown_edit_preview_nvim/
 " disable header folding
 let g:vim_markdown_folding_disabled = 1
 
@@ -587,17 +275,6 @@ let g:slime_target = 'neovim'
 "" fix paste issues in ipython
 let g:slime_python_ipython = 1
 
-"" always send text to the top-right pane in the current tmux tab without asking
-"let g:slime_default_config = {
-"	    \ 'socket_name': get(split($TMUX, ','), 0),
-"	    \ 'target_pane': '{top-right}' }
-"let g:slime_dont_ask_default = 1
-
-""------------------------------------------------------------------------------
-"" ipython-cell configuration
-""------------------------------------------------------------------------------
-"" Use '##' to define cells instead of using marks
-"let g:ipython_cell_delimit_cells_by = 'tags'
 
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'vim', 'help']
 
@@ -614,42 +291,6 @@ set hidden
 " Black - formatting settings 
 let g:black_virtualenv = '/Users/mathu/.local/pipx/venvs/black/'
 let g:black_linelength = 119
-" TODO
-"autocmd BufWritePre *.py execute ':Black'
-
-"neomake linting
-" Neomake automatic mode
-" call neomake#configure#automake('nrwi', 500)
-"let g:neomake_python_enabled_makers = ['pylint']
-" let g:neomake_python_enabled_makers = ['flake8']
-
-"20191122 https://github.com/neomake/neomake/issues/245
-" let g:neomake_error_sign = {
-"  \ 'text': '✖',
-"  \ 'texthl': 'NeomakeErrorSign',
-"  \ }
-" let g:neomake_warning_sign = {
-"  \   'text': '‼',
-"  \   'texthl': 'NeomakeWarningSign',
-"  \ }
-" let g:neomake_message_sign = {
-"   \   'text': '➤',
-"   \   'texthl': 'NeomakeMessageSign',
-"   \ }
-" let g:neomake_info_sign = {
-"   \ 'text': 'ℹ',
-"   \ 'texthl': 'NeomakeInfoSign'
-"   \ }
-"
-" ":highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
-" let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
-
-"20191122 Semshi settingas
-"https://soduu.com/numirias/semshi
-" let g:semshi#error_sign = v:false
-" Not to slow down semshi together with deoplete
-" https://soduu.com/numirias/semshi#semshi-is-slow-together-with-deopletenvim
-" let g:deoplete#auto_complete_delay = 100
 
 
 "To show the buffer no next to file name
@@ -857,65 +498,6 @@ endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
-" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
-"
-" function! s:RgBoth(...)
-"     if a:0 != 2
-"         echo "Please provide exactly two arguments."
-"         return
-"     endif
-"     let l:cmd = 'rg -l '.shellescape(a:1).' | xargs rg -l '.shellescape(a:2)
-"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
-" endfunction
-
-" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
-"
-" function! s:RgBoth(...)
-"     if a:0 != 2
-"         echo "Please provide exactly two arguments."
-"         return
-"     endif
-"     let l:cmd = 'rg '.shellescape(a:1).' | xargs rg '.shellescape(a:2)
-"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
-" endfunction
-
-" command! -bang -nargs=+ RgBoth call s:RgBoth(<f-args>)
-"
-" function! s:RgBoth(...)
-"     if a:0 != 2
-"         echo "Please provide exactly two arguments."
-"         return
-"     endif
-"     let l:cmd = 'rg -l '.shellescape(a:1).' | xargs rg -l '.shellescape(a:2).' | xargs rg '.shellescape(a:1.'\\|'.a:2)
-"     call fzf#vim#grep(l:cmd, 1, fzf#vim#with_preview(), 0)
-" endfunction
-
-" function! RgBoth() abort
-"   call fzf#vim#grep("rg -l 'opening_hours' | xargs rg -l 'save'", 1, fzf#vim#with_preview())
-" endfunction
-"
-" command! -bang RgBoth call RgBoth()
-
-
-" function! RgBoth() abort
-"     let l:grep_cmd = "rg -l 'opening_hours' | xargs rg -l 'save'"
-"
-"     let s:source = split(system(l:grep_cmd), "\n")
-"
-"     let l:options = {
-"                 \ 'source':  s:source,
-"                 \ 'sink':    function('s:open_file'),
-"                 \ 'options': '--ansi --prompt "RgBoth> "',
-"                 \ 'down':    '40%'
-"                 \ }
-"
-"     call fzf#run(l:options)
-" endfunction
-"
-" function! s:open_file(line) abort
-"     execute 'edit' a:line
-" endfunction
-"
 
 function! RgBoth(search_term1, search_term2) abort
     let l:grep_cmd = "rg -l '" . a:search_term1 . "' | xargs rg -l '" . a:search_term2 . "'"
@@ -993,11 +575,6 @@ def remove_breakpoints():
 vim.command('map <f5> :py remove_breakpoints()<cr>')
 EOF
 
-" Easier  split navigation
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-" nnoremap <C-L> <C-W><C-L>
-" nnoremap <C-H> <C-W><C-H>
 
 " normal mode
 nnoremap <C-h> <c-w>h
@@ -1038,12 +615,6 @@ autocmd FileType markdown setlocal spell
 " Spell-check Git messages
 autocmd FileType gitcommit setlocal spell
 
-" Ignore current buffer and around
-" let g:deoplete#ignore_sources = {}
-" let g:deoplete#ignore_sources._ = ['buffer', 'around']
-"https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
-" " maximum candidate window length
-" call deoplete#custom#source('_', 'max_menu_width', 80)
 
 " Autocomplete with dictionary words when spell check is on
 " This doesn't seem to work.
@@ -1089,85 +660,9 @@ let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 
 
-" https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
-" call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
-
-
-
-
-
-" " LSP settings START
-" " https://jdhao.github.io/2020/11/04/replace_deoplete_jedi_for_LSP/
-" " settings for pyls
-" if executable('pyls')
-"     " pip install python-language-server
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'pyls',
-"         \ 'cmd': {server_info->['pyls']},
-"         \ 'allowlist': ['python'],
-"         \ })
-" endif
-
-" function! s:on_lsp_buffer_enabled() abort
-"     " use omnifunc if you are fine with it.
-"     " setlocal omnifunc=lsp#complete
-"     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-"     " some mappings to use, tweak as you wish.
-"     nmap <buffer> gd <plug>(lsp-definition)
-"     nmap <buffer> gr <plug>(lsp-references)
-"     nmap <buffer> gi <plug>(lsp-implementation)
-"     nmap <buffer> gt <plug>(lsp-type-definition)
-"     nmap <buffer> <leader>rn <plug>(lsp-rename)
-"     nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
-"     nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
-"     nmap <buffer> K <plug>(lsp-hover)
-" endfunction
-
-" augroup lsp_install
-"     au!
-"     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-"     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-" augroup END
-
-
-" " whether to enable diagnostics for vim-lsp (we may want to use ALE for other
-" " plugins for that.
-" let g:lsp_diagnostics_enabled = 1
-
-" " show diagnostic signs
-" let g:lsp_signs_enabled = 1
-" let g:lsp_signs_error = {'text': '✗'}
-" let g:lsp_signs_warning = {'text': '!'}
-" let g:lsp_highlights_enabled = 0
 
 " " Do not use virtual text, they are far too obtrusive.
 let g:lsp_virtual_text_enabled = 1
-" " echo a diagnostic message at cursor position
-" let g:lsp_diagnostics_echo_cursor = 0
-" " show diagnostic in floating window
-" let g:lsp_diagnostics_float_cursor = 1
-" " whether to enable highlight a symbol and its references
-" let g:lsp_highlight_references_enabled = 1
-" let g:lsp_preview_max_width = 80
-
-" " flake8 specific settings
-" " https://jdhao.github.io/2020/11/05/pyls_flake8_setup/
-" if executable('pyls')
-"     " pip install python-language-server
-"     au User lsp_setup call lsp#register_server({
-"           \ 'name': 'pyls',
-"           \ 'cmd': {server_info->['pyls']},
-"           \ 'allowlist': ['python'],
-"           \ 'workspace_config': {
-"           \    'pyls':
-"           \        {'configurationSources': ['flake8'],
-"           \         'plugins': {'flake8': {'enabled': v:true},
-"           \                     'pyflakes': {'enabled': v:false},
-"           \                     'pycodestyle': {'enabled': v:false},
-"           \                    }
-"           \         }
-"           \ }})
-" endif
 
 
 " " LSP settings END
@@ -1233,18 +728,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" " Use K to show documentation in preview window.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-"
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   elseif (coc#rpc#ready())
-"     call CocActionAsync('doHover')
-"   else
-"     execute '!' . &keywordprg . " " . expand('<cword>')
-"   endif
-" endfunction
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -1402,19 +885,9 @@ let g:gutentags_ctags_exclude = [
 
 " END 
 
-" shortcuts for Tags
-" nnoremap <Leader>tb :BTags<CR>
-" nnoremap <Leader>tt :Tags<CR>
 
 " PLUGIN: FZF
 " https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko
-" nnoremap <silent> <Leader>b :Buffers<CR>
-" nnoremap <silent> <C-f> :Files<CR>
-" nnoremap <silent> <Leader>f :Rg<CR>
-" nnoremap <silent> <Leader>/ :BLines<CR>
-" nnoremap <silent> <Leader>' :Marks<CR>
-" nnoremap <silent> <Leader>g :Commits<CR>
-" nnoremap <silent> <Leader>H :Helptags<CR>
 nnoremap <silent> <Leader>hh :History<CR>
 nnoremap <silent> <Leader>h: :History:<CR>
 nnoremap <silent> <Leader>h/ :History/<CR> 
@@ -1562,42 +1035,12 @@ EOF
 " python tagbar
 nmap <F8> :TagbarToggle<CR>
 
-" " Toggle tagbar statusline
-" " This doesn't seem to work
-" " https://stackoverflow.com/questions/33699049/display-current-function-in-vim-status-line
-" command! -nargs=0 TagbarToggleStatusline call TagbarToggleStatusline()
-" " nnoremap <silent> <c-F12> :TagbarToggleStatusline<CR>
-" function! TagbarToggleStatusline()
-"    let tStatusline = '%{exists(''*tagbar#currenttag'')?
-"             \tagbar#currenttag(''     [%s] '',''''):''''}'
-"    if stridx(&statusline, tStatusline) != -1
-"       let &statusline = substitute(&statusline, '\V'.tStatusline, '', '')
-"    else
-"       let &statusline = substitute(&statusline, '\ze%=%-', tStatusline, '')
-"    endif
-" endfunction
-
-" filetype plugin indent on
-" syntax on
-" au User AirlineAfterInit let g:airline_section_x = airline#section#create_right(['tagbar'])
-
-" :Rg exlucde files name match
-" https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
-" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " Rg current word
 nnoremap <silent> <Leader>rg :Rg! <C-R><C-W><CR>
 nnoremap <silent> <Leader>hrg :Rgh! <C-R><C-W><CR>
 nnoremap <silent> <Leader>rrg :RG <C-R><C-W><CR>
 
-"" Sourcery config
-"" nnoremap <leader>cl :CocDiagnostics<cr>
-"" nnoremap <leader>cf :CocFix<cr>
-"" nnoremap <leader>ch :call CocAction('doHover')<cr>
-" nnoremap <silent> <leader>cl :CocDiagnostics<cr>
-" nnoremap <silent> <leader>ch :call CocAction('doHover')<cr>
-" nnoremap <silent> <leader>cf <plug>(coc-codeaction-cursor)
-" nnoremap <silent> <leader>ca <plug>(coc-fix-current)
 
 " test.vim settings
 " make test commands execute using dispatch.vim
@@ -1644,23 +1087,6 @@ let g:dispatch_compilers['python'] = 'pyunit'
 let g:dispatch_compilers['python3'] = 'pyunit'
 " let g:dispatch_compilers['docker exec -t dev_app_1 python'] = 'pyunit'
 
-" " Vimspector
-" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-" nmap <leader>vl :call vimspector#Launch()<CR>
-" nmap <leader>vr :VimspectorReset<CR>
-" nmap <leader>ve :VimspectorEval
-" nmap <leader>vw :VimspectorWatch
-" nmap <leader>vo :VimspectorShowOutput
-" nmap <leader>vi <Plug>VimspectorBalloonEval
-" xmap <leader>vi <Plug>VimspectorBalloonEval
-" let g:vimspector_install_gadgets = [ 'debugpy']
-"
-" " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
-"
-" " for normal mode - the word under the cursor
-" nmap <Leader>di <Plug>VimspectorBalloonEval
-" " for visual mode, the visually selected text
-" xmap <Leader>di <Plug>VimspectorBalloonEval
 
 
 " Use neovim-remote as default text editor if inside :terminal
@@ -1743,12 +1169,6 @@ EOF
 " https://github.com/gelguy/wilder.nvim
 call wilder#setup({'modes': [':', '/', '?']})
 
-" call wilder#set_option('pipeline', [
-"       \   wilder#branch(
-"       \     wilder#cmdline_pipeline(),
-"       \     wilder#search_pipeline(),
-"       \   ),
-"       \ ])
 
 call wilder#set_option('pipeline', [
       \   wilder#branch(
@@ -1760,10 +1180,6 @@ call wilder#set_option('pipeline', [
       \   ),
       \ ])
 
-" call wilder#set_option('renderer', wilder#wildmenu_renderer({
-"       \ 'highlighter': wilder#basic_highlighter(),
-"       \ }))
-
 call wilder#set_option('renderer', wilder#renderer_mux({
       \ ':': wilder#popupmenu_renderer({
       \   'highlighter': wilder#basic_highlighter(),
@@ -1772,51 +1188,6 @@ call wilder#set_option('renderer', wilder#renderer_mux({
       \ }))
 
 
-" " Key bindings can be changed, see below
-" " call wilder#setup({'modes': [':', '/', '?']})
-" call wilder#setup({'modes': [':']})
-"
-" " For Neovim or Vim with yarp
-" " For wild#cmdline_pipeline():
-" "   'language'   : set to 'python' to use python
-" "   'fuzzy'      : 0 - turns off fuzzy matching
-" "                : 1 - turns on fuzzy matching
-" "                : 2 - partial fuzzy matching (match does not have to begin with the same first letter)
-" " For wild#python_search_pipeline():
-" "   'pattern'    : can be set to wilder#python_fuzzy_delimiter_pattern() for stricter fuzzy matching
-" "   'sorter'     : omit to get results in the order they appear in the buffer
-" "   'engine'     : can be set to 're2' for performance, requires pyre2 to be installed
-" "                : see :h wilder#python_search() for more details
-" call wilder#set_option('pipeline', [
-"       \   wilder#branch(
-"       \     wilder#cmdline_pipeline({
-"       \       'language': 'python',
-"       \       'fuzzy': 0,
-"       \     }),
-"       \     wilder#python_search_pipeline({
-"       \       'pattern': wilder#python_fuzzy_delimiter_pattern(),
-"       \       'sorter': wilder#python_difflib_sorter(),
-"       \       'engine': 're',
-"       \     }),
-"       \   ),
-"       \ ])
-"
-" " let s:highlighters = [
-" "         \ wilder#pcre2_highlighter(),
-" "         \ wilder#basic_highlighter(),
-" "         \ ]
-" "
-" "
-" " " 'highlighter' : applies highlighting to the candidates
-" " call wilder#set_option('renderer', wilder#popupmenu_renderer({
-" "       \ 'highlighter': s:highlighters,
-" "       \ 'left': [
-" "       \   ' ', wilder#popupmenu_devicons(),
-" "       \ ],
-" "       \ 'right': [
-" "       \   ' ', wilder#popupmenu_scrollbar(),
-" "       \ ],
-" "       \ }))
 
 " https://github.com/Xuyuanp/scrollbar.nvim
 augroup ScrollbarInit
@@ -1894,12 +1265,6 @@ let g:nvim_tree_icons = {
     \   }
     \ }
 
-" nnoremap <C-n> :NvimTreeToggle<CR>
-" nnoremap <leader>r :NvimTreeRefresh<CR>
-" nnoremap <leader>n :NvimTreeFindFile<CR>
-" NvimTreeOpen, NvimTreeClose, NvimTreeFocus, NvimTreeFindFileToggle, and NvimTreeResize are also available if you need them
-
-" set termguicolors " this variable must be enabled for colors to be applied properly
 
 " a list of groups can be found at `:help nvim_tree_highlight`
 highlight NvimTreeFolderIcon guibg=blue
@@ -2010,9 +1375,6 @@ augroup END
 
 let g:winresizer_start_key = '<C-S>'
 
-" Not sure if this works
-" call coc#config("languageserver.sourcery.initializationOptions.token", $SOURCERY_TOKEN)
-"
 
 " Remap keys for SystemCopy, used to be 'cp' and 'cv'
 nmap cy <Plug>SystemCopy
@@ -2098,25 +1460,6 @@ dap.configurations.python = {
 vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
 vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
 EOF
-" nnoremap <leader>dh :lua require'dap'.toggle_breakpoint()<CR>
-" nnoremap <S-k> :lua require'dap'.step_out()<CR>
-" nnoremap <S-l> :lua require'dap'.step_into()<CR>
-" nnoremap <S-j> :lua require'dap'.step_over()<CR>
-" nnoremap <leader>ds :lua require'dap'.stop()<CR>
-" nnoremap <leader>dn :lua require'dap'.continue()<CR>
-" nnoremap <leader>dk :lua require'dap'.up()<CR>
-" nnoremap <leader>dj :lua require'dap'.down()<CR>
-" nnoremap <leader>d_ :lua require'dap'.disconnect();require'dap'.stop();require'dap'.run_last()<CR>
-" nnoremap <leader>dr :lua require'dap'.repl.open({}, 'vsplit')<CR><C-w>l
-" nnoremap <leader>di :lua require'dap.ui.variables'.hover()<CR>
-" vnoremap <leader>di :lua require'dap.ui.variables'.visual_hover()<CR>
-" nnoremap <leader>d? :lua require'dap.ui.variables'.scopes()<CR>
-" nnoremap <leader>de :lua require'dap'.set_exception_breakpoints({"all"})<CR>
-" nnoremap <leader>da :lua require'debugHelper'.attach()<CR>
-" nnoremap <leader>dA :lua require'debugHelper'.attachToRemote()<CR>
-" nnoremap <leader>di :lua require'dap.ui.widgets'.hover()<CR>
-" nnoremap <leader>d? :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
-"
 
 luafile $HOME/.config/nvim/plugins.lua
 
@@ -2332,53 +1675,6 @@ iron.setup {
 }
 
 
--- Vertical 50 columns split
--- Split has a metatable that allows you to set up the arguments in a "fluent" API
--- you can write as you would write a vim command.
--- It accepts:
---   - vertical
---   - leftabove/aboveleft
---   - rightbelow/belowright
---   - topleft
---   - botright
--- They'll return a metatable that allows you to set up the next argument
--- or call it with a size parameter
--- repl_open_cmd = view.split.vertical.botright(50)
---
--- -- If the supplied number is a fraction between 1 and 0,
--- -- it will be used as a proportion
--- repl_open_cmd = view.split.vertical.botright(0.61903398875)
-
--- The size parameter can be a number, a string or a function.
--- When it's a *number*, it will be the size in rows/columns
--- If it's a *string*, it requires a "%" sign at the end and is calculated
--- as a percentage of the editor size
--- If it's a *function*, it should return a number for the size of rows/columns
-
--- repl_open_cmd = view.split("40%")
-
--- You can supply custom logic
--- to determine the size of your
--- repl's window
--- repl_open_cmd = view.split.topleft(function()
---   if some_check then
---     return vim.o.lines * 0.4
---   end
---   return 20
--- end)
---
--- -- An optional set of options can be given to the split function if one
--- -- wants to configure the window behavior.
--- -- Note that, by default `winfixwidth` and `winfixheight` are set
--- -- to `true`. If you want to overwrite those values,
--- -- you need to specify the keys in the option map as the example below
---
--- repl_open_cmd = view.split("40%", {
---   winfixwidth = false,
---   winfixheight = false,
---   -- any window-local configuration can be used here
---   number = true
--- })
 -- open the repl in a vertical split
 repl_open_cmd = view.split.vertical(50)
 
@@ -2429,18 +1725,6 @@ command! DelBreakpoints :bufdo g/breakpoint()/d | update
 " command! GBrowseAtLine! execute line('.') . 'GBrowse!'
 command! -bang GBrowseAtLine execute line('.') . 'GBrowse' . ( '<bang>' == '!' ? '!' : '' )
 
-
-" Define a new command called GBrowseBlame that opens the blame URL for the currently selected lines
-" command! -range GBrowseBlame silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' ) | let url = getreg('+') | let url = substitute(url, '/blob/', '/blame/', '') | execute '!open ' . shellescape(url)
-
-" command! -range GBrowseBlame execute line('.') . 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' ) | let url = getreg('+') | if a:firstline != a:lastline | let line_range = "#" . "L" . a:firstline . "-L" . a:lastline | let url = substitute(url, '/blob/', '/blame/', '') . line_range | else | let url = substitute(url, '/blob/', '/blame/', '') . "#" . "L" . a:firstline | endif | execute '!open ' . shellescape(url)
-
-" function! BrowseBlame()
-"   silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' )
-"   let url = getreg('+')
-"   let url = substitute(url, '/blob/', '/blame/', '')
-"   execute '!open ' . shellescape(url)
-" endfunction
 
 function! BrowseBlame()
   silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' )
