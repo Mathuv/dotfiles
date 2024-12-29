@@ -1,5 +1,6 @@
 {
   "semanticTokens.enable": true,
+  "ruff.nativeServer": true,
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextCurrentLineOnly": true,
   "diagnostic.checkCurrentLine": true,
@@ -14,6 +15,7 @@
   //"python.sortImports.path": "isort",
   //"python.analysis.typeCheckingMode": "off",
   "python.analysis.typeCheckingMode": "basic",
+  "basedpyright.analysis.typeCheckingMode": "basic",
   //"pyright.organizeimports.provider": "isort", // or "ruff" or "pyright"
   "pyright.organizeimports.provider": "ruff", //"isort", // or "ruff" or "pyright"
   "pyright.reportMissingTypeStubs": true,
