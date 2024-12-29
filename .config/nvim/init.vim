@@ -52,7 +52,7 @@ endfunction
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'nathom/filetype.nvim'
+" Plug 'nathom/filetype.nvim'
 
 " Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
@@ -281,7 +281,7 @@ if !exists('g:vscode')
     " if !has("gui_vimr")
         " 20210529 Treesitter 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-        Plug 'nvim-treesitter/playground'
+        " Plug 'nvim-treesitter/playground'
 
         " 20210529 Telescope
         Plug 'nvim-lua/popup.nvim'
@@ -398,10 +398,10 @@ endif
 " plugend
 call plug#end()
 
-lua <<EOF
--- Do not source the default filetype.vim
-vim.g.did_load_filetypes = 1
-EOF
+" lua <<EOF
+" -- Do not source the default filetype.vim
+" vim.g.did_load_filetypes = 1
+" EOF
 
 
 let g:airline#extensions#tabline#enabled = 1
@@ -493,18 +493,18 @@ let g:highlightedyank_highlight_duration = 1000
 " set completeopt-=preview
 
 " 2021-05-26 to disable python2 provider
-" let g:loaded_python_provider = 0
+let g:loaded_python_provider = 0
 
 " 2019-05-27 Mathu: to make python auto complete work with virtual
 " environments
 " https://github.com/deoplete-plugins/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
 "let g:python_host_prog = '/usr/bin/python2.7'
-let g:python_host_prog = '/Users/mathu/.pyenv/versions/neovim2/bin/python'
+" let g:python_host_prog = '/Users/mathu/.pyenv/versions/neovim2/bin/python'
 " let g:python_host_prog = '/Users/mathu/.pyenv/shims/python'
 " let g:python_host_prog = ''
 "let g:python3_host_prog = 'python3'
 " let g:python3_host_prog = '/Users/mediushealth/.pyenv/versions/neovim3/bin/python'
-let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python'
+let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python3'
 
 " Jedi-Vim settings just got code jumping
 " disable autocompletion, cause we use deoplete for completion
