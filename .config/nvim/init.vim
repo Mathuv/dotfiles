@@ -43,19 +43,11 @@ set cursorline
 " - Avoid using standard Vim directory names like 'plugin'
 " call plug#begin('~/.vim/plugged')
 
-" Function to condionally install pluging
-" https://github.com/asvetliakov/vscode-neovim/issues/415
-function! Cond(Cond, ...)
-    let opts = get(a:000, 0, {})
-    return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
-endfunction
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Plug 'nathom/filetype.nvim'
 
-" Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
-Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
+Plug 'asvetliakov/vim-easymotion'
 
 " fzf + ripgrep setup for fuzzy search
 " Using brew locaion below so that it can be kept updated
@@ -87,7 +79,6 @@ Plug 'brentyi/isort.vim'
 
 Plug 'machakann/vim-highlightedyank'
 
-if !exists('g:vscode')
     " " 2019-05-30 Disabling all below for jedi vim (use either this or jedi-vim
     " " Make sure you use single quotes
     " " 20200228 deoplete version 5.2 because the latest version requires msgpack==1.0.0+ and that doesn't seem to work.
@@ -104,9 +95,7 @@ if !exists('g:vscode')
     " Plug 'Shougo/deoplete.nvim'
     " Plug 'lighttiger2505/deoplete-vim-lsp'
     " User coc.vim instead
-    " if !has("gui_vimr")
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " endif
     
     Plug 'ludovicchabant/vim-gutentags'
     
@@ -138,13 +127,8 @@ if !exists('g:vscode')
     " " Code jump (go-to) plugin
     " Plug 'davidhalter/jedi-vim'
     
-    " Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
-    " Disable vim-airline when firenvim starts since vim-airline takes two lines.
-    "Status bar plugin: vim-airline
-    if !exists('g:started_by_firenvim')
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
-    endif
     
     
     
@@ -258,7 +242,6 @@ if !exists('g:vscode')
     
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     
-    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
     
     " Plug 'hashrocket/vim-macdown'
     
@@ -278,7 +261,6 @@ if !exists('g:vscode')
     Plug 'wlemuel/vim-tldr'
 
 
-    " if !has("gui_vimr")
         " 20210529 Treesitter 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         " Plug 'nvim-treesitter/playground'
@@ -294,11 +276,10 @@ if !exists('g:vscode')
         Plug 'sudormrfbin/cheatsheet.nvim'
         Plug 'nvim-tree/nvim-web-devicons'
 
-    " endif
 
     Plug 'preservim/tagbar'
 
-    Plug 'phaazon/hop.nvim', Cond(!exists('g:vscode'))
+    Plug 'phaazon/hop.nvim'
 
     Plug 'kshenoy/vim-signature'
 
@@ -352,9 +333,7 @@ if !exists('g:vscode')
 
     Plug 'Xuyuanp/scrollbar.nvim'
 
-    " if !has("gui_vimr")
         Plug 'nvim-tree/nvim-tree.lua'
-    " endif
 
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
@@ -392,7 +371,6 @@ if !exists('g:vscode')
 
     " Plug 'stevearc/oil.nvim'
 
-endif
 
 " Initialize plugin system
 " plugend
@@ -433,21 +411,6 @@ endif
 
 " syntax on
 
-" VimR specific settings
-if has("gui_vimr")
-  " Here goes some VimR specific settings like
-  " color iceberg 
-  " color default 
-  " set background=dark
-  " syntax on
-  " set termguicolors
-  " colorscheme iceberg
-  " colorscheme base16-dracula
-  " colorscheme dracula
-  colorscheme gruvbox8
-  set background=light   " Setting light mode
-" 20191124
-else
   " colorscheme gruvbox8
   set termguicolors
   " seol256
@@ -458,7 +421,6 @@ else
   let g:onedark_termcolors=256
   colorscheme onedark
   " syntax on
-endif
 
 
 """ NERDTree configuration
@@ -1080,10 +1042,6 @@ autocmd FileType gitcommit setlocal spell
 " let g:deoplete#ignore_sources = {}
 " let g:deoplete#ignore_sources._ = ['buffer', 'around']
 "https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
-" if has("gui_vimr")
-" else
-"     call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
-" endif
 " " maximum candidate window length
 " call deoplete#custom#source('_', 'max_menu_width', 80)
 
@@ -1134,26 +1092,9 @@ let g:Lf_PreviewInPopup = 1
 " https://jdhao.github.io/2019/06/06/nvim_deoplete_settings/
 " call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
 
-" Firenvim config: https://jdhao.github.io/2020/01/01/firenvim_nvim_inside_browser/
-" Disable vim-airline when firenvim starts since vim-airline takes two lines.
-
-if exists('g:started_by_firenvim') && g:started_by_firenvim
-    " general options
-    set laststatus=0 nonumber noruler noshowcmd
-
-    augroup firenvim
-        autocmd!
-        autocmd BufEnter *.txt setlocal filetype=markdown.pandoc
-    augroup END
-endif
 
 
-if exists('g:vscode')
-    xmap gc  <Plug>VSCodeCommentary
-    nmap gc  <Plug>VSCodeCommentary
-    omap gc  <Plug>VSCodeCommentary
-    nmap gcc <Plug>VSCodeCommentaryLine
-endif
+
 
 " " LSP settings START
 " " https://jdhao.github.io/2020/11/04/replace_deoplete_jedi_for_LSP/
@@ -1318,9 +1259,7 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 " Looks like coc-jedi still doesn't support this. check back later.
-" if !has("gui_vimr")
     autocmd CursorHold * silent call CocActionAsync('highlight')
-" endif
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -1487,7 +1426,6 @@ if $NVM_BIN != ""
 endif
 
 " nvim-treesitter config (START)
-if !has("gui_vimr")
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -1620,7 +1558,6 @@ require'nvim-web-devicons'.setup {
 }
 EOF
 
-endif
 
 " python tagbar
 nmap <F8> :TagbarToggle<CR>
