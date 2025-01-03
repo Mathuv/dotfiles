@@ -57,13 +57,8 @@ return {
   { "editorconfig/editorconfig-vim" },
 
   -- Markdown and Documentation
-  { 
-    "iamcco/markdown-preview.nvim",
-    build = function() vim.fn["mkdp#util#install"]() end,
-  },
   { "plasticboy/vim-markdown" },
   { "wlemuel/vim-tldr" },
-  { "devdocs/vim-devdocs" },
 
   -- Terminal and REPL
   { "jpalardy/vim-slime" },
