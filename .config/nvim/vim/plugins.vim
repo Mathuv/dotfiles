@@ -107,6 +107,7 @@ Plug 'antoinemadec/coc-fzf'
 Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'liuchengxu/vista.vim'
+Plug 'stevearc/oil.nvim'
 " Disabled to later use it with more configurations
 " Plug 'folke/twilight.nvim'
 " Plug 'stevearc/oil.nvim'
