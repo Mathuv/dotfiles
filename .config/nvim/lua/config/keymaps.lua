@@ -41,7 +41,7 @@ end
 if vim.fn.has('nvim') == 1 then
     map('t', '<Esc>', '<C-\\><C-n>', default_opts)
     map('t', '<C-v><Esc>', '<Esc>', default_opts)
-    map('t', '<expr> <C-R>', '<C-\\><C-N>"'..'nr2char(getchar())..'pi', default_opts)
+--     map('t', '<expr> <C-R>', '<C-\\><C-N>"'..'nr2char(getchar())..'pi', default_opts)
     map('t', '<C-v><C-R>', '<C-R>', default_opts)
 end
 
