@@ -46,7 +46,7 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'tpope/vim-speeddating'
 Plug 'rhysd/vim-grammarous'
 Plug 'tpope/vim-unimpaired'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'tpope/vim-obsession'
 Plug 'ervandew/supertab'
 Plug 'elzr/vim-json'
@@ -61,7 +61,8 @@ Plug 'folke/which-key.nvim'
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'preservim/tagbar'
-Plug 'phaazon/hop.nvim'
+" Plug 'phaazon/hop.nvim'
+Plug 'smoka7/hop.nvim'
 Plug 'kshenoy/vim-signature'
 " Start up screen
 Plug 'mhinz/vim-startify'
@@ -108,6 +109,11 @@ Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRe
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'liuchengxu/vista.vim'
 Plug 'stevearc/oil.nvim'
+" Plug 'zbirenbaum/copilot.lua'
+Plug 'olimorris/codecompanion.nvim'
+Plug 'CopilotC-Nvim/CopilotChat.nvim'
+Plug 'sindrets/diffview.nvim'
+Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 " Disabled to later use it with more configurations
 " Plug 'folke/twilight.nvim'
 " Plug 'stevearc/oil.nvim'

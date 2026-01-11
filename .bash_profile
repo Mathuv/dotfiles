@@ -16,3 +16,6 @@ unset __conda_setup
 
 
 [ -s "/Users/mathu/.scm_breeze/scm_breeze.sh" ] && source "/Users/mathu/.scm_breeze/scm_breeze.sh"
+. "$HOME/.cargo/env"
+
+. "$HOME/.atuin/bin/env"

@@ -29,7 +29,9 @@ augroup END
 
 " 2021-05-26 to disable python2 provider
 let g:loaded_python_provider = 0
+" let g:loaded_python3_provider = 1
 
+" let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python3'
 let g:python3_host_prog = '/Users/mathu/.pyenv/versions/neovim3/bin/python3'
 
 " Show `▸▸` for tabs: 	, `·` for tailing whitespace: 
@@ -189,6 +191,12 @@ let g:gutentags_ctags_exclude = [
       \ 'dist',
       \ '*sites/*/files/*',
       \ 'bin',
+      \ '.venv',
+      \ '.env',
+      \ '.vscode',
+      \ '.idea',
+      \ '.temp',
+      \ '__pycache__',
       \ 'node_modules',
       \ 'bower_components',
       \ 'cache',

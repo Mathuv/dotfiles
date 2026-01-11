@@ -119,11 +119,13 @@ com! JQFormatJSON %!jq
 " nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
 " Add a command to set the diff base to the current commit
 command! GitGutterDiffHead :let g:gitgutter_diff_base = 'head' <Bar> GitGutter
-command! GGDH :let g:gitgutter_diff_base = 'head' <Bar> GitGutter
+command! -nargs=? GGDH :execute 'let g:gitgutter_diff_base = "HEAD' . (empty(<q-args>) ? '' : '~' . <q-args>) . '"' <Bar> GitGutter
 " Add a command to set the diff base to 'develop'
 command! GitGutterDiffDevelop :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter
 command! GGDD :let g:gitgutter_diff_base = 'origin/develop' <Bar> GitGutter
 command! GGDM :let g:gitgutter_diff_base = 'origin/master' <Bar> GitGutter
+" Add a command to set the diff base to HEAD~n (takes a number argument)
+command! -nargs=1 GGD :execute 'let g:gitgutter_diff_base = "HEAD~' . <args> . '"' <Bar> GitGutter
 
 
 " Map some frequently used test commands
@@ -133,7 +135,9 @@ command TestStrDispatch let test#strategy = 'dispatch'
 command TestStrNeovim let test#strategy = 'neovim'
 " Open curent file in vscode focusing at the current_line
 command Code call system('code -g ' . expand('%') . ':' . line('.'))
+command Icode call system('code-insiders -g ' . expand('%') . ':' . line('.'))
 command Cursor call system('cursor -g ' . expand('%') . ':' . line('.'))
+command Agy call system('agy -g ' . expand('%') . ':' . line('.'))
 " command Pycharm call system('pycharm --line ' . expand('%') . ':' . line('.'))
 " Open curent file in pycharm focusing at the current_line
 command Pycharm call system('pycharm --line ' . line('.') . ' ' . expand('%'))

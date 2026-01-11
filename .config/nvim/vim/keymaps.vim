@@ -18,7 +18,7 @@ vmap <Leader>P "+P
 " Type <Space>w to save file (a lot faster than :w<Enter>):
 nnoremap <Leader>w :w<CR>
 
-nnoremap <Leader>e :LeaderfMruCwd<CR>
+" nnoremap <Leader>e :LeaderfMruCwd<CR>
 
 "To map <Esc> to exit terminal-mode: >
 if has('nvim')
@@ -43,6 +43,18 @@ nnoremap <leader>gdd :Gdiffsplit! origin/develop<CR>
 nnoremap <leader>gdm :Gdiffsplit! origin/master<CR>
 " map <leader>gdu to Gdiffsplit against current branch's upstream
 nnoremap <leader>gdu :Gdiffsplit! @{u}<CR>
+nnoremap <leader>gdc :Gdiffsplit! HEAD<CR>
+" HEAD~1
+nnoremap <leader>gdh1 :Gdiffsplit! HEAD~1<CR>
+" HEAD~2
+nnoremap <leader>gdh2 :Gdiffsplit! HEAD~2<CR>
+" HEAD~3
+nnoremap <leader>gdh3 :Gdiffsplit! HEAD~3<CR>
+" HEAD~4
+nnoremap <leader>gdh4 :Gdiffsplit! HEAD~4<CR>
+" HEAD~5
+nnoremap <leader>gdh5 :Gdiffsplit! HEAD~5<CR>
+
 
 "20191122 Move line up and down
 "https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -161,8 +173,8 @@ endfunction
 "With this maps you can now toggle the terminal
 " nnoremap <F7> :call MonkeyTerminalToggle()<cr>
 " tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
-nnoremap <C-`> :call MonkeyTerminalToggle()<cr>
-tnoremap <C-`> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
+nnoremap <C-/> :call MonkeyTerminalToggle()<cr>
+tnoremap <C-/> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
 
 
 "How can I navigate through the auto-completion list with Tab?
@@ -177,7 +189,7 @@ xnoremap p pgvy
 " This code is based on this one: http://www.cmdln.org/wp-content/uploads/2008/10/python_ipdb.vim
 " I worked with refactoring and it simplifies a lot the remove breakpoint feature.
 " To use this feature, you just need to copy and paste the content of this file at your .vimrc file! Enjoy!
-python << EOF
+python3 << EOF
 import vim
 import re
 
@@ -426,7 +438,7 @@ nmap <leader><leader>F :HopChar1CurrentLineBC<CR>
 " a list of groups can be found at `:help nvim_tree_highlight`
 " highlight NvimTreeFolderIcon guibg=blue
 
-nnoremap <Leader>b :NvimTreeFindFileToggle<CR>
+nnoremap <Leader>e :NvimTreeFindFileToggle<CR>
 
 
 " https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
@@ -499,7 +511,7 @@ if has('nvim')
   vnoremap <silent><C-w>t <c-\><c-n>:Vspt<CR>
 endif
 
-nnoremap <Leader>ee :GFiles?<CR>
+" nnoremap <Leader>ee :GFiles?<CR>
 
 " Mapt Ctrl+: to Esc + save
 " inoremap <C-;> <Esc>:w<CR>
@@ -544,7 +556,7 @@ endfunction
 nnoremap <leader>tv :call OpenTermWithPipenv()<cr>
 
 " map for zenmode
-nnoremap <leader>z :ZenMode<CR>
+nnoremap <leader>uz :ZenMode<CR>
 
 " map fugitive Git status to F3
 function! ToggleGit()
@@ -604,3 +616,12 @@ nnoremap <Leader>o :call OpenIssueURL()<CR>
 nnoremap <leader>fF :execute 'Telescope find_files default_text=' . "'" . expand('<cword>')<cr>
 nnoremap <leader>fG :execute 'Telescope live_grep default_text=' . expand('<cword>')<cr>
 nnoremap <leader>tT :execute 'Telescope tags default_text=' . expand('<cword>')<cr>
+
+" mappings for https://github.com/sindrets/diffview.nvim
+nnoremap <leader>do :DiffviewOpen<cr>
+nnoremap <leader>dc :DiffviewClose<cr>
+nnoremap <leader>dt :DiffviewToggleFiles<cr>
+" diff view against origin/develop
+nnoremap <leader>dod :DiffviewOpen origin/develop<cr>
+" diff view against origin/master
+nnoremap <leader>dom :DiffviewOpen origin/master<cr>

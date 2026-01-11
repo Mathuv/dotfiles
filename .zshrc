@@ -157,7 +157,7 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 # https://github.com/chubin/cheat.sh#usage
-fpath=(~/.zsh.d/ $fpath)
+fpath=(~/.zsh.d/ ~/.zsh/completions $fpath)
 
 # https://github.com/chubin/cheat.sh/issues/266
 autoload -U compinit
@@ -197,8 +197,6 @@ if [ -f '/Users/mathu/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mathu/goo
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/mathu/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mathu/google-cloud-sdk/completion.zsh.inc'; fi
 
-# scm_breeze. added by the installer
-[ -s "/Users/mathu/.scm_breeze/scm_breeze.sh" ] && source "/Users/mathu/.scm_breeze/scm_breeze.sh"
 
 alias config='/opt/homebrew/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
@@ -274,3 +272,63 @@ export PATH="/Users/mathu/my_scripts:$PATH"
 
 # Added by Windsurf
 export PATH="/Users/mathu/.codeium/windsurf/bin:$PATH"
+
+# Nvim config switchir
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+# Map it to a better key
+bindkey -s ^n "nvims\n"
+
+
+# Added by Windsurf
+export PATH="/Users/mathu/.codeium/windsurf/bin:$PATH"
+
+# Recommended by homebrew curl installation
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+
+export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+
+# pipenv config to create virtualenvs in the project directory
+export PIPENV_VENV_IN_PROJECT=1
+
+# bun completions
+[ -s "/Users/mathu/.bun/_bun" ] && source "/Users/mathu/.bun/_bun"
+
+
+cdx() {
+  if [[ "$1" == "update" ]]; then
+    npm install -g @openai/codex@latest
+  else
+    codex -m gpt-5-codex -c model_reasoning_effort="medium" -c model_reasoning_summary_format=experimental --search "$@"
+  fi
+}
+
+
+# Added by Antigravity
+export PATH="/Users/mathu/.antigravity/antigravity/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/mathu/.antigravity/antigravity/bin:$PATH"
+
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"

@@ -3,3 +3,4 @@ font-family = "MesloLGS NF"
 keybind = global:shift+opt+t=toggle_quick_terminal
 quick-terminal-animation-duration = 0.1
 
+keybind = shift+enter=text:\n

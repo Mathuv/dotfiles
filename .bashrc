@@ -1,3 +1,15 @@
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-[ -s "/Users/mathu/.scm_breeze/scm_breeze.sh" ] && source "/Users/mathu/.scm_breeze/scm_breeze.sh"
+
+export PATH="$PATH:/Users/mathu/.local/bin"
+
+# Set up Python environment variables
+export PIPENV_VENV_IN_PROJECT=1
+
+. "$HOME/.cargo/env"
+
+
+. "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
