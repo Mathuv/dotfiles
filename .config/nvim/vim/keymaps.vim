@@ -607,8 +607,8 @@ function! OpenIssueURL()
     endif
 endfunction
 
-" Map a key (e.g., <Leader>o) to the function in normal mode
-nnoremap <Leader>o :call OpenIssueURL()<CR>
+" Map a key to open Jira issue URL
+nnoremap <Leader>jo :call OpenIssueURL()<CR>
 
 
 " Check https://github.com/nvim-telescope/telescope.nvim/issues/1911 for

@@ -332,3 +332,20 @@ export PATH="/Users/mathu/.antigravity/antigravity/bin:$PATH"
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
+
+# Open file with specified line or line range highlighted in nvim
+v() {
+  local arg="$1"
+  if [[ "$arg" =~ ^(.+):([0-9]+)-([0-9]+)$ ]]; then
+    local file="${match[1]:-${BASH_REMATCH[1]}}"
+    local start="${match[2]:-${BASH_REMATCH[2]}}"
+    local end="${match[3]:-${BASH_REMATCH[3]}}"
+    nvim "+${start}" "+normal! V$((end-start))j" "$file"
+  elif [[ "$arg" =~ ^(.+):([0-9]+)$ ]]; then
+    local file="${match[1]:-${BASH_REMATCH[1]}}"
+    local line="${match[2]:-${BASH_REMATCH[2]}}"
+    nvim "+${line}" "$file"
+  else
+    nvim "$@"
+  fi
+}

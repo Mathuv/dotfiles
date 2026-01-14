@@ -117,6 +117,9 @@ Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 " Disabled to later use it with more configurations
 " Plug 'folke/twilight.nvim'
 " Plug 'stevearc/oil.nvim'
+" opencode.nvim - AI assistant integration
+Plug 'folke/snacks.nvim'
+Plug 'NickvanDyke/opencode.nvim'
 " Initialize plugin system
 " plugend
 call plug#end()
