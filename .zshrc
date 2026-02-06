@@ -266,8 +266,6 @@ export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig"
 
-eval "$(gh copilot alias -- zsh)"
-
 export PATH="/Users/mathu/my_scripts:$PATH"
 
 # Added by Windsurf
@@ -292,7 +290,7 @@ function nvims() {
 }
 
 # Map it to a better key
-bindkey -s ^n "nvims\n"
+bindkey -s ^v "nvims\n"
 
 
 # Added by Windsurf
@@ -349,3 +347,5 @@ v() {
     nvim "$@"
   fi
 }
+
+eval "$(codex completion zsh)"

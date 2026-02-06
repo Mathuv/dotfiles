@@ -1,6 +1,8 @@
 font-family = ""
 font-family = "MesloLGS NF"
-keybind = global:shift+opt+t=toggle_quick_terminal
+# keybind = global:shift+opt+t=toggle_quick_terminal
+keybind = global:ctrl+cmd+slash=toggle_quick_terminal
 quick-terminal-animation-duration = 0.1
 
+keybind = alt+backspace=text:\x1b\x7f
 keybind = shift+enter=text:\n
