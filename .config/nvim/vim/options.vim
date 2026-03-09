@@ -78,6 +78,8 @@ let g:sql_type_default = 'pgsql'
 " Allow switching between buffers without saving
 set hidden
 
+set diffopt=internal,filler,closeoff,vertical,algorithm:histogram,indent-heuristic,linematch:60
+
 "If you want to open the nerdtree window when opening up Nvim, but put the cursor in the file-editing window, you can use the following setting:
 "autocmd VimEnter * NERDTree | wincmd p
 

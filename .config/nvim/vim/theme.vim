@@ -5,6 +5,13 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
+function! s:ApplyDiffHighlights() abort
+  highlight DiffAdd gui=NONE guifg=#e6edf3 guibg=#003800 cterm=NONE ctermfg=255 ctermbg=22
+  highlight DiffDelete gui=NONE guifg=#e6edf3 guibg=#3f0001 cterm=NONE ctermfg=255 ctermbg=52
+  highlight DiffChange gui=NONE guifg=#e6edf3 guibg=#1d3042 cterm=NONE ctermfg=255 ctermbg=24
+  highlight DiffText gui=bold guifg=#ffffff guibg=#2a4556 cterm=bold ctermfg=255 ctermbg=24
+endfunction
+
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
 "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
@@ -28,9 +35,11 @@ if (has("autocmd") && !has("gui_running"))
     " let s:background = { "gui": "#282C34", "cterm": "235", "cterm16": "0" }
     let s:background = { "gui": "#191c1a", "cterm": "235", "cterm16": "0" }
     autocmd ColorScheme * call onedark#set_highlight("Normal", { "bg": s:background }) "No `fg` setting
+    autocmd ColorScheme * call s:ApplyDiffHighlights()
   augroup END
 endif
 
  set termguicolors
  let g:onedark_termcolors=256
  colorscheme onedark
+ call s:ApplyDiffHighlights()

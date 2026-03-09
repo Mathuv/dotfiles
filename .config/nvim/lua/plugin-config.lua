@@ -335,4 +335,25 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-require("codediff").setup({})
+require("codediff").setup({
+  highlights = {
+    line_insert = "DiffAdd",
+    line_delete = "DiffDelete",
+  },
+  diff = {
+    disable_inlay_hints = true,
+    max_computation_time_ms = 5000,
+    hide_merge_artifacts = false,
+    original_position = "left",
+  },
+  explorer = {
+    position = "left",
+    width = 40,
+    view_mode = "list",
+  },
+  keymaps = {
+    view = {
+      toggle_explorer = "<leader>dt",
+    },
+  },
+})

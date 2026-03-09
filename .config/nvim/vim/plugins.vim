@@ -112,7 +112,6 @@ Plug 'stevearc/oil.nvim'
 " Plug 'zbirenbaum/copilot.lua'
 Plug 'olimorris/codecompanion.nvim'
 Plug 'CopilotC-Nvim/CopilotChat.nvim'
-Plug 'sindrets/diffview.nvim'
 Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 " Disabled to later use it with more configurations
 " Plug 'folke/twilight.nvim'

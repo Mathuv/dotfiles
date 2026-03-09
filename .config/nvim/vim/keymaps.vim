@@ -36,24 +36,23 @@ nnoremap <silent><esc> :noh<return><esc>
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
-set diffopt+=vertical
 nnoremap <leader>gb :Git blame<CR>
-" map <leader>gdd to Gdiffsplit against develop
-nnoremap <leader>gdd :Gdiffsplit! origin/develop<CR>
-nnoremap <leader>gdm :Gdiffsplit! origin/master<CR>
-" map <leader>gdu to Gdiffsplit against current branch's upstream
-nnoremap <leader>gdu :Gdiffsplit! @{u}<CR>
-nnoremap <leader>gdc :Gdiffsplit! HEAD<CR>
+" map <leader>gdd to CodeDiff against develop
+nnoremap <leader>gdd :CodeDiff file origin/develop<CR>
+nnoremap <leader>gdm :CodeDiff file origin/master<CR>
+" map <leader>gdu to CodeDiff against current branch's upstream
+nnoremap <leader>gdu :CodeDiff file @{u}<CR>
+nnoremap <leader>gdc :CodeDiff file HEAD<CR>
 " HEAD~1
-nnoremap <leader>gdh1 :Gdiffsplit! HEAD~1<CR>
+nnoremap <leader>gdh1 :CodeDiff file HEAD~1<CR>
 " HEAD~2
-nnoremap <leader>gdh2 :Gdiffsplit! HEAD~2<CR>
+nnoremap <leader>gdh2 :CodeDiff file HEAD~2<CR>
 " HEAD~3
-nnoremap <leader>gdh3 :Gdiffsplit! HEAD~3<CR>
+nnoremap <leader>gdh3 :CodeDiff file HEAD~3<CR>
 " HEAD~4
-nnoremap <leader>gdh4 :Gdiffsplit! HEAD~4<CR>
+nnoremap <leader>gdh4 :CodeDiff file HEAD~4<CR>
 " HEAD~5
-nnoremap <leader>gdh5 :Gdiffsplit! HEAD~5<CR>
+nnoremap <leader>gdh5 :CodeDiff file HEAD~5<CR>
 
 
 "20191122 Move line up and down
@@ -617,11 +616,9 @@ nnoremap <leader>fF :execute 'Telescope find_files default_text=' . "'" . expand
 nnoremap <leader>fG :execute 'Telescope live_grep default_text=' . expand('<cword>')<cr>
 nnoremap <leader>tT :execute 'Telescope tags default_text=' . expand('<cword>')<cr>
 
-" mappings for https://github.com/sindrets/diffview.nvim
-nnoremap <leader>do :DiffviewOpen<cr>
-nnoremap <leader>dc :DiffviewClose<cr>
-nnoremap <leader>dt :DiffviewToggleFiles<cr>
+" mappings for codediff.nvim
+nnoremap <leader>do :CodeDiff<CR>
 " diff view against origin/develop
-nnoremap <leader>dod :DiffviewOpen origin/develop<cr>
+nnoremap <leader>dod :CodeDiff origin/develop<CR>
 " diff view against origin/master
-nnoremap <leader>dom :DiffviewOpen origin/master<cr>
+nnoremap <leader>dom :CodeDiff origin/master<CR>
