@@ -10,9 +10,9 @@ nnoremap ,, :b#<CR>
 " https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 vmap <Leader>y "+y
 vmap <Leader>d "+d
-nmap <Leader>p "+p
+" nmap <Leader>p "+p
 nmap <Leader>P "+P
-vmap <Leader>p "+p
+" vmap <Leader>p "+p
 vmap <Leader>P "+P
 
 " Type <Space>w to save file (a lot faster than :w<Enter>):

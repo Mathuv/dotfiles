@@ -120,6 +120,12 @@ Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 " opencode.nvim - AI assistant integration
 Plug 'folke/snacks.nvim'
 Plug 'NickvanDyke/opencode.nvim'
+" Pi extension (local runtimepath plugin)
+Plug '~/.pi/agent/extensions/neovim'
+" VSCode-style side-by-side diff with two-tier highlighting
+Plug 'MunifTanjim/nui.nvim'
+Plug 'esmuellert/codediff.nvim'
+Plug 'pablopunk/pi.nvim'
 " Initialize plugin system
 " plugend
 call plug#end()

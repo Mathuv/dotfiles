@@ -78,7 +78,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages kubectl kubetail)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages kubectl kubetail vi-mode)
 
 # https://docs.brew.sh/Shell-Completion
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -349,3 +349,8 @@ v() {
 }
 
 eval "$(codex completion zsh)"
+
+export PATH="/Users/mathu/.bun/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/mathu/.antigravity/antigravity/bin:$PATH"
