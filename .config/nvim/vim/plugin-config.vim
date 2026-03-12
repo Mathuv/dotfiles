@@ -102,12 +102,11 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1.0, 'relative': v:true
 
 " let g:fzf_preview_window = ['right,50%', 'ctrl-/']
 "
-hi CocCursorRange guibg=#b16286 guifg=#ebdbb2
-
-
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" changing coc highlight color cause light grey is invisible
-" BUT is overwritten by scheme so defining it in an autocmd after colorscheme
-" change
-autocmd ColorScheme * highlight CocHighlightText     ctermfg=LightMagenta    guifg=LightMagenta
+augroup CocHighlights
+  autocmd!
+  autocmd ColorScheme * highlight CocCursorRange guibg=#b16286 guifg=#ebdbb2
+  autocmd ColorScheme * highlight CocHighlightText ctermfg=LightMagenta guifg=LightMagenta
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
+highlight CocCursorRange guibg=#b16286 guifg=#ebdbb2
+highlight CocHighlightText ctermfg=LightMagenta guifg=LightMagenta

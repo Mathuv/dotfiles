@@ -24,7 +24,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-" clolorscheme
+" colorscheme
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'ryanoasis/vim-devicons'

@@ -258,3 +258,17 @@ autocmd FileType markdown setlocal spell
 
 " Spell-check Git messages
 autocmd FileType gitcommit setlocal spell
+
+" Theme switching (Catppuccin light/dark)
+function! s:ApplyTheme(background) abort
+  if a:background !=# 'light' && a:background !=# 'dark'
+    echoerr 'ApplyTheme: expected "light" or "dark", got "' . a:background . '"'
+    return
+  endif
+  execute 'set background=' . a:background
+  colorscheme catppuccin
+endfunction
+
+command! ThemeLight  call <SID>ApplyTheme('light')
+command! ThemeDark   call <SID>ApplyTheme('dark')
+command! ThemeToggle call <SID>ApplyTheme(&background ==# 'dark' ? 'light' : 'dark')
