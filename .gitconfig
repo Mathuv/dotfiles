@@ -69,6 +69,10 @@
 	ci = commit
 	st = status
 	last = log -1 HEAD
+	# Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+	dlog = -c diff.external=difft log --ext-diff
+	dshow = -c diff.external=difft show --ext-diff
+	ddiff = -c diff.external=difft diff
 	
 [color]
 	ui = true
@@ -87,7 +91,7 @@
 
 # git-delta config (https://github.com/dandavison/delta#using-delta-with-magit)
 [delta]
-    features = side-by-side line-numbers decorations
+    # features = side-by-side line-numbers decorations
     syntax-theme = Dracula
     plus-style = syntax "#003800"
     minus-style = syntax "#3f0001"

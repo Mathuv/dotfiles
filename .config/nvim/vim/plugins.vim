@@ -125,6 +125,7 @@ Plug '~/.pi/agent/extensions/neovim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'esmuellert/codediff.nvim'
 Plug 'pablopunk/pi.nvim'
+Plug 'kokusenz/deltaview.nvim'
 " Initialize plugin system
 " plugend
 call plug#end()

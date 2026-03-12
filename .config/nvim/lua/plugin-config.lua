@@ -341,10 +341,16 @@ require("codediff").setup({
     line_delete = "DiffDelete",
   },
   diff = {
+    layout = "side-by-side", -- Diff layout: "side-by-side" or "inline"
     disable_inlay_hints = true,
     max_computation_time_ms = 5000,
     hide_merge_artifacts = false,
     original_position = "left",
+    ignore_trim_whitespace = true,     -- Ignore leading/trailing whitespace changes (like diffopt+=iwhite)
+    conflict_result_position = "bottom", -- "bottom" (default): result below diff panes or "center": result between diff panes (three columns)
+    conflict_result_height = 30,         -- Height of result pane in bottom layout (% of total height)
+    conflict_result_width_ratio = { 1, 1, 1 }, -- Width ratio for center layout panes {left, center, right} (e.g., {1, 2, 1} for wider result)
+    compute_moves = false,              -- Detect moved code blocks (opt-in, matches VSCode experimental.showMoves)
   },
   explorer = {
     position = "left",
