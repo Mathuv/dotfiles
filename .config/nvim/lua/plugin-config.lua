@@ -293,29 +293,6 @@ vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.h
 vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "opencode half page down" })
 
 -- =============================================================================
--- pi-nvim setup (Pi <-> Neovim integration)
--- =============================================================================
-local has_pi_nvim, pi_nvim = pcall(require, "pi-nvim")
-if has_pi_nvim then
-  pi_nvim.setup({
-    auto_start = true,
-  })
-
-  -- README-style Pi mappings.
-  vim.keymap.set("n", "<leader>po", pi_nvim.open, { desc = "Open Pi terminal" })
-  vim.keymap.set("n", "<leader>pc", pi_nvim.close, { desc = "Close Pi terminal" })
-  vim.keymap.set("n", "<leader>pp", pi_nvim.toggle, { desc = "Toggle Pi terminal" })
-end
-
--- =============================================================================
--- pi.nvim setup (pablopunk/pi.nvim - minimal AI coding agent)
--- =============================================================================
-require("pi").setup()
-
-vim.keymap.set("n", "<leader>ai", ":PiAsk<CR>", { desc = "Ask pi" })
-vim.keymap.set("v", "<leader>ai", ":PiAskSelection<CR>", { desc = "Ask pi (selection)" })
-
--- =============================================================================
 -- codediff.nvim setup (VSCode-style diff view)
 -- =============================================================================
 
