@@ -42,6 +42,7 @@ set mouse=a
 
 " Chage the colout of the cursot in terminal
 if has('nvim')
+  set guicursor=n-v-c-sm:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,t:block-blinkon500-blinkoff500-TermCursor
   highlight! link TermCursor Cursor
   highlight! TermCursorNC guibg=red guifg=white ctermbg=1 ctermfg=15
 endif
