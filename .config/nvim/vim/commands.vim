@@ -112,20 +112,44 @@ com! FormatJSON %!python -m json.tool
 com! JQFormatJSON %!jq
 
 
-" diff git-gutter againse master
+" diff git-gutter against master
 " <Bar> is '|' to separate multiple commands.
 " nmap <leader>dm :let g:gitgutter_diff_base = 'master' <Bar> GitGutter<CR>
 " nmap <leader>dm :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter<CR>
 " nmap <leader>dh :let g:gitgutter_diff_base = 'head' <Bar> GitGutter<CR>
-" Add a command to set the diff base to the current commit
-command! GitGutterDiffHead :let g:gitgutter_diff_base = 'head' <Bar> GitGutter
-command! -nargs=? GGDH :execute 'let g:gitgutter_diff_base = "HEAD' . (empty(<q-args>) ? '' : '~' . <q-args>) . '"' <Bar> GitGutter
-" Add a command to set the diff base to 'develop'
-command! GitGutterDiffDevelop :let g:gitgutter_diff_base = 'develop' <Bar> GitGutter
-command! GGDD :let g:gitgutter_diff_base = 'origin/develop' <Bar> GitGutter
-command! GGDM :let g:gitgutter_diff_base = 'origin/master' <Bar> GitGutter
+function! s:GitsignsChangeBase(base) abort
+  execute 'Gitsigns change_base ' . a:base . ' true'
+endfunction
+
+function! s:GitsignsHeadBase(args) abort
+  call s:GitsignsChangeBase('HEAD' . (empty(a:args) ? '' : '~' . a:args))
+endfunction
+
+function! s:GitsignsResetBase() abort
+  Gitsigns reset_base true
+endfunction
+
+" Keep legacy GitGutter names as compatibility shims while preferring Gitsigns aliases.
+command! GitGutterDiffHead call <SID>GitsignsChangeBase('HEAD')
+command! GitsignsDiffHead call <SID>GitsignsChangeBase('HEAD')
+command! -nargs=? GGDH call <SID>GitsignsHeadBase(<q-args>)
+command! -nargs=? GSDH call <SID>GitsignsHeadBase(<q-args>)
+
+command! GitGutterDiffDevelop call <SID>GitsignsChangeBase('develop')
+command! GitsignsDiffDevelop call <SID>GitsignsChangeBase('develop')
+command! GGDD call <SID>GitsignsChangeBase('origin/develop')
+command! GSDD call <SID>GitsignsChangeBase('origin/develop')
+command! GGDM call <SID>GitsignsChangeBase('origin/master')
+command! GSDM call <SID>GitsignsChangeBase('origin/master')
+
 " Add a command to set the diff base to HEAD~n (takes a number argument)
-command! -nargs=1 GGD :execute 'let g:gitgutter_diff_base = "HEAD~' . <args> . '"' <Bar> GitGutter
+command! -nargs=1 GGD call <SID>GitsignsChangeBase('HEAD~' . <q-args>)
+command! -nargs=1 GSD call <SID>GitsignsChangeBase('HEAD~' . <q-args>)
+
+command! GitGutterDiffReset call <SID>GitsignsResetBase()
+command! GitsignsDiffReset call <SID>GitsignsResetBase()
+command! GGDR call <SID>GitsignsResetBase()
+command! GSDR call <SID>GitsignsResetBase()
 
 
 " Map some frequently used test commands

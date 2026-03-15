@@ -172,6 +172,61 @@ end
 
 require('Comment').setup()
 
+local gitsigns_ok, gitsigns = pcall(require, 'gitsigns')
+if gitsigns_ok then
+  gitsigns.setup({
+    signcolumn = true,
+    numhl = false,
+    linehl = false,
+    word_diff = false,
+    attach_to_untracked = false,
+    current_line_blame = false,
+    on_attach = function(bufnr)
+      local function map(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, {
+          buffer = bufnr,
+          silent = true,
+          desc = desc,
+        })
+      end
+
+      local function visual_range()
+        local start_line = vim.fn.line(".")
+        local end_line = vim.fn.line("v")
+        return { math.min(start_line, end_line), math.max(start_line, end_line) }
+      end
+
+      map("n", "]c", function()
+        if vim.wo.diff then
+          vim.cmd.normal({ "]c", bang = true })
+          return
+        end
+
+        gitsigns.nav_hunk("next")
+      end, "Next Git Hunk")
+
+      map("n", "[c", function()
+        if vim.wo.diff then
+          vim.cmd.normal({ "[c", bang = true })
+          return
+        end
+
+        gitsigns.nav_hunk("prev")
+      end, "Previous Git Hunk")
+
+      map("n", "<leader>hs", gitsigns.stage_hunk, "Stage Git Hunk")
+      map("v", "<leader>hs", function()
+        gitsigns.stage_hunk(visual_range())
+      end, "Stage Selected Git Hunk")
+      map("n", "<leader>hp", gitsigns.preview_hunk, "Preview Git Hunk")
+      map("n", "<leader>hu", gitsigns.reset_hunk, "Reset Git Hunk")
+      map("n", "<leader>hb", function()
+        gitsigns.blame_line({ full = true })
+      end, "Blame Git Line")
+    end,
+  })
+end
+
 -- dap
 local dap = require('dap')
 -- dap.adapters.python = {
