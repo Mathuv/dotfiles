@@ -121,6 +121,8 @@ Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 " opencode.nvim - AI assistant integration
 Plug 'folke/snacks.nvim'
 Plug 'NickvanDyke/opencode.nvim'
+" Difftastic-powered git diff viewer
+Plug 'ahkohd/difft.nvim', { 'dir': '~/devel/difft.nvim' }
 " VSCode-style side-by-side diff with two-tier highlighting
 Plug 'MunifTanjim/nui.nvim'
 Plug 'esmuellert/codediff.nvim', { 'dir': '~/devel/codediff.nvim' }

@@ -617,6 +617,10 @@ nnoremap <leader>fF :execute 'Telescope find_files default_text=' . "'" . expand
 nnoremap <leader>fG :execute 'Telescope live_grep default_text=' . expand('<cword>')<cr>
 nnoremap <leader>tT :execute 'Telescope tags default_text=' . expand('<cword>')<cr>
 
+" mappings for difft.nvim
+nnoremap <leader>df :DifftRepo<CR>
+nnoremap <leader>dF :DifftFile<CR>
+
 " mappings for codediff.nvim
 nnoremap <leader>do :CodeDiff<CR>
 " diff view against origin/develop

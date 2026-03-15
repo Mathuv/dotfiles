@@ -377,6 +377,127 @@ vim.keymap.set("n", "goo", function() return require("opencode").operator("@this
 vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.half.page.up") end, { desc = "opencode half page up" })
 vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "opencode half page down" })
 
+local difft_ok, difft = pcall(require, "difft")
+if difft_ok then
+  local function notify_difft(message, level)
+    vim.notify("difft.nvim: " .. message, level or vim.log.levels.INFO)
+  end
+
+  local function current_file_context()
+    local file_path = vim.api.nvim_buf_get_name(0)
+    if file_path == "" then
+      return nil, "Current buffer has no file path"
+    end
+
+    file_path = vim.fn.fnamemodify(file_path, ":p")
+
+    local search_path = vim.fs.dirname(file_path)
+    if not search_path or search_path == "" then
+      return nil, "Could not determine the current file directory"
+    end
+
+    local git_dir = vim.fs.find(".git", { upward = true, path = search_path })[1]
+    if not git_dir then
+      return nil, "Current buffer is not inside a Git repository"
+    end
+
+    local root = vim.fs.dirname(git_dir)
+    local relative_path = vim.fs.relpath(root, file_path)
+    if not relative_path then
+      return nil, "Could not determine the file path relative to the Git root"
+    end
+
+    return {
+      file_path = file_path,
+      root = root,
+      relative_path = relative_path,
+    }
+  end
+
+  local function build_difft_command(root, relative_path)
+    local command = string.format(
+      "GIT_EXTERNAL_DIFF=%s git -C %s diff --color=always --ext-diff",
+      vim.fn.shellescape("/opt/homebrew/bin/difft --color=always"),
+      vim.fn.shellescape(root)
+    )
+
+    if relative_path then
+      command = command .. " -- " .. vim.fn.shellescape(relative_path)
+    end
+
+    return command
+  end
+
+  local function toggle_difft(cmd)
+    if difft.exists() then
+      difft.close()
+      return
+    end
+
+    difft.diff({ cmd = cmd })
+  end
+
+  local function toggle_difft_repo()
+    local context, err = current_file_context()
+    if not context then
+      notify_difft(err, vim.log.levels.WARN)
+      return
+    end
+
+    toggle_difft(build_difft_command(context.root))
+  end
+
+  local function toggle_difft_file()
+    local context, err = current_file_context()
+    if not context then
+      notify_difft(err, vim.log.levels.WARN)
+      return
+    end
+
+    toggle_difft(build_difft_command(context.root, context.relative_path))
+  end
+
+  pcall(vim.api.nvim_del_user_command, "DifftRepo")
+  pcall(vim.api.nvim_del_user_command, "DifftFile")
+
+  vim.api.nvim_create_user_command("DifftRepo", toggle_difft_repo, {
+    desc = "Toggle difft.nvim repo diff",
+  })
+
+  vim.api.nvim_create_user_command("DifftFile", toggle_difft_file, {
+    desc = "Toggle difft.nvim file diff",
+  })
+
+  difft.setup({
+    command = "GIT_EXTERNAL_DIFF='/opt/homebrew/bin/difft --color=always' git diff --color=always --ext-diff",
+    layout = "ivy_taller",
+    auto_jump = true,
+    no_diff_message = "All clean! No changes detected.",
+    loading_message = "Loading difftastic diff...",
+    window = {
+      number = false,
+      relativenumber = false,
+      border = "rounded",
+    },
+    header = {
+      highlight = {
+        link = "FloatTitle",
+        full_width = true,
+      },
+    },
+    diff = {
+      highlights = {
+        add = { link = "DiffAdd" },
+        delete = { link = "DiffDelete" },
+        change = { link = "DiffChange" },
+        info = { link = "Directory" },
+        hint = { link = "Special" },
+        dim = { link = "Comment" },
+      },
+    },
+  })
+end
+
 -- =============================================================================
 -- codediff.nvim setup (VSCode-style diff view)
 -- =============================================================================
