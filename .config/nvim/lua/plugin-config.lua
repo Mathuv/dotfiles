@@ -175,12 +175,6 @@ require('Comment').setup()
 local gitsigns_ok, gitsigns = pcall(require, 'gitsigns')
 if gitsigns_ok then
   gitsigns.setup({
-    signcolumn = true,
-    numhl = false,
-    linehl = false,
-    word_diff = false,
-    attach_to_untracked = false,
-    current_line_blame = false,
     on_attach = function(bufnr)
       local function map(mode, lhs, rhs, desc)
         vim.keymap.set(mode, lhs, rhs, {
