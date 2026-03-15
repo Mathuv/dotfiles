@@ -293,22 +293,6 @@ vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.h
 -- codediff.nvim setup (VSCode-style diff view)
 -- =============================================================================
 
--- Prevent coc.nvim URI parse error by setting buftype BEFORE buffer is fully created
--- This must run before codediff.setup() to intercept early enough
-vim.api.nvim_create_autocmd({"BufNew", "BufAdd"}, {
-  pattern = "codediff://diff/*",
-  callback = function(args)
-    vim.bo[args.buf].buftype = "nowrite"
-    vim.b[args.buf].coc_enabled = 0
-  end,
-})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "codediff-explorer",
-  callback = function(args)
-    vim.b[args.buf].coc_enabled = 0
-  end,
-})
-
 require("codediff").setup({
   highlights = {
     line_insert = "DiffAdd",

@@ -92,6 +92,8 @@
 # git-delta config (https://github.com/dandavison/delta#using-delta-with-magit)
 [delta]
     # features = side-by-side line-numbers decorations
+    # light = true
+    dark = true
     syntax-theme = Dracula
     plus-style = syntax "#003800"
     minus-style = syntax "#3f0001"

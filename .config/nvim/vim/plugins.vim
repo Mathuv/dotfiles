@@ -122,7 +122,7 @@ Plug 'folke/snacks.nvim'
 Plug 'NickvanDyke/opencode.nvim'
 " VSCode-style side-by-side diff with two-tier highlighting
 Plug 'MunifTanjim/nui.nvim'
-Plug 'esmuellert/codediff.nvim'
+Plug 'esmuellert/codediff.nvim', { 'dir': '~/devel/codediff.nvim' }
 Plug 'kokusenz/deltaview.nvim'
 " Initialize plugin system
 " plugend
