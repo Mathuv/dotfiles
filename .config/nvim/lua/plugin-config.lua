@@ -175,6 +175,22 @@ require('Comment').setup()
 local gitsigns_ok, gitsigns = pcall(require, 'gitsigns')
 if gitsigns_ok then
   gitsigns.setup({
+    signs = {
+      add = { text = '▌' },
+      change = { text = '▌' },
+      delete = { text = '▁' },
+      topdelete = { text = '▔' },
+      changedelete = { text = '~' },
+      untracked = { text = '┆' },
+    },
+    signs_staged = {
+      add = { text = '▌' },
+      change = { text = '▌' },
+      delete = { text = '▁' },
+      topdelete = { text = '▔' },
+      changedelete = { text = '~' },
+      untracked = { text = '┆' },
+    },
     on_attach = function(bufnr)
       local function map(mode, lhs, rhs, desc)
         vim.keymap.set(mode, lhs, rhs, {

@@ -42,6 +42,22 @@ require("catppuccin").setup({
                 DiffDelete = { fg = "#e6edf3", bg = "#3f0001" },
                 DiffChange = { fg = "#e6edf3", bg = "#1d3042" },
                 DiffText = { fg = "#ffffff", bg = "#2a4556", bold = true },
+                GitSignsAdd = { fg = "#3fb950", bold = true },
+                GitSignsChange = { fg = "#d29922", bold = true },
+                GitSignsDelete = { fg = "#f85149", bold = true },
+                GitSignsTopdelete = { fg = "#f85149", bold = true },
+                GitSignsChangedelete = { fg = "#d29922", bold = true },
+                GitSignsUntracked = { fg = "#3fb950", bold = true },
+            }
+        end,
+        latte = function(latte)
+            return {
+                GitSignsAdd = { fg = "#1a7f37", bold = true },
+                GitSignsChange = { fg = "#9a6700", bold = true },
+                GitSignsDelete = { fg = "#cf222e", bold = true },
+                GitSignsTopdelete = { fg = "#cf222e", bold = true },
+                GitSignsChangedelete = { fg = "#9a6700", bold = true },
+                GitSignsUntracked = { fg = "#1a7f37", bold = true },
             }
         end,
     },
