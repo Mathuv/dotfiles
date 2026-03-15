@@ -23,6 +23,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-rhubarb'
+Plug 'pwntester/octo.nvim'
 Plug 'tpope/vim-surround'
 " colorscheme
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }

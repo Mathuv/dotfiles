@@ -147,6 +147,29 @@ require('telescope').setup {
 -- load_extension, somewhere after setup function:
 require('telescope').load_extension('fzf')
 
+local octo_ok, octo = pcall(require, "octo")
+if octo_ok then
+  octo.setup({
+    picker = "telescope",
+    enable_builtin = true,
+    mappings_disable_default = false,
+    suppress_missing_scope = {
+      projects_v2 = true,
+    },
+  })
+
+  vim.treesitter.language.register("markdown", "octo")
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "octo",
+    callback = function(args)
+      local opts = { buffer = args.buf, silent = true }
+      vim.keymap.set("i", "@", "@<C-x><C-o>", opts)
+      vim.keymap.set("i", "#", "#<C-x><C-o>", opts)
+    end,
+  })
+end
+
 require('Comment').setup()
 
 -- dap
