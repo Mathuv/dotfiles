@@ -377,6 +377,63 @@ vim.keymap.set("n", "goo", function() return require("opencode").operator("@this
 vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.half.page.up") end, { desc = "opencode half page up" })
 vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "opencode half page down" })
 
+local diffview_ok, diffview = pcall(require, "diffview")
+if diffview_ok then
+  local actions_ok, actions = pcall(require, "diffview.actions")
+  if actions_ok then
+    diffview.setup({
+      enhanced_diff_hl = true,
+      use_icons = true,
+      diffopt = {
+        algorithm = "histogram",
+        indent_heuristic = true,
+      },
+      view = {
+        default = {
+          layout = "diff2_horizontal",
+        },
+        merge_tool = {
+          layout = "diff3_horizontal",
+          disable_diagnostics = true,
+          winbar_info = true,
+        },
+        file_history = {
+          layout = "diff2_horizontal",
+        },
+      },
+      file_panel = {
+        listing_style = "tree",
+        win_config = {
+          position = "left",
+          width = 35,
+        },
+        always_show_sections = true,
+        show_branch_name = true,
+      },
+      keymaps = {
+        view = {
+          { "n", "<leader>e", false },
+          { "n", "<leader>b", false },
+          { "n", "<leader>de", actions.focus_files, { desc = "Focus Diffview file panel" } },
+          { "n", "<leader>db", actions.toggle_files, { desc = "Toggle Diffview file panel" } },
+        },
+        file_panel = {
+          { "n", "<leader>e", false },
+          { "n", "<leader>b", false },
+          { "n", "<leader>de", actions.focus_files, { desc = "Focus Diffview file panel" } },
+          { "n", "<leader>db", actions.toggle_files, { desc = "Toggle Diffview file panel" } },
+        },
+        file_history_panel = {
+          { "n", "<leader>e", false },
+          { "n", "<leader>b", false },
+          { "n", "<leader>de", actions.focus_files, { desc = "Focus Diffview file panel" } },
+          { "n", "<leader>db", actions.toggle_files, { desc = "Toggle Diffview file panel" } },
+        },
+      },
+    })
+  end
+end
+
 local difft_ok, difft = pcall(require, "difft")
 if difft_ok then
   local function notify_difft(message, level)

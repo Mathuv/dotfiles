@@ -607,8 +607,56 @@ function! OpenIssueURL()
     endif
 endfunction
 
+function! s:github_repo_homepage() abort
+  try
+    for remote_name in ['upstream', 'origin', '']
+      let remote_url = empty(remote_name) ? FugitiveRemoteUrl() : FugitiveRemoteUrl(remote_name)
+      let homepage = rhubarb#HomepageForUrl(remote_url)
+      if !empty(homepage)
+        return homepage
+      endif
+    endfor
+  catch /^fugitive:/
+    return ''
+  catch /^rhubarb:/
+    return ''
+  catch /^Vim\%((\a\+)\)\=:E117:/
+    return ''
+  endtry
+
+  return ''
+endfunction
+
+function! s:open_pull_request_url() abort
+  if exists(':GBrowse') != 2
+    echoerr 'GBrowse is unavailable'
+    return
+  endif
+
+  let current_word = expand('<cWORD>')
+  let pr_number = matchstr(current_word, '#\zs\d\+')
+
+  if empty(pr_number)
+    let pr_number = matchstr(current_word, '^[([{<]*\zs\d\+\ze[])}>.,;:!?]*$')
+  endif
+
+  if empty(pr_number)
+    echoerr 'No pull request number found under cursor'
+    return
+  endif
+
+  let homepage = s:github_repo_homepage()
+  if empty(homepage)
+    echoerr 'Could not resolve a GitHub remote for this repo'
+    return
+  endif
+
+  execute 'GBrowse ' . homepage . '/pull/' . pr_number
+endfunction
+
 " Map a key to open Jira issue URL
 nnoremap <Leader>jo :call OpenIssueURL()<CR>
+nnoremap <Leader>go :call <SID>open_pull_request_url()<CR>
 
 
 " Check https://github.com/nvim-telescope/telescope.nvim/issues/1911 for
@@ -620,6 +668,11 @@ nnoremap <leader>tT :execute 'Telescope tags default_text=' . expand('<cword>')<
 " mappings for difft.nvim
 nnoremap <leader>df :DifftRepo<CR>
 nnoremap <leader>dF :DifftFile<CR>
+nnoremap <leader>dv :DiffviewToggle<CR>
+nnoremap <leader>dc :DiffviewClose<CR>
+nnoremap <leader>dh :DiffviewFileHistory % --follow<CR>
+nnoremap <leader>dH :DiffviewFileHistory<CR>
+nnoremap <leader>du :DiffviewOpen @{u}...HEAD --imply-local<CR>
 
 " mappings for codediff.nvim
 nnoremap <leader>do :CodeDiff<CR>

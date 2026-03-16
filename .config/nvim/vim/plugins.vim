@@ -122,7 +122,9 @@ Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
 Plug 'folke/snacks.nvim'
 Plug 'NickvanDyke/opencode.nvim'
 " Difftastic-powered git diff viewer
-Plug 'ahkohd/difft.nvim', { 'dir': '~/devel/difft.nvim' }
+Plug 'ahkohd/difft.nvim'
+" Diffview tab UI for repo diffs and file history
+Plug 'dlyongemallo/diffview.nvim'
 " VSCode-style side-by-side diff with two-tier highlighting
 Plug 'MunifTanjim/nui.nvim'
 Plug 'esmuellert/codediff.nvim', { 'dir': '~/devel/codediff.nvim' }
