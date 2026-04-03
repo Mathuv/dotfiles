@@ -392,6 +392,10 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>tt <cmd>Telescope tags<cr>
 nnoremap <leader>tb <cmd>Telescope current_buffer_tags<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
+nnoremap <leader>pf <cmd>lua require('fff').find_files()<cr>
+nnoremap <leader>pg <cmd>lua require('fff').live_grep()<cr>
+nnoremap <leader>pz <cmd>lua require('fff').live_grep({ grep = { modes = { 'fuzzy', 'plain' } } })<cr>
+nnoremap <leader>pc <cmd>lua require('fff').live_grep({ query = vim.fn.expand('<cword>') })<cr>
 
 command L Telescope
 

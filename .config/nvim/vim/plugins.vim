@@ -58,6 +58,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'dmtrKovalenko/fff.nvim', { 'do': ':lua require(''fff.download'').download_or_build_binary()' }
 " 20210529 Popup show the keyboard shortcut
 Plug 'folke/which-key.nvim'
 Plug 'sudormrfbin/cheatsheet.nvim'

@@ -147,6 +147,13 @@ require('telescope').setup {
 -- load_extension, somewhere after setup function:
 require('telescope').load_extension('fzf')
 
+local fff_ok, fff = pcall(require, 'fff')
+if fff_ok then
+  fff.setup({
+    lazy_sync = true,
+  })
+end
+
 local octo_ok, octo = pcall(require, "octo")
 if octo_ok then
   octo.setup({
