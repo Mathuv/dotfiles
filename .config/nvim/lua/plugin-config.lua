@@ -1,4 +1,11 @@
 vim.diagnostic.config({ virtual_text = true })
+
+-- mini.pairs
+require('mini.pairs').setup()
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'fff_input', 'fff_list', 'fff_preview', 'fff_file_info' },
+  callback = function() vim.b.minipairs_disable = true end,
+})
 -- nvim-treesitter config (START)
 
 

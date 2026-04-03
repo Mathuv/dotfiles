@@ -3,7 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'asvetliakov/vim-easymotion'
 Plug '/opt/homebrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'jiangmiao/auto-pairs'
+Plug 'echasnovski/mini.pairs'
 Plug 'sbdchd/neoformat'
 Plug 'psf/black', { 'branch': 'main' }
 Plug 'brentyi/isort.vim'

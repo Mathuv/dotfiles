@@ -103,11 +103,6 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1.0, 'relative': v:true
 " let g:fzf_preview_window = ['right,50%', 'ctrl-/']
 "
 
-augroup AutoPairsFFFCompatibility
-  autocmd!
-  autocmd FileType fff_input,fff_list,fff_preview,fff_file_info let b:autopairs_loaded = 1 | let b:autopairs_enabled = 0
-augroup END
-
 augroup CocHighlights
   autocmd!
   autocmd ColorScheme * highlight CocCursorRange guibg=#b16286 guifg=#ebdbb2
