@@ -15,7 +15,7 @@ Plug 'Shougo/echodoc.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'numToStr/Comment.nvim' 
+" Plug 'numToStr/Comment.nvim' 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " replace with lualine and bufferline
@@ -114,7 +114,7 @@ Plug 'stevearc/oil.nvim'
 " Plug 'zbirenbaum/copilot.lua'
 Plug 'olimorris/codecompanion.nvim'
 Plug 'CopilotC-Nvim/CopilotChat.nvim'
-Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
+Plug 'carlos-algms/agentic.nvim'
 " Disabled to later use it with more configurations
 " Plug 'folke/twilight.nvim'
 " Plug 'stevearc/oil.nvim'
@@ -128,7 +128,7 @@ Plug 'dlyongemallo/diffview.nvim'
 " VSCode-style side-by-side diff with two-tier highlighting
 Plug 'MunifTanjim/nui.nvim'
 Plug 'esmuellert/codediff.nvim', { 'dir': '~/devel/codediff.nvim' }
-Plug 'kokusenz/deltaview.nvim'
+" Plug 'kokusenz/deltaview.nvim'
 " Initialize plugin system
 " plugend
 call plug#end()

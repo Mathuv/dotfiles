@@ -558,6 +558,16 @@ nnoremap <leader>tv :call OpenTermWithPipenv()<cr>
 " map for zenmode
 nnoremap <leader>uz :ZenMode<CR>
 
+" agentic.nvim
+nnoremap <silent> <leader>it <Cmd>lua require("agentic").toggle()<CR>
+nnoremap <silent> <leader>ia <Cmd>lua require("agentic").add_selection_or_file_to_context()<CR>
+xnoremap <silent> <leader>ia <Cmd>lua require("agentic").add_selection_or_file_to_context()<CR>
+nnoremap <silent> <leader>in <Cmd>lua require("agentic").new_session()<CR>
+nnoremap <silent> <leader>ir <Cmd>lua require("agentic").restore_session()<CR>
+nnoremap <silent> <leader>id <Cmd>lua require("agentic").add_current_line_diagnostics()<CR>
+nnoremap <silent> <leader>iD <Cmd>lua require("agentic").add_buffer_diagnostics()<CR>
+nnoremap <silent> <leader>il <Cmd>lua require("agentic").rotate_layout({ "right", "bottom", "left" })<CR>
+
 " map fugitive Git status to F3
 function! ToggleGit()
     if buflisted(bufname('fugitive:///*/.git//$'))

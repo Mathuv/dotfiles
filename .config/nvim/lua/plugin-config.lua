@@ -170,7 +170,7 @@ if octo_ok then
   })
 end
 
-require('Comment').setup()
+-- require('Comment').setup()
 
 local gitsigns_ok, gitsigns = pcall(require, 'gitsigns')
 if gitsigns_ok then
@@ -344,6 +344,23 @@ require("codecompanion").setup({
 require("CopilotChat").setup {
   -- See Configuration section for options
 }
+
+local agentic_ok, agentic = pcall(require, "agentic")
+if agentic_ok then
+  agentic.setup({
+    provider = "codex-acp",
+    windows = {
+      position = "right",
+      width = "40%",
+      height = "30%",
+    },
+    diff_preview = {
+      enabled = true,
+      layout = "split",
+      center_on_navigate_hunks = true,
+    },
+  })
+end
 
 -- =============================================================================
 -- snacks.nvim setup (dependency for opencode.nvim)

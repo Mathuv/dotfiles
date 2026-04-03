@@ -29,3 +29,6 @@ export PATH="$PATH:/Users/mathu/.local/bin"
 # Added by Toolbox App
 export PATH="$PATH:/usr/local/bin"
 
+
+# Added by Obsidian
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"

@@ -254,20 +254,39 @@ command! DelBreakpoints :bufdo g/breakpoint()/d | update
 command! -bang GBrowseAtLine execute line('.') . 'GBrowse' . ( '<bang>' == '!' ? '!' : '' )
 
 
-function! BrowseBlame()
-  silent execute 'GBrowse!' . ( '<bang>' == '!' ? '!' : '' )
-  let url = getreg('+')
-  let url = substitute(url, '/blob/', '/blame/', '')
-  if a:firstline != a:lastline
-    let line_range = "#" . "L" . a:firstline . "-L" . a:lastline
-    let url = url . line_range
-  else
-    let url = url . "#" . "L" . a:firstline
-  endif
-  execute '!open ' . shellescape(url)
+function! s:GBrowseUrl() abort
+  return trim(execute('silent GBrowse!'))
 endfunction
 
-command! -range GBrowseBlame execute line('.') . 'call BrowseBlame()' . ( '<bang>' == '!' ? '!' : '' )
+function! s:OpenUrl(url) abort
+  if has('macunix') && executable('open')
+    call jobstart(['open', a:url], {'detach': v:true})
+  elseif executable('xdg-open')
+    call jobstart(['xdg-open', a:url], {'detach': v:true})
+  else
+    echoerr 'No URL opener available'
+  endif
+endfunction
+
+function! s:BrowseBlame(line1, line2) abort
+  let url = s:GBrowseUrl()
+  if empty(url)
+    echoerr 'GBrowse did not return a URL'
+    return
+  endif
+
+  let url = substitute(url, '/blob/', '/blame/', '')
+  if a:line1 != a:line2
+    let line_range = '#L' . a:line1 . '-L' . a:line2
+    let url = url . line_range
+  else
+    let url = url . '#L' . a:line1
+  endif
+
+  call s:OpenUrl(url)
+endfunction
+
+command! -range GBrowseBlame call <SID>BrowseBlame(<line1>, <line2>)
 
 " 2019-05-31 Auto close the preview window of jedi-deoplete
 " https://jdhao.github.io/2018/12/24/centos_nvim_install_use_guide_en/
